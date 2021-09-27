@@ -8,43 +8,24 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
-        <template slot-scope="scope">
-          {{ scope.$index }}
-        </template>
+      <el-table-column align="center" label="ID" prop="id" width="95">
+
       </el-table-column>
-      <el-table-column label="Title">
-        <template slot-scope="scope">
-          {{ scope.row.title }}
-        </template>
+      <el-table-column label="Title" prop="title" width="200">
+
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
-        </template>
+      <el-table-column label="Data" width="210" prop="data" align="center">
+<!--        <template slot-scope="scope">-->
+<!--          <span>{{ scope.row.author }}</span>-->
+<!--        </template>-->
       </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-import { getList } from '@/api/table'
+// import { getList } from '@/api/table'
+import { getForm } from '@/api/test'
 
 export default {
   filters: {
@@ -68,9 +49,15 @@ export default {
   },
   methods: {
     fetchData() {
+      // console.log('before fetch')
       this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
+      // getList().then(response => {
+      //   this.list = response.data.items
+      //   this.listLoading = false
+      // })
+      getForm().then(response => {
+        this.list = response
+        console.log(response)
         this.listLoading = false
       })
     }
