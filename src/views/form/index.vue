@@ -48,7 +48,7 @@
 </template>
 
 <script>
-// import { testForm } from '@/api/test'
+import { testPost } from '@/api/test'
 
 export default {
   data() {
@@ -67,6 +67,11 @@ export default {
   },
   methods: {
     onSubmit() {
+      const data = {
+        'title': this.form.name,
+        'data': this.form.desc
+      }
+      testPost(data)
       this.$message('submit!')
     },
     onCancel() {

@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function testForm(data) {
+export function testPost(data) {
   return request({
-    url: '/test',
+    url: '/testPost',
     method: 'post',
     data
   })
