@@ -36,13 +36,26 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/Register',
+    component: () => import('@/layout/components/register.vue'),
+    hidden: true
+  },
+   {
+     path: '/SignIn',
+     component: () => import('@/layout/components/signIn.vue'),
+     hidden: true
+   },
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
+  {
+    path: '/labRep',
+    component: () => import('@/views/labReport.vue'),
+    hidden: true
+  },
   {
     path: '/',
     component: Layout,
@@ -73,6 +86,12 @@ export const constantRoutes = [
         name: 'Tree',
         component: () => import('@/views/tree/index'),
         meta: { title: 'Tree', icon: 'tree' }
+      },
+      {
+        path: 'labRep',
+        name: 'LabRep',
+        component: () => import('@/views/labReport.vue'),
+        meta: { title: 'LabReport', icon: 'form' }
       }
     ]
   },
