@@ -22,8 +22,8 @@
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+          <el-dropdown-item divided @click.native="SignIn">
+            <span style="display:block;">SignIn</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -51,9 +51,8 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    SignIn(){
+          this.$router.push({path:"/SignIn"});
     }
   }
 }
