@@ -23,9 +23,19 @@
         <el-input class="labCon" v-model="labForm.labConclu" type="textarea" style="height: 50%;" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" plain :disabled="isActive">提交</el-button>
-        <el-button type="warning" @click="onSave"plain :disabled="isActive">暂存</el-button>
-        <el-button type="info" @click="onCancel" plain >取消</el-button>
+          教师评分
+        <el-input
+        style="width: 50px;"
+          placeholder=""
+          v-model="input"
+          clearable></el-input>
+          <el-rate
+            v-model="value"
+            disabled
+            show-score
+            text-color="#ff9900"
+            score-template="{value}">
+          </el-rate>
       </el-form-item>
     </el-form>
   </div>
@@ -37,14 +47,14 @@ import { getStuLabInfo } from '../api/student.js'
 import { submitLab } from '../api/student.js'
 export default {
   created(){
-      this.stuNumber=this.$route.query.stuNumber;
-      this.name=this.$route.query.name;
-      let parms={stuNumber:this.$route.query.stuNumber,name:this.$route.query.name,labID:this.$route.query.labID};
-      getStuLabInfo(parms).then(res => {
-             this.labForm=res;
-             this.isActive=res.isActive;
-             // console.log(res)
-      });
+      // this.stuNumber=this.$route.query.stuNumber;
+      // this.name=this.$route.query.name;
+      // let parms={stuNumber:this.$route.query.stuNumber,name:this.$route.query.name,labID:this.$route.query.labID};
+      // getStuLabInfo(parms).then(res => {
+      //        this.labForm=res;
+      //        this.isActive=res.isActive;
+      //        // console.log(res)
+      // });
       // var url="http://121.5.175.203:8080/api/Video/getFavoriteVideo";
       // var dataDetails=new Object;
       // dataDetails.name=this.$route.query.name;
@@ -62,6 +72,8 @@ export default {
         stuNumber:0,
         name:"",
       isActive:false,
+      value:"",
+      input:"",
       labForm: {
         labID:1,
         labName: '软件工程课设',
