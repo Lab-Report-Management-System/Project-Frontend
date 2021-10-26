@@ -54,56 +54,55 @@
       </el-form>
     </el-card>
 
+    <!--    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">-->
 
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <!--      <div class="title-container">-->
+    <!--        <h3 class="title">Login Form</h3>-->
+    <!--      </div>-->
 
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
-      </div>
+    <!--      <el-form-item prop="username">-->
+    <!--        <span class="svg-container">-->
+    <!--          <svg-icon icon-class="user" />-->
+    <!--        </span>-->
+    <!--        <el-input-->
+    <!--          ref="username"-->
+    <!--          v-model="loginForm.username"-->
+    <!--          placeholder="Username"-->
+    <!--          name="username"-->
+    <!--          type="text"-->
+    <!--          tabindex="1"-->
+    <!--          auto-complete="on"-->
+    <!--        />-->
+    <!--      </el-form-item>-->
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
+    <!--      <el-form-item prop="password">-->
+    <!--        <span class="svg-container">-->
+    <!--          <svg-icon icon-class="password" />-->
+    <!--        </span>-->
+    <!--        <el-input-->
+    <!--          :key="passwordType"-->
+    <!--          ref="password"-->
+    <!--          v-model="loginForm.password"-->
+    <!--          :type="passwordType"-->
+    <!--          placeholder="Password"-->
+    <!--          name="password"-->
+    <!--          tabindex="2"-->
+    <!--          auto-complete="on"-->
+    <!--          @keyup.enter.native="handleLogin"-->
+    <!--        />-->
+    <!--        <span class="show-pwd" @click="showPwd">-->
+    <!--          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />-->
+    <!--        </span>-->
+    <!--      </el-form-item>-->
 
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
+    <!--      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>-->
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+    <!--      <div class="tips">-->
+    <!--        <span style="margin-right:20px;">username: admin</span>-->
+    <!--        <span> password: any</span>-->
+    <!--      </div>-->
 
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
-    </el-form>
+    <!--    </el-form>-->
 
   </div>
 </template>
@@ -166,7 +165,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: this.redirect || '/stu' })
             this.loading = false
           }).catch(() => {
             this.loading = false
@@ -236,16 +235,17 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  background: url("https://oliver-img.oss-cn-shanghai.aliyuncs.com/img/1c9b7f55c035b0be19619acd44596be5.jpg");
   overflow: hidden;
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 30px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    //background-color: $bg;
   }
 
   .tips {
@@ -258,6 +258,13 @@ $light_gray:#eee;
         margin-right: 16px;
       }
     }
+  }
+  .login-card {
+    margin-top:8%;
+    margin-left:34%;
+    width:520px;
+    height:320px;
+    background-color: #475164//#36292f;
   }
 
   .svg-container {

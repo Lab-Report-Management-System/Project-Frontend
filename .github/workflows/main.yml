@@ -1,7 +1,7 @@
 
 name: Build and Deploy on pages
 
-on: 
+on:
   push:
     branches:
       - master
@@ -17,11 +17,17 @@ jobs:
       - name: Checkout 🛎️
         # 使用的操作 actions，可以使用公共仓库，本地仓库，别人的仓库的action
         # 拉取代码
-        uses: actions/checkout@master
+        uses: actions/checkout@v2.3.1
 
-      - name: Build and Deploy
+      - name: Install and Build
+        run: |
+          npm install
+          vue-cli-service build
+
+
+      - name: Deploy
         # 构建发布 Github pages
-        uses: JamesIves/github-pages-deploy-action@master
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         # 该步骤所需的环境变量
         env:
           ACCESS_TOKEN: ${{ secrets.TOKEN }}
@@ -34,4 +40,4 @@ jobs:
           # Vue CLI默认打包到 dist 目录
           FOLDER: dist # The folder the action should deploy.
           # 在向 BRANCH 分支推送代码前，可以指定构建脚本
-          BUILD_SCRIPT: npm install && vue-cli-service build # The build script the action should run prior to deploying.
+#          BUILD_SCRIPT: npm install && vue-cli-service build # The build script the action should run prior to deploying.
