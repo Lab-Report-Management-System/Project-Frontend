@@ -129,19 +129,19 @@ export default {
         const data = response
         console.log(data)
         // eslint-disable-next-line
-        if (data.loginState == 'success') {
+        if (data.loginState === 'success') {
           console.log('登录成功')
           this.$message({
             message: '欢迎' + data.studentNickname + '进入实验报告管理系统！',
             type: 'success'
           })
           this.$router.push('/dashboard')
-        } else if (data.loginState == 'InvalidPassword') {
+        } else if (data.loginState === 'InvalidPassword') {
           console.log('密码错误')
           this.$messsage.error(
             '密码错误，请重新输入'
           )
-        } else if (data.loginState == 'InvalidUser') {
+        } else if (data.loginState === 'InvalidUser') {
           console.log('用户不存在')
           this.$message.error('用户不存在，请先注册账号')
         }
@@ -213,7 +213,7 @@ $light_gray:#eee;
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 30px 35px 0;
     margin: 0 auto;
     overflow: hidden;
     //background-color: $bg;
@@ -231,7 +231,11 @@ $light_gray:#eee;
     }
   }
   .login-card {
-
+    margin-top:8%;
+    margin-left:34%;
+    width:520px;
+    height:380px;
+    background-color: #475164//#36292f;
   }
 
   .svg-container {
