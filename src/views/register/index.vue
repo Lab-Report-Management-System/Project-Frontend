@@ -1,10 +1,10 @@
 <template>
   <div class="login-container">
     <el-card class="login-card">
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+      <el-form ref="loginForm" :model="registerForm" :rules="registerRules" class="login-form" auto-complete="on" label-position="left">
 
         <div class="title-container">
-          <h3 class="title">账户登录</h3>
+          <h3 class="title">账户注册</h3>
         </div>
 
         <el-form-item prop="username">
@@ -13,8 +13,8 @@
           </span>
           <el-input
             ref="username"
-            v-model="loginForm.email"
-            placeholder="Username"
+            v-model="registerForm.email"
+            placeholder="请输入您的Tongji邮箱"
             name="username"
             type="text"
             tabindex="1"
@@ -22,31 +22,31 @@
           />
         </el-form-item>
 
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
-            auto-complete="on"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </el-form-item>
+        <!--        <el-form-item prop="password">-->
+        <!--          <span class="svg-container">-->
+        <!--            <svg-icon icon-class="password" />-->
+        <!--          </span>-->
+        <!--          <el-input-->
+        <!--            :key="passwordType"-->
+        <!--            ref="password"-->
+        <!--            v-model="registerForm.password"-->
+        <!--            :type="passwordType"-->
+        <!--            placeholder="Password"-->
+        <!--            name="password"-->
+        <!--            tabindex="2"-->
+        <!--            auto-complete="on"-->
+        <!--            @keyup.enter.native="handleregister"-->
+        <!--          />-->
+        <!--          <span class="show-pwd" @click="showPwd">-->
+        <!--            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />-->
+        <!--          </span>-->
+        <!--        </el-form-item>-->
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleregister">发送注册邮件</el-button>
 
         <div class="tips">
-          <span style="margin-right:20px;">username: admin</span>
-          <span> password: any</span>
+          <span style="margin-right:20px;">请不要输入其他邮箱哦！</span>
+          <!--          <span> password: any</span>-->
         </div>
 
       </el-form>
@@ -57,10 +57,10 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { studentLogin } from '@/api/student'
+import { sendStudentRegisterEmail } from '@/api/student'
 
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -77,11 +77,10 @@ export default {
       }
     }
     return {
-      loginForm: {
-        email: '1053790247@qq.com',
-        password: 'Wyh123456'
+      registerForm: {
+        email: '1053790247@qq.com'
       },
-      loginRules: {
+      registerRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
@@ -109,11 +108,11 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
-      // this.$refs.loginForm.validate(valid => {
+    handleRegister() {
+      // this.$refs.registerForm.validate(valid => {
       //   if (valid) {
       //     this.loading = true
-      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //     this.$store.dispatch('user/register', this.registerForm).then(() => {
       //       this.$router.push({ path: this.redirect || '/' })
       //       this.loading = false
       //     }).catch(() => {
@@ -124,24 +123,24 @@ export default {
       //     return false
       //   }
       // })
-      studentLogin(this.loginForm).then(response => {
+      sendStudentRegisterEmail(this.registerForm).then(response => {
         // 判断登录是否成功
         const data = response
         console.log(data)
         // eslint-disable-next-line
-        if (data.loginState == 'success') {
+        if (data.sentState == 'success') {
           console.log('登录成功')
           this.$message({
             message: '欢迎' + data.studentNickname + '进入实验报告管理系统！',
             type: 'success'
           })
           this.$router.push('/dashboard')
-        } else if (data.loginState == 'InvalidPassword') {
+        } else if (data.sentState == 'InvalidPassword') {
           console.log('密码错误')
           this.$messsage.error(
             '密码错误，请重新输入'
           )
-        } else if (data.loginState == 'InvalidUser') {
+        } else if (data.sentState == 'InvalidUser') {
           console.log('用户不存在')
           this.$message.error('用户不存在，请先注册账号')
         }
@@ -160,13 +159,13 @@ $light_gray:#fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+  .register-container .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
-.login-container {
+.register-container {
   .el-input {
     display: inline-block;
     height: 47px;
@@ -203,13 +202,13 @@ $bg: #8498b7;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
-.login-container {
+.register-container {
   min-height: 100%;
   width: 100%;
   background: url("https://oliver-img.oss-cn-shanghai.aliyuncs.com/img/b0d69c21bada048a7199d52a11854321.jpg");
   overflow: hidden;
 
-  .login-form {
+  .register-form {
     position: relative;
     width: 520px;
     max-width: 100%;
@@ -230,7 +229,7 @@ $light_gray:#eee;
       }
     }
   }
-  .login-card {
+  .register-card {
 
   }
 
