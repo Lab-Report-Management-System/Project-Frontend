@@ -1,6 +1,22 @@
+
 import request from '@/utils/request'
 
+export function sendStudentRegisterEmail(data) {
+  const params = new URLSearchParams(data)
+  return request({
+    url: '/api/student/sendRegisterEmail',
+    method: 'post',
+    data: params
+  })
+}
+
+export function studentLogin(data) {
+  const params = new URLSearchParams(data)
+  }
+
+
 export function getStuInfo(params) {
+
   return request({
     url: '/api/stuInfo',
     method: 'get',

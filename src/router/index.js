@@ -41,11 +41,29 @@ export const constantRoutes = [
     component: () => import('@/layout/components/register.vue'),
     hidden: true
   },
+
+  {
+    path: '/Register',
+    component: () => import('@/views/register/index.vue'),
+    hidden: true
+  },
+  {
+    path: '/realRegister',
+    component: () => import('@/views/register/updateInformation.vue'),
+    hidden: true
+  },
+  {
+    path: '/SignIn',
+    component: () => import('@/layout/components/signIn.vue'),
+    hidden: true
+  },
+
    {
      path: '/SignIn',
      component: () => import('@/layout/components/signIn.vue'),
      hidden: true
    },
+
   {
     path: '/404',
     component: () => import('@/views/404'),
