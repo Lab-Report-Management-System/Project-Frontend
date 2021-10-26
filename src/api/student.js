@@ -17,3 +17,12 @@ export function studentLogin(data) {
     data: params
   })
 }
+
+export function studentRegister(data) {
+  const params = new URLSearchParams(data)
+  return request({
+    url: '/api/student/updateInformation',
+    method: 'post',
+    data: params
+  })
+}
