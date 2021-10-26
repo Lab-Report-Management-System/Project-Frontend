@@ -22,6 +22,7 @@ jobs:
       - name: Install and Build
         run: |
           npm install
+          PATH=$PATH:./node_modules/.bin
           vue-cli-service build
 
 
