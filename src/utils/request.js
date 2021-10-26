@@ -9,8 +9,8 @@ axios.defaults.withCredentials = true
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
-  // baseURL: 'http://localhost:6001/', // url = base url + request url
+  // baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
+  baseURL: 'http://localhost:6001/', // url = base url + request url
 
   // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests

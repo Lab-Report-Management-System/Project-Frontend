@@ -9,13 +9,14 @@
 
         <el-form-item prop="username">
           <span class="svg-container">
-            <svg-icon icon-class="user" />
+            <!--            <svg-icon icon-class="user" />-->
+            <i class="el-icon-message" />
           </span>
           <el-input
             ref="username"
             v-model="loginForm.email"
-            placeholder="Username"
-            name="username"
+            placeholder="Tongji Email"
+            name="email"
             type="text"
             tabindex="1"
             auto-complete="on"
@@ -45,8 +46,8 @@
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
         <div class="tips">
-          <span style="margin-right:20px;">username: admin</span>
-          <span> password: any</span>
+          <span style="margin-right:20px;">Tongji Email: 请输入同济邮箱</span>
+          <!--          <span> password: any</span>-->
         </div>
 
       </el-form>

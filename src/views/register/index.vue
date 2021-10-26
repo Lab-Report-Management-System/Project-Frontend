@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-card class="login-card">
-      <el-form ref="loginForm" :model="registerForm" :rules="registerRules" class="login-form" auto-complete="on" label-position="left">
+      <el-form ref="loginForm" :model="registerForm" class="login-form" auto-complete="on" label-position="left">
 
         <div class="title-container">
           <h3 class="title">账户注册</h3>
@@ -9,7 +9,8 @@
 
         <el-form-item prop="username">
           <span class="svg-container">
-            <svg-icon icon-class="user" />
+            <!--            <svg-icon icon-class="el-icon-message" />-->
+            <i class="el-icon-message" />
           </span>
           <el-input
             ref="username"
@@ -42,7 +43,7 @@
         <!--          </span>-->
         <!--        </el-form-item>-->
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleregister">发送注册邮件</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleRegister">发送注册邮件</el-button>
 
         <div class="tips">
           <span style="margin-right:20px;">请不要输入其他邮箱哦！</span>
@@ -129,20 +130,14 @@ export default {
         console.log(data)
         // eslint-disable-next-line
         if (data.sentState == 'success') {
-          console.log('登录成功')
+          console.log('注册邮件已发送')
           this.$message({
-            message: '欢迎' + data.studentNickname + '进入实验报告管理系统！',
+            message: '注册邮件已发送至' + data.email,
             type: 'success'
           })
-          this.$router.push('/dashboard')
-        } else if (data.sentState == 'InvalidPassword') {
-          console.log('密码错误')
-          this.$messsage.error(
-            '密码错误，请重新输入'
-          )
-        } else if (data.sentState == 'InvalidUser') {
-          console.log('用户不存在')
-          this.$message.error('用户不存在，请先注册账号')
+          window.open('https://mail.tongji.edu.cn', '_blank')
+        } else {
+          this.$message.error(data.sentState)
         }
       })
     }
@@ -202,17 +197,17 @@ $bg: #8498b7;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
-.register-container {
+.login-container {
   min-height: 100%;
   width: 100%;
-  background: url("https://oliver-img.oss-cn-shanghai.aliyuncs.com/img/b0d69c21bada048a7199d52a11854321.jpg");
+  background: url("https://oliver-img.oss-cn-shanghai.aliyuncs.com/img/1c9b7f55c035b0be19619acd44596be5.jpg");
   overflow: hidden;
 
-  .register-form {
+  .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 30px 35px 0;
     margin: 0 auto;
     overflow: hidden;
     //background-color: $bg;
@@ -229,8 +224,12 @@ $light_gray:#eee;
       }
     }
   }
-  .register-card {
-
+  .login-card {
+    margin-top:8%;
+    margin-left:34%;
+    width:520px;
+    height:320px;
+    background-color: #475164//#36292f;
   }
 
   .svg-container {
