@@ -38,6 +38,12 @@ export const constantRoutes = [
   },
   {
     path: '/Register',
+    component: () => import('@/layout/components/register.vue'),
+    hidden: true
+  },
+
+  {
+    path: '/Register',
     component: () => import('@/views/register/index.vue'),
     hidden: true
   },
@@ -52,11 +58,11 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: '/SignIn',
-    component: () => import('@/layout/components/signIn.vue'),
-    hidden: true
-  },
+   {
+     path: '/SignIn',
+     component: () => import('@/layout/components/signIn.vue'),
+     hidden: true
+   },
 
   {
     path: '/404',
@@ -73,16 +79,16 @@ export const constantRoutes = [
     name: 'labTeacher',
     component: () => import('@/views/labTeacher.vue'),
     hidden: true
-
+    
   },
   {
-    path: '/stu',
+    path: '/',
     component: Layout,
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/StuIndex.vue'),
+      component: () => import('@/views/dashboard/TeaIndex.vue'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
