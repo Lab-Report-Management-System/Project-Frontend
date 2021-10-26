@@ -38,6 +38,12 @@ export const constantRoutes = [
   },
   {
     path: '/Register',
+    component: () => import('@/layout/components/register.vue'),
+    hidden: true
+  },
+
+  {
+    path: '/Register',
     component: () => import('@/views/register/index.vue'),
     hidden: true
   },
@@ -51,6 +57,13 @@ export const constantRoutes = [
     component: () => import('@/layout/components/signIn.vue'),
     hidden: true
   },
+
+   {
+     path: '/SignIn',
+     component: () => import('@/layout/components/signIn.vue'),
+     hidden: true
+   },
+
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -62,15 +75,21 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/labTeacher',
+    name: 'labTeacher',
+    component: () => import('@/views/labTeacher.vue'),
+    hidden: true
+    
+  },
+  {
     path: '/',
     component: Layout,
-    // 访问先重定向到登录
-    redirect: '/login',
+    redirect: '/dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      component: () => import('@/views/dashboard/TeaIndex.vue'),
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
@@ -79,7 +98,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    meta: { title: '功能列表', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',
@@ -97,7 +116,13 @@ export const constantRoutes = [
         path: 'labRep',
         name: 'LabRep',
         component: () => import('@/views/labReport.vue'),
-        meta: { title: 'LabReport', icon: 'form' }
+        meta: { title: '实验报告', icon: 'form' }
+      },
+      {
+        path: 'labTeacher',
+        name: 'labTeacher',
+        component: () => import('@/views/labTeacher.vue'),
+        meta: { title: '实验报告评阅', icon: 'form' }
       }
     ]
   },
