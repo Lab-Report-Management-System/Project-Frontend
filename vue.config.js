@@ -36,8 +36,8 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    },
-    before: require('./mock/mock-server.js')
+    }
+    // before: require('./mock/mock-server.js')
     // proxy: {
     //   '/api': {
     //     'target': 'http://182.61.43.155:6001/',
