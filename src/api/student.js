@@ -33,6 +33,15 @@ export function getStuLabInfo(params) {
   })
 }
 
+export function studentRegister(data) {
+  const params = new URLSearchParams(data)
+  return request({
+    url: '/api/student/updateInformation',
+    method: 'post',
+    data: params
+  })
+}
+
 export function submitLab(params) {
   return request({
     url: '/api/student/submitReport',
