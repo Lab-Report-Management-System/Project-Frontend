@@ -1,0 +1,47 @@
+
+name: Build and Deploy on my server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  # 任务名称
+  build-and-deploy:
+    # 任务运行的容器类型（虚拟机环境）
+    runs-on: ubuntu-latest
+    # 任务执行的步骤
+    steps:
+      # 步骤名称
+      - name: Checkout 🛎️
+        # 使用的操作 actions，可以使用公共仓库，本地仓库，别人的仓库的action
+        # 拉取代码
+        uses: actions/checkout@master
+      - name: Build
+        run: |
+          npm install
+          PATH=$PATH:./node_modules/.bin
+          vue-cli-service build
+      - name: Set SSH Environment
+          run: |
+            mkdir -p ~/.ssh/
+#            echo "${{ secrets.ID_RSA }}" > ~/.ssh/id_rsa
+#            echo "${{ secrets.ID_RSA_PUB }}" > ~/.ssh/id_rsa.pub
+            cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+            chmod 600 ~/.ssh/id_rsa
+            chmod 700 ~/.ssh && chmod 700 ~/.ssh/*
+            ls -l ~/.ssh/
+
+      - name: scp
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: 'dist/'
+          remote: '/root/lab-management/frontend/'
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          # privateKey: ${{secrets.ID_RSA_PUB}}
+          port: ${{ secrets.PORT }}
+          rmRemote: true
+          dotFiles: true

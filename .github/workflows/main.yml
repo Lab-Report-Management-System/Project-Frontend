@@ -23,6 +23,7 @@ jobs:
           npm install
           PATH=$PATH:./node_modules/.bin
           vue-cli-service build
+
       - name: Deploy
         # 构建发布 Github pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
