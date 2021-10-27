@@ -199,8 +199,8 @@ $light_gray:#eee;
   .login-card {
     margin-top:8%;
     margin-left:34%;
-    width:520px;
-    height:320px;
+    width:550px;
+    height:480px;
     background-color: #475164//#36292f;
   }
   .svg-container {
