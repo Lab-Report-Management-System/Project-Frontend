@@ -36,11 +36,6 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-  {
-    path: '/Register',
-    component: () => import('@/layout/components/register.vue'),
-    hidden: true
-  },
 
   {
     path: '/Register',
@@ -52,18 +47,6 @@ export const constantRoutes = [
     component: () => import('@/views/register/updateInformation.vue'),
     hidden: true
   },
-  {
-    path: '/SignIn',
-    component: () => import('@/layout/components/signIn.vue'),
-    hidden: true
-  },
-
-   {
-     path: '/SignIn',
-     component: () => import('@/layout/components/signIn.vue'),
-     hidden: true
-   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -79,7 +62,6 @@ export const constantRoutes = [
     name: 'labTeacher',
     component: () => import('@/views/labTeacher.vue'),
     hidden: true
-    
   },
   {
     path: '/',

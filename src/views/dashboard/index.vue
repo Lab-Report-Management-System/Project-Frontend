@@ -7,6 +7,8 @@
 <script>
 import { mapGetters } from 'vuex'
 
+console.log('sos')
+
 export default {
   name: 'Dashboard',
   computed: {

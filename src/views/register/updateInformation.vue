@@ -7,19 +7,19 @@
           <h3 class="title">账户注册</h3>
         </div>
 
-        <span class="word-title">邮箱</span>
-        <el-form-item prop="email">
+        <!--        <span class="word-title">邮箱</span>-->
+        <!--        <el-form-item prop="email">-->
 
-          <el-input
-            ref="email"
-            v-model="registerForm.email"
-            placeholder="请输入您的Tongji邮箱"
-            name="email"
-            type="text"
-            tabindex="1"
-            auto-complete="on"
-          />
-        </el-form-item>
+        <!--          <el-input-->
+        <!--            ref="email"-->
+        <!--            v-model="registerForm.email"-->
+        <!--            placeholder="请输入您的Tongji邮箱"-->
+        <!--            name="email"-->
+        <!--            type="text"-->
+        <!--            tabindex="1"-->
+        <!--            auto-complete="on"-->
+        <!--          />-->
+        <!--        </el-form-item>-->
 
         <span class="word-title">真实姓名</span>
         <el-form-item prop="studentName">
@@ -60,18 +60,18 @@
           />
         </el-form-item>
 
-        <span class="word-title">注册代码</span>
-        <el-form-item prop="code">
-          <el-input
-            ref="code"
-            v-model="registerForm.code"
-            placeholder="请输入您的注册代码"
-            name="code"
-            type="text"
-            tabindex="1"
-            auto-complete="on"
-          />
-        </el-form-item>
+        <!--        <span class="word-title">注册代码</span>-->
+        <!--        <el-form-item prop="code">-->
+        <!--          <el-input-->
+        <!--            ref="code"-->
+        <!--            v-model="registerForm.code"-->
+        <!--            placeholder="请输入您的注册代码"-->
+        <!--            name="code"-->
+        <!--            type="text"-->
+        <!--            tabindex="1"-->
+        <!--            auto-complete="on"-->
+        <!--          />-->
+        <!--        </el-form-item>-->
 
         <span class="word-title">学号</span>
         <el-form-item prop="studentId">
@@ -99,8 +99,8 @@
 </template>
 
 <script>
-import {validUsername} from '@/utils/validate'
-import {studentRegister} from '@/api/student'
+import { validUsername } from '@/utils/validate'
+import { studentRegister } from '@/api/student'
 
 export default {
   name: 'UpdateInformation',
@@ -162,6 +162,8 @@ export default {
     handleRegister() {
       this.setSha()
       console.log(this.registerForm.studentPassword)
+      this.registerForm.code = this.$route.query.code
+      this.registerForm.email = this.$route.query.email
       studentRegister(this.registerForm).then(response => {
         const data = response
         console.log(data)
@@ -230,7 +232,7 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background: url("https://oliver-img.oss-cn-shanghai.aliyuncs.com/img/1c9b7f55c035b0be19619acd44596be5.jpg");
+  background: url("https://oliver-img.oss-cn-shanghai.aliyuncs.com/img/7d19e4e0868ab1ff2947bfb9d1764061.jpg");
   overflow: hidden;
 
   .login-form {
@@ -258,7 +260,7 @@ $light_gray:#eee;
     margin-top:23px;
     margin-left:33%;
     width:520px;
-    height:710px;
+    height:610px;
     background-color: #475164//#36292f;
   }
 
