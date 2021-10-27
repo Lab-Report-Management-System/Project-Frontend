@@ -1,53 +1,95 @@
 <template>
   <div class="login-container">
     <el-card class="login-card">
-      <el-form ref="loginForm" :model="registerForm" class="login-form" auto-complete="on" label-position="left">
+      <el-form ref="registerForm" :model="registerForm" class="login-form" auto-complete="on" label-position="left">
 
         <div class="title-container">
           <h3 class="title">账户注册</h3>
         </div>
 
-        <el-form-item prop="username">
-          <span class="svg-container">
-            <!--            <svg-icon icon-class="el-icon-message" />-->
-            <i class="el-icon-message" />
-          </span>
+        <span class="word-title">邮箱</span>
+        <el-form-item prop="email">
+
           <el-input
-            ref="username"
+            ref="email"
             v-model="registerForm.email"
             placeholder="请输入您的Tongji邮箱"
-            name="username"
+            name="email"
             type="text"
             tabindex="1"
             auto-complete="on"
           />
         </el-form-item>
 
-        <!--        <el-form-item prop="password">-->
-        <!--          <span class="svg-container">-->
-        <!--            <svg-icon icon-class="password" />-->
-        <!--          </span>-->
-        <!--          <el-input-->
-        <!--            :key="passwordType"-->
-        <!--            ref="password"-->
-        <!--            v-model="registerForm.password"-->
-        <!--            :type="passwordType"-->
-        <!--            placeholder="Password"-->
-        <!--            name="password"-->
-        <!--            tabindex="2"-->
-        <!--            auto-complete="on"-->
-        <!--            @keyup.enter.native="handleregister"-->
-        <!--          />-->
-        <!--          <span class="show-pwd" @click="showPwd">-->
-        <!--            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />-->
-        <!--          </span>-->
-        <!--        </el-form-item>-->
+        <span class="word-title">真实姓名</span>
+        <el-form-item prop="studentName">
+          <el-input
+            ref="studentName"
+            v-model="registerForm.studentName"
+            placeholder="请输入您的学生姓名"
+            name="studentName"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+
+        <span class="word-title">昵称</span>
+        <el-form-item prop="studentNickname">
+          <el-input
+            ref="studentNickname"
+            v-model="registerForm.studentNickname"
+            placeholder="请输入您的昵称"
+            name="studentNickname"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+
+        <span class="word-title">密码</span>
+        <el-form-item prop="studentPassword">
+          <el-input
+            ref="studentPassword"
+            v-model="registerForm.studentPassword"
+            placeholder="请输入您的注册密码"
+            name="studentPassword"
+            type="password"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+
+        <span class="word-title">注册代码</span>
+        <el-form-item prop="code">
+          <el-input
+            ref="code"
+            v-model="registerForm.code"
+            placeholder="请输入您的注册代码"
+            name="code"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+
+        <span class="word-title">学号</span>
+        <el-form-item prop="studentId">
+          <el-input
+            ref="studentId"
+            v-model="registerForm.studentId"
+            placeholder="请输入您的学号"
+            name="studentId"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
 
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleRegister">发送注册邮件</el-button>
 
         <div class="tips">
           <span style="margin-right:20px;">请不要输入其他邮箱哦！</span>
-          <!--          <span> password: any</span>-->
         </div>
 
       </el-form>
@@ -57,8 +99,8 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import { studentLogin } from '@/api/student'
+import {validUsername} from '@/utils/validate'
+import {studentRegister} from '@/api/student'
 
 export default {
   name: 'UpdateInformation',
@@ -78,9 +120,13 @@ export default {
       }
     }
     return {
-      loginForm: {
-        email: '1053790247@qq.com',
-        password: 'Wyh123456'
+      registerForm: {
+        email: '',
+        studentName: '',
+        studentNickname: '',
+        studentPassword: '',
+        code: '',
+        studentId: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -100,6 +146,9 @@ export default {
     }
   },
   methods: {
+    setSha() {
+      this.registerForm.studentPassword = require('js-sha256').sha256(this.registerForm.studentPassword)
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -110,42 +159,12 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
-      // this.$refs.loginForm.validate(valid => {
-      //   if (valid) {
-      //     this.loading = true
-      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
-      //       this.$router.push({ path: this.redirect || '/' })
-      //       this.loading = false
-      //     }).catch(() => {
-      //       this.loading = false
-      //     })
-      //   } else {
-      //     console.log('error submit!!')
-      //     return false
-      //   }
-      // })
-      studentLogin(this.loginForm).then(response => {
-        // 判断登录是否成功
+    handleRegister() {
+      this.setSha()
+      console.log(this.registerForm.studentPassword)
+      studentRegister(this.registerForm).then(response => {
         const data = response
         console.log(data)
-        // eslint-disable-next-line
-        if (data.loginState === 'success') {
-          console.log('登录成功')
-          this.$message({
-            message: '欢迎' + data.studentNickname + '进入实验报告管理系统！',
-            type: 'success'
-          })
-          this.$router.push('/dashboard')
-        } else if (data.loginState === 'InvalidPassword') {
-          console.log('密码错误')
-          this.$messsage.error(
-            '密码错误，请重新输入'
-          )
-        } else if (data.loginState === 'InvalidUser') {
-          console.log('用户不存在')
-          this.$message.error('用户不存在，请先注册账号')
-        }
       })
     }
   }
@@ -197,6 +216,10 @@ $cursor: #fff;
     color: #454545;
   }
 }
+
+.word-title{
+  color: #ffffff;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -232,10 +255,10 @@ $light_gray:#eee;
     }
   }
   .login-card {
-    margin-top:8%;
-    margin-left:34%;
+    margin-top:23px;
+    margin-left:33%;
     width:520px;
-    height:320px;
+    height:710px;
     background-color: #475164//#36292f;
   }
 
