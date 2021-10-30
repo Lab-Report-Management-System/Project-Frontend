@@ -38,7 +38,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/Register',
+    path: '/register',
     component: () => import('@/views/register/index.vue'),
     hidden: true
   },
@@ -57,12 +57,12 @@ export const constantRoutes = [
     component: () => import('@/views/labReport.vue'),
     hidden: true
   },
-  {
-    path: '/labTeacher',
-    name: 'labTeacher',
-    component: () => import('@/views/labTeacher.vue'),
-    hidden: true
-  },
+  // {
+  //   path: '/labTeacher',
+  //   name: 'labTeacher',
+  //   component: () => import('@/views/labTeacher.vue'),
+  //   hidden: true
+  // },
   {
     path: '/',
     component: Layout,
