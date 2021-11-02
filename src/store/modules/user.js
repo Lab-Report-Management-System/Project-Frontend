@@ -1,6 +1,7 @@
 import { doLogin, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import Cookies from 'js-cookie'
 
 const getDefaultState = () => {
   return {
@@ -34,6 +35,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       doLogin({ email: email.trim(), password: password }).then(response => {
         const { data } = response
+        Cookies.set('token', data.token)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
