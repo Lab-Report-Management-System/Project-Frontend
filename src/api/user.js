@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function doLogin(data) {
   return request({
     url: '/api/user/doLogin',
     method: 'post',
