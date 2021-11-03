@@ -9,8 +9,8 @@ axios.defaults.withCredentials = true
 
 // create an axios instance
 const service = axios.create({
-  // baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
-  baseURL: 'http://localhost:6001/', // url = base url + request url
+  baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
+  // baseURL: 'http://localhost:6001/', // url = base url + request url
   // baseURL: 'http://lab.hollwyh.cn:6001/',
 
   // url = base url + request url
@@ -80,6 +80,7 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
+      // debugger
       return res
     }
   },
