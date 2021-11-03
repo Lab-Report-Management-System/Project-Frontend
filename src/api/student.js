@@ -12,11 +12,9 @@ export function sendStudentRegisterEmail(data) {
 
 export function studentLogin(data) {
   const params = new URLSearchParams(data)
-  }
-
+}
 
 export function getStuInfo(params) {
-
   return request({
     url: '/api/stuInfo',
     method: 'get',
@@ -46,7 +44,7 @@ export function submitLab(params) {
   return request({
     url: '/api/student/submitReport',
     method: 'post',
-    headers:{'Content-Type':'application/json;charset=UTF-8'},
-    data:JSON.stringify(params)
+    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+    data: JSON.stringify(params)
   })
 }
