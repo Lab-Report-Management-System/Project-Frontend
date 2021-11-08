@@ -80,7 +80,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: '功能列表', icon: 'el-icon-s-help' },
+    meta: { title: '实验管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',
@@ -116,12 +116,22 @@ export const constantRoutes = [
       {
         path: 'index',
         name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        redirect: '/studentClass',
+        component: () => import('@/views/class/studentClass.vue'),
+        meta: { title: '班级信息', icon: 'form' }
       }
     ]
   },
-
+  {
+    path: '/teacherClass',
+    component: () => import('@/views/class/teacherClass.vue'),
+    hidden: true
+  },
+  {
+    path: '/studentClass',
+    component: () => import('@/views/class/studentClass.vue'),
+    hidden: true
+  },
   {
     path: '/nested',
     component: Layout,
