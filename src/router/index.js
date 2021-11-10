@@ -121,7 +121,28 @@ export const constantRoutes = [
   {
     path: '/teacherClass',
     component: () => import('@/views/class/teacherClass.vue'),
-    hidden: true
+    name: 'Test',
+    meta: { title: '测试', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/table/index'),
+        meta: { title: '登录测试', icon: 'table' }
+      },
+      {
+        path: '/Register',
+        name: 'register',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '注册测试', icon: 'tree' }
+      },
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: () => import('@/views/labReport.vue'),
+        meta: { title: '首页测试', icon: 'form' }
+      }
+    ]
   },
   {
     path: '/studentClass',
