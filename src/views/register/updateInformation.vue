@@ -86,7 +86,7 @@
           />
         </el-form-item>
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleRegister">发送注册邮件</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleRegister">完成注册</el-button>
 
         <div class="tips">
           <span style="margin-right:20px;">请不要输入其他邮箱哦！</span>
@@ -160,7 +160,7 @@ export default {
       })
     },
     handleRegister() {
-      this.setSha()
+      // this.setSha()
       console.log(this.registerForm.studentPassword)
       this.registerForm.code = this.$route.query.code
       this.registerForm.email = this.$route.query.email

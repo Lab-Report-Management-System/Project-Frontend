@@ -7,7 +7,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img :src="avatar" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -22,8 +22,8 @@
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
-          <el-dropdown-item divided @click.native="SignIn">
-            <span style="display:block;">SignIn</span>
+          <el-dropdown-item divided @click.native="logOut">
+            <span style="display:block;">LogOut</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -35,6 +35,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import store from '@/store'
 
 export default {
   components: {
@@ -51,8 +52,9 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    SignIn(){
-          this.$router.push({path:"/SignIn"});
+    async logOut() {
+      // this.$router.push({ path: "/SignIn"});
+      await store.dispatch('user/logout')
     }
   }
 }

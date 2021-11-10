@@ -64,12 +64,7 @@ export const constantRoutes = [
     component: () => import('@/views/labReport.vue'),
     hidden: true
   },
-  // {
-  //   path: '/labTeacher',
-  //   name: 'labTeacher',
-  //   component: () => import('@/views/labTeacher.vue'),
-  //   hidden: true
-  // },
+
   {
     path: '/',
     component: Layout,
@@ -106,12 +101,6 @@ export const constantRoutes = [
         name: 'LabRep',
         component: () => import('@/views/labReport.vue'),
         meta: { title: '实验报告', icon: 'form' }
-      },
-      {
-        path: 'labTeacher',
-        name: 'labTeacher',
-        component: () => import('@/views/labTeacher.vue'),
-        meta: { title: '实验报告评阅', icon: 'form' }
       }
     ]
   },
@@ -209,6 +198,30 @@ export const constantRoutes = [
     ]
   },
 
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
+  {
+    path: '/labTeacher',
+    name: 'labTeacher',
+    component: Layout,
+    children: [
+      {
+        path: '/lab',
+        meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
+        component: () => import('@/views/labTeacher.vue')
+      }
+    ]
+    // meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
+    // component: () => import('@/views/labTeacher.vue')
+    // hidden: false
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
