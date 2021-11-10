@@ -5,11 +5,12 @@ import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
+import { getInfo } from '@/api/user'
 import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login', '/Register', '/realRegister'] // no redirect whitelist
+const whiteList = ['/login', '/Register', '/realRegister', '/Personal'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -20,21 +21,25 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
-
+  console.log('permission'+hasToken)
   if (hasToken) {
+    // console.log('wwww')
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
+      // console.log('redirect')
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
-        next()
-      } else {
+      // const hasGetUserInfo = store.getters.name
+      // if (hasGetUserInfo) {
+      //   next()
+      // } else {
         try {
           // get user info
-          await store.dispatch('user/getInfo')
+          // await store.dispatch('user/getInfo')
+          getInfo().then(res => {
 
+          })
           next()
         } catch (error) {
           // remove token and go to login page to re-login
@@ -44,7 +49,7 @@ router.beforeEach(async(to, from, next) => {
           NProgress.done()
         }
       }
-    }
+    // }
   } else {
     /* has no token*/
 

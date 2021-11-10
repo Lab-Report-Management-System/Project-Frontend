@@ -167,6 +167,15 @@ export default {
       studentRegister(this.registerForm).then(response => {
         const data = response
         console.log(data)
+        if (data.status === 'success') {
+          this.$message({
+            message: '注册已完成！',
+            type: 'success'
+          })
+          this.$router.push('/login')
+        } else {
+          this.$message.error('注册失败，请重试')
+        }
       })
     }
   }

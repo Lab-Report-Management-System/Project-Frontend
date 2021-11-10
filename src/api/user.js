@@ -1,18 +1,19 @@
 import request from '@/utils/request'
 
 export function doLogin(data) {
+  const params = new URLSearchParams(data)
   return request({
     url: '/api/user/doLogin',
     method: 'post',
-    data
+    data: params
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
     url: '/api/user/getInfo',
-    method: 'get',
-    params: { token }
+    method: 'get'
+    // params: { token }
   })
 }
 

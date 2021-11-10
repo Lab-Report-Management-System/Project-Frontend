@@ -7,15 +7,15 @@ import { getToken } from '@/utils/auth'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.withCredentials = true
 
-// create an axios instance
+// manageClass an axios instance
 const service = axios.create({
-  baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
-  // baseURL: 'http://localhost:6001/', // url = base url + request url
-  // baseURL: 'http://lab.hollwyh.cn:6001/',
+  // baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
+  baseURL: 'http://localhost:6001/', // url = base url + request url
+  // baseURL: 'http://lab-tongji.cn:6001/',
 
   // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000, // request timeout
+  timeout: 50000, // request timeout
   crossDomain: true
 })
 
@@ -24,8 +24,9 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
     console.log('Request sent')
-
-    if (store.getters.token) {
+    const token = getToken()
+    console.log('interceptor ' + token)
+    if (token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
@@ -65,8 +66,8 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
 
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      // 508: Illegal token; 512: Other clients logged in; 514: Token expired;
+      if (res.code === 508 || res.code === 512 || res.code === 514) {
         // to re-login
         MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',

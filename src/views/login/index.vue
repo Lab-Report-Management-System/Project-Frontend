@@ -72,15 +72,15 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 5) {
+        callback(new Error('The password can not be less than 5 digits'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
+        username: '1953603@tongji.edu.cn',
         password: ''
       },
       loginRules: {
@@ -101,6 +101,9 @@ export default {
     }
   },
   methods: {
+    setSha() {
+      this.loginForm.password = require('js-sha256').sha256(this.loginForm.password)
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -111,7 +114,11 @@ export default {
         this.$refs.password.focus()
       })
     },
+    handleRegister() {
+      this.$router.push('/Register')
+    },
     handleLogin() {
+      this.setSha()
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true

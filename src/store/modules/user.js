@@ -34,9 +34,12 @@ const actions = {
     return new Promise((resolve, reject) => {
       doLogin({ email: email.trim(), password: password }).then(response => {
         const { data } = response
+        // console.log('呵呵')
         // Cookies.set('token', data.token)
         commit('SET_TOKEN', data.token)
+        localStorage.setItem('token', data.token)
         setToken(data.token)
+        console.log(document.cookie)
         resolve()
       }).catch(error => {
         reject(error)
