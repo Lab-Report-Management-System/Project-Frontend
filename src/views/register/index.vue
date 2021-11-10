@@ -8,10 +8,6 @@
         </div>
 
         <el-form-item prop="username">
-          <span class="svg-container">
-            <!--            <svg-icon icon-class="el-icon-message" />-->
-            <i class="el-icon-message" />
-          </span>
           <el-input
             ref="username"
             v-model="registerForm.email"
@@ -22,32 +18,10 @@
             auto-complete="on"
           />
         </el-form-item>
-
-        <!--        <el-form-item prop="password">-->
-        <!--          <span class="svg-container">-->
-        <!--            <svg-icon icon-class="password" />-->
-        <!--          </span>-->
-        <!--          <el-input-->
-        <!--            :key="passwordType"-->
-        <!--            ref="password"-->
-        <!--            v-model="registerForm.password"-->
-        <!--            :type="passwordType"-->
-        <!--            placeholder="Password"-->
-        <!--            name="password"-->
-        <!--            tabindex="2"-->
-        <!--            auto-complete="on"-->
-        <!--            @keyup.enter.native="handleregister"-->
-        <!--          />-->
-        <!--          <span class="show-pwd" @click="showPwd">-->
-        <!--            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />-->
-        <!--          </span>-->
-        <!--        </el-form-item>-->
-
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleRegister">发送注册邮件</el-button>
 
         <div class="tips">
           <span style="margin-right:20px;">请不要输入其他邮箱哦！</span>
-          <!--          <span> password: any</span>-->
         </div>
 
       </el-form>
@@ -79,7 +53,7 @@ export default {
     }
     return {
       registerForm: {
-        email: '1053790247@qq.com'
+        email: ''
       },
       registerRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -110,20 +84,6 @@ export default {
       })
     },
     handleRegister() {
-      // this.$refs.registerForm.validate(valid => {
-      //   if (valid) {
-      //     this.loading = true
-      //     this.$store.dispatch('user/register', this.registerForm).then(() => {
-      //       this.$router.push({ path: this.redirect || '/' })
-      //       this.loading = false
-      //     }).catch(() => {
-      //       this.loading = false
-      //     })
-      //   } else {
-      //     console.log('error submit!!')
-      //     return false
-      //   }
-      // })
       sendStudentRegisterEmail(this.registerForm).then(response => {
         // 判断登录是否成功
         const data = response
@@ -226,8 +186,8 @@ $light_gray:#eee;
   }
   .login-card {
     margin-top:8%;
-    margin-left:34%;
-    width:520px;
+    margin-left:29%;
+    width:550px;
     height:320px;
     background-color: #475164//#36292f;
   }

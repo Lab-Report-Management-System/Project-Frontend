@@ -43,12 +43,16 @@
           </span>
         </el-form-item>
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+        <div>
+          <a style="color: white">忘记密码？</a>
+        </div>
+
+        <el-button :loading="loading" type="primary" style="float:left;width:48%;margin-top:10px;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+        <el-button :loading="loading" type="primary" style="width:48%;margin-top:10px;margin-bottom:30px;" @click.native.prevent="studentRegister">StudentRegister</el-button>
 
         <div class="tips">
           <span style="margin-right:20px;">Tongji Email: 请输入同济邮箱</span>
         </div>
-
       </el-form>
     </el-card>
   </div>
@@ -77,7 +81,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -122,6 +126,9 @@ export default {
           return false
         }
       })
+    },
+    studentRegister() {
+      this.$router.push('/Register')
     }
   }
 }
@@ -197,14 +204,14 @@ $light_gray:#eee;
     }
   }
   .login-card {
-    margin-top:8%;
-    margin-left:34%;
+    margin-top:5%;
+    margin-left: 29%;
     width:550px;
     height:480px;
     background-color: #475164//#36292f;
   }
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    //padding: 6px 5px 6px 15px;
     color: $dark_gray;
     vertical-align: middle;
     width: 30px;
