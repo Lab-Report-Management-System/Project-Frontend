@@ -30,17 +30,30 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      // const hasGetUserInfo = store.getters.name
-      // if (hasGetUserInfo) {
-      //   next()
-      // } else {
+        // determine whether the user has obtained his permission roles through getInfo
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      if(hasRoles){
+        next()
+      } else{
+        // console.log(hasRoles)
+        // TODO store没有存进去
         try {
           // get user info
-          // await store.dispatch('user/getInfo')
-          getInfo().then(res => {
+          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
+          const { roles } = await store.dispatch('user/getInfo')
+          // console.log(roles)0
 
-          })
-          next()
+          // generate accessible routes map based on roles
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          // console.log('211111')
+          // console.log(accessRoutes)
+          // dynamically add accessible routes
+          router.addRoutes(accessRoutes)
+          console.log('added哈哈')
+          console.log(router)
+          // hack method to ensure that addRoutes is complete
+          // set the replace: true, so the navigation will not leave a history record
+          next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
@@ -48,6 +61,16 @@ router.beforeEach(async(to, from, next) => {
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
+
+      }
+        // try {
+        //   // get user info
+        //   // await store.dispatch('user/getInfo')
+        //   getInfo().then(res => {
+        //
+        //   })
+        //   next()
+        // }
       }
     // }
   } else {

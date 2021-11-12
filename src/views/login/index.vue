@@ -101,9 +101,7 @@ export default {
     }
   },
   methods: {
-    setSha() {
-      this.loginForm.password = require('js-sha256').sha256(this.loginForm.password)
-    },
+
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -118,7 +116,6 @@ export default {
       this.$router.push('/Register')
     },
     handleLogin() {
-      this.setSha()
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true

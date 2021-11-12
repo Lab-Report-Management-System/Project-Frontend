@@ -6,7 +6,8 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    roles: []
   }
 }
 
@@ -24,13 +25,20 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   }
 }
 
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { email, password } = userInfo
+    // eslint-disable-next-line prefer-const
+    let { email, password } = userInfo
+    // setSha() {/
+    password = require('js-sha256').sha256(password)
+    // },
     return new Promise((resolve, reject) => {
       doLogin({ email: email.trim(), password: password }).then(response => {
         const { data } = response
@@ -57,10 +65,20 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = data
+        const { roles } = data
+        // console.log('11111')
+        console.log(roles)
+        // roles must be a non-empty array
+        if (!roles || roles.length <= 0) {
+          reject('getInfo: roles must be a non-null array!')
+        }
 
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        // TODO commit失败
+        commit('SET_ROLES', roles)
+        // const { name, avatar } = data
+        //
+        // commit('SET_NAME', name)
+        // commit('SET_AVATAR', avatar)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -71,14 +89,18 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // console.log('????')
+      // logout().then(() => {
+      removeToken() // must remove  token  first
+      console.log('退出退出注销')
+      resetRouter()
+      this.$router.push('/')
+      commit('RESET_STATE')
+      resolve()
+    // }).catch(error => {
+    //   reject(error)
+    //   console.log('失败辣')
+      // })
     })
   },
 

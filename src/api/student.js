@@ -32,6 +32,8 @@ export function getStuLabInfo(params) {
 }
 
 export function studentRegister(data) {
+  data.studentPassword = require('js-sha256').sha256(data.studentPassword)
+  console.log(data)
   const params = new URLSearchParams(data)
   return request({
     url: '/api/student/updateInformation',
