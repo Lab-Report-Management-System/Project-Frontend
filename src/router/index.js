@@ -37,11 +37,11 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: '/register',
-    component: () => import('@/views/register/index.vue'),
-    hidden: true
-  },
+  // {
+  //   path: '/register',
+  //   component: () => import('@/views/register/index.vue'),
+  //   hidden: true
+  // },
   {
     path: '/realRegister',
     component: () => import('@/views/register/updateInformation.vue'),
@@ -64,7 +64,6 @@ export const constantRoutes = [
     component: () => import('@/views/labReport.vue'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -114,36 +113,11 @@ export const constantRoutes = [
         name: 'Form',
         redirect: '/studentClass',
         component: () => import('@/views/class/studentClass.vue'),
-        meta: { title: '班级信息', icon: 'form' }
+        meta: { title: '班级信息捏', icon: 'form' }
       }
     ]
   },
-  {
-    path: '/teacherClass',
-    component: () => import('@/views/class/teacherClass.vue'),
-    name: 'Test',
-    meta: { title: '测试', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: '/login',
-        name: 'login',
-        component: () => import('@/views/table/index'),
-        meta: { title: '登录测试', icon: 'table' }
-      },
-      {
-        path: '/Register',
-        name: 'register',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '注册测试', icon: 'tree' }
-      },
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/labReport.vue'),
-        meta: { title: '首页测试', icon: 'form' }
-      }
-    ]
-  },
+
   {
     path: '/studentClass',
     component: () => import('@/views/class/studentClass.vue'),
@@ -228,20 +202,46 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  // {
+  //   path: '/labTeacher',
+  //   name: 'labTeacher',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: '/lab',
+  //       meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
+  //       component: () => import('@/views/labTeacher.vue')
+  //     }
+  //   ]
+  //   // meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
+  //   // component: () => import('@/views/labTeacher.vue')
+  //   // hidden: false
+  // },
   {
-    path: '/labTeacher',
-    name: 'labTeacher',
-    component: Layout,
+    path: '/teacherClass',
+    component: () => import('@/views/class/teacherClass.vue'),
+    name: 'Test',
+    meta: { title: '测试捏', icon: 'el-icon-s-help', role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] },
     children: [
       {
-        path: '/lab',
-        meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
-        component: () => import('@/views/labTeacher.vue')
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/table/index'),
+        meta: { title: '登录测试', icon: 'table', role: ['Student', 'ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] }
+      },
+      {
+        path: '/Register',
+        name: 'register',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '注册测试', icon: 'tree' }
+      },
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: () => import('@/views/labReport.vue'),
+        meta: { title: '首页测试', icon: 'form' }
       }
     ]
-    // meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
-    // component: () => import('@/views/labTeacher.vue')
-    // hidden: false
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
