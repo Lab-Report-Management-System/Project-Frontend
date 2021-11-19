@@ -75,6 +75,21 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/calendar',
+    component: Layout,
+    // component: () => import('@/views/calendar/index'),
+    name: 'Calendar',
+    meta: { title: '日程管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'index',
+        name: 'calendar',
+        component: () => import('@/views/calendar/index'),
+        meta: { title: '日历', icon: 'form' }
+      }
+    ]
+  },
 
   {
     path: '/example',

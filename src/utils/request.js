@@ -9,8 +9,8 @@ axios.defaults.withCredentials = true
 
 // manageClass an axios instance
 const service = axios.create({
-  // baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
-  baseURL: 'http://localhost:6001/', // url = base url + request url
+  baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
+  // baseURL: 'http://localhost:6001/', // url = base url + request url
   // baseURL: 'http://lab-tongji.cn:6001/',
 
   // url = base url + request url
