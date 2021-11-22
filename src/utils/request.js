@@ -7,6 +7,10 @@ import { getToken } from '@/utils/auth'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.withCredentials = true
 
+// socketUrl
+export const webSocketUrl = 'ws://182.61.43.155:7979/websocket?userId='
+// export const webSocketUrl = 'ws://localhost:7979/websocket?userId='
+
 // manageClass an axios instance
 const service = axios.create({
   baseURL: 'http://182.61.43.155:6001/', // url = base url + request url

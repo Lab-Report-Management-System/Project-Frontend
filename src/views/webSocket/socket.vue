@@ -9,8 +9,8 @@
 </template>
 
 <script>
+import { webSocketUrl } from '@/utils/request'
 
-const webSocketUrl = 'ws://localhost:7979/websocket?userId='
 let socket = ''
 let me
 const GROUP_CHAT_MESSAGE_CODE = 2

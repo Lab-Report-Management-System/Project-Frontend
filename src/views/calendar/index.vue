@@ -10,15 +10,9 @@
               slot-scope="{date, data}"
             >
               <div>{{ data.day.split('-').slice(1).join('-') }}</div>
+              {{ data.day === '2021-12-01' ? 'ddl':'' }}
               <div v-if="data.isSelected" class="calendar-content">
-                <div>
-                  <i class="el-icon-edit" />
-                  10:00签到5
-                </div>
-                <div class="del-line">
-                  <i class="el-icon-s-flag" />
-                  课程三：类的设计
-                </div>
+                {{ data.isSelected ? '✔️' : ''}}
               </div>
             </template>
           </el-calendar>
@@ -32,15 +26,6 @@
         <el-card class="right-collapse-panel">
           <el-collapse v-model="collapseActive">
             <el-collapse-item title="日历" :name="1">
-              <div v-for="(item ,index) in scheduleList" :key="index" class="collapse-wrap">
-                <div class="collapse-wrap-square" :style=" {'background': item.color}" />
-                <div class="collapse-wrap-desc">{{ item.className }}</div>
-                <div class="collapse-wrap-icon">
-                  <el-color-picker v-model="item.color" size="mini" />
-                </div>
-              </div>
-            </el-collapse-item>
-            <el-collapse-item title="无期限" :name="2">
               <div v-for="(item ,index) in scheduleList" :key="index" class="collapse-wrap">
                 <div class="collapse-wrap-square" :style=" {'background': item.color}" />
                 <div class="collapse-wrap-desc">{{ item.className }}</div>
