@@ -13,21 +13,31 @@
               <div v-if="data.isSelected" class="calendar-content">
                 {{ data.isSelected ? '✔️' : '' }}
               </div>
-              <div v-for="lab in labs" :key = "lab.labDeadline">
-                <div class="lab-info" v-if="lab.labDeadline === data.day">{{lab.labName}}</div>
+              <div v-for="lab in labs" :key="lab.labDeadline">
+                <div v-if="lab.labDeadline === data.day" class="lab-info">
+                  <i class="el-icon-s-flag" />{{ lab.labName }}
+                </div>
               </div>
             </template>
           </el-calendar>
         </el-card>
       </el-col>
-      <!--右侧区域-->
+      <!--右侧日历区域-->
       <el-col :sm="5" :xs="24">
         <el-card class="right-calendar-panel">
-          <el-calendar v-model="calendarValueTwo" />
+          <el-calendar v-model="calendarValueTwo">
+            <template
+              slot="dateCell"
+              slot-scope="{date, data}"
+            >
+              <div :class="{red:getRed(data.day)}">{{ data.day.split('-').slice(2).join('-') }}</div>
+            </template>
+          </el-calendar>
         </el-card>
+        <!--实验提示部分-->
         <el-card class="right-collapse-panel">
           <el-collapse v-model="collapseActive">
-            <el-collapse-item title="日历" :name="1">
+            <el-collapse-item title="实验" :name="1">
               <div v-for="(item ,index) in scheduleList" :key="index" class="collapse-wrap">
                 <div class="collapse-wrap-square" :style=" {'background': item.color}" />
                 <div class="collapse-wrap-desc">{{ item.className }}</div>
@@ -38,10 +48,10 @@
             </el-collapse-item>
           </el-collapse>
         </el-card>
+        <!--链接部分-->
         <div class="right-link-panel">
           <i class="el-icon-date" type="primary" />
-          &nbsp;&nbsp;
-          <el-link type="primary"> 成功链接</el-link>
+          <el-link type="primary" href="https://github.com/Lab-Report-Management-System"> 点我试试~</el-link>
         </div>
       </el-col>
     </el-row>
@@ -69,8 +79,29 @@ export default {
     this.token.code = getToken()
     getLabInfo(this.token).then(res => {
       this.labs = res.labEntityList
-      console.log(this.labs)
+      for (let i = 0; i < this.labs.length; i++) {
+        if (this.getCurrentDay() <= this.labs[i].labDeadline) { this.scheduleList.push({ className: this.labs[i].labName, color: this.colorList[Math.floor(Math.random() * 7)] }) }
+      }
     })
+  },
+  methods: {
+    getCurrentDay() {
+      const currentDate = new Date()
+      // eslint-disable-next-line no-unused-vars
+      let res = ''
+      res += currentDate.getFullYear() + '-'
+      res += (currentDate.getMonth() + 1) + '-'
+      res += currentDate.getDate()
+      return res
+    },
+    getRed(data) {
+      for (let i = 0; i < this.labs.length; i++) {
+        if (this.labs[i].labDeadline === data) {
+          return true
+        }
+      }
+      return false
+    }
   }
 }
 </script>
@@ -194,6 +225,12 @@ export default {
   }
   .lab-info{
     color:red;
+  }
+  .red{
+    color: #ff0000;
+    // background-color: red;
+    width: 100%;
+    height: 500%;
   }
 }
 </style>
