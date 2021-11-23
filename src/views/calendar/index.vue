@@ -10,9 +10,11 @@
               slot-scope="{date, data}"
             >
               <div>{{ data.day.split('-').slice(1).join('-') }}</div>
-              {{ data.day === '2021-12-01' ? 'ddl':'' }}
               <div v-if="data.isSelected" class="calendar-content">
-                {{ data.isSelected ? '✔️' : ''}}
+                {{ data.isSelected ? '✔️' : '' }}
+              </div>
+              <div v-for="lab in labs" :key = "lab.labDeadline">
+                <div class="lab-info" v-if="lab.labDeadline === data.day">{{lab.labName}}</div>
               </div>
             </template>
           </el-calendar>
@@ -47,6 +49,8 @@
 </template>
 
 <script>
+import { getLabInfo } from '../../api/lab.js'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'Calendar',
   data() {
@@ -54,13 +58,19 @@ export default {
       calendarValueTwo: new Date(),
       collapseActive: 1,
       scheduleList: [],
-      colorList: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#909399', '#303133', '#C0C4CC']
+      colorList: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#909399', '#303133', '#C0C4CC'],
+      labs: [],
+      token: {
+        code: ''
+      }
     }
   },
   created() {
-    for (let i = 0; i <= 10; i++) {
-      this.scheduleList.push({ className: `同级大学融合线上线下第${i + 1}节课程`, color: this.colorList[Math.floor(Math.random() * 7)] })
-    }
+    this.token.code = getToken()
+    getLabInfo(this.token).then(res => {
+      this.labs = res.labEntityList
+      console.log(this.labs)
+    })
   }
 }
 </script>
@@ -181,6 +191,9 @@ export default {
 
   .right-link-panel {
     margin: 20px 0 0 5px;
+  }
+  .lab-info{
+    color:red;
   }
 }
 </style>
