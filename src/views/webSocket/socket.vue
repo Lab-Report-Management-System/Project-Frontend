@@ -3,124 +3,184 @@
     <h1 id="greetings">你好,</h1>
     <input v-model="message" type="text" class="form-control">
     <el-button @click.native.prevent="sendMessage">发送</el-button>
+    <el-button v-show="buttonVisible" id="match" @click.native.prevent="match" v-loading="loading">点击匹配</el-button>
     <div id="responseContent" class="textarea scroll" />
-    <div id = "output"></div>
+    <div id="output" />
   </div>
 </template>
 
 <script>
+import { getInfo } from '@/api/user'
+import { getToken } from '@/utils/auth'
 import { webSocketUrl } from '@/utils/request'
-
-let socket = ''
-let me
-const GROUP_CHAT_MESSAGE_CODE = 2
-const SYSTEM_MESSAGE_CODE = 5
-const PRIVATE_CHAT_MESSAGE_CODE = 1
-const PING_MESSAGE_CODE = 3
-
-function websocket() {
-  // eslint-disable-next-line no-new-object
-  me = new Object()
-  me.userId = getQueryVariable('nick')
-  if (window.WebSocket) {
-    socket = new WebSocket(webSocketUrl + me.userId)
-    console.log('当前用户是' + me.userId)
-    document.getElementById('greetings').append(decodeURI(decodeURI(me.userId)))
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      console.log(JSON.stringify(data))
-      switch (data.code) {
-        case GROUP_CHAT_MESSAGE_CODE:
-          document.getElementById('output').append(data.msg)
-          break
-        case SYSTEM_MESSAGE_CODE:
-          break
-        case PING_MESSAGE_CODE:
-          sendPong()
-          break
-        case PRIVATE_CHAT_MESSAGE_CODE:
-          break
-      }
-    }
-    socket.onopen = function() {
-      loginSend()
-    }
-    socket.onclose = function() {
-      quitSend()
-    }
-    return true
-  } else {
-    alert('您的浏览器不支持WebSocket')
-    return false
-  }
-}
-
-function getQueryVariable(name) {
-  const url = window.location.href
-  const nick = url.split('?')[1].split('=')[0]
-  const res = url.split('?')[1].split('=')[1]
-  if (nick === name) return decodeURI(decodeURI(res))
-  else return null
-}
-
-function sendPong() {
-  const object = {}
-  object.code = 4
-  send(JSON.stringify(object))
-}
-
-function send(message) {
-  if (!window.WebSocket) {
-    return
-  }
-  if (socket.readyState === WebSocket.OPEN) {
-    socket.send(message)
-  } else {
-    socket.readyState = WebSocket.OPEN
-    socket.send(message)
-  }
-}
-
-function loginSend() {
-  const object = {}
-  object.code = 1000
-  object.username = me.userId
-  send(JSON.stringify(object))
-}
-
-function quitSend() {
-  const object = {}
-  object.code = 1001
-  object.username = me.userId
-  send(JSON.stringify(object))
-}
+import { MessageBox } from 'element-ui'
 
 export default {
   name: 'Socket',
-  data: () => {
+  data() {
     return {
-      message: ''
+      message: '',
+      socket: '',
+      me: null,
+      loading: false,
+      buttonVisible: true,
+      PRIVATE_CHAT_MESSAGE_CODE: 1, // 私聊消息
+      GROUP_CHAT_MESSAGE_CODE: 2, // 群聊消息
+      PING_MESSAGE_CODE: 3, // PING消息
+      SYSTEM_MESSAGE_CODE: 5, // 系统消息
+      MATCHING_MESSAGE_CODE: 6, // 匹配消息
+      MATCH_SUCCESS_MESSAGE_CODE: 7, // 匹配成功
+      MATCH_REVOKE_CODE: 8,
+      LOGIN_CODE: 1000, // 登录消息
+      LOGOUT_CODE: 1001 // 登出消息
     }
   },
-  mounted: () => {
-    websocket()
-  },
-  destroyed: () => {
-    quitSend()
+  destroyed() {
+    this.quitSend()
     location.reload()
   },
+  created() {
+    this.initMe()
+  },
   methods: {
+    initMe() {
+      // eslint-disable-next-line no-new-object
+      this.me = new Object()
+      getInfo(getToken()).then(res => {
+        this.me.username = res.data.userNickname
+        this.me.userId = res.data.userName
+        this.websocket()
+      })
+    },
+    websocket() {
+      if (window.WebSocket) {
+        this.socket = new WebSocket(webSocketUrl + this.me.userId)
+        console.log('当前用户是' + this.me.username)
+        document.getElementById('greetings').append(decodeURI(decodeURI(this.me.username)))
+        this.socket.onmessage = (event) => {
+          const data = JSON.parse(event.data)
+          console.log(JSON.stringify(data))
+          switch (data.code) {
+            case this.GROUP_CHAT_MESSAGE_CODE:
+              document.getElementById('output').append(data.msg)
+              break
+            case this.SYSTEM_MESSAGE_CODE:
+              break
+            case this.PING_MESSAGE_CODE:
+              this.sendPong()
+              break
+            case this.PRIVATE_CHAT_MESSAGE_CODE:
+              break
+            case this.MATCH_SUCCESS_MESSAGE_CODE:
+              MessageBox.close()
+              this.loading = false
+              this.buttonVisible = false
+              this.$message({
+                type: 'success',
+                message: '匹配成功'
+              })
+              break
+            case this.MATCH_REVOKE_CODE:
+              MessageBox.close()
+              this.loading = false
+              this.$message({
+                type: 'error',
+                message: '没有找到对手捏，请稍后重新匹配~'
+              })
+          }
+        }
+        this.socket.onopen = () => {
+          this.loginSend()
+        }
+        this.socket.onclose = () => {
+          this.quitSend()
+        }
+        return true
+      } else {
+        alert('您的浏览器不支持WebSocket')
+        return false
+      }
+    },
+    sendPong() {
+      const object = {}
+      object.code = 4
+      this.send(JSON.stringify(object))
+    },
+    send(message) {
+      if (!window.WebSocket) {
+        return
+      }
+      if (this.socket.readyState === WebSocket.OPEN) {
+        this.socket.send(message)
+      } else {
+        this.socket.readyState = WebSocket.OPEN
+        this.socket.send(message)
+      }
+    },
+    // 登录
+    loginSend() {
+      const object = {}
+      object.code = this.LOGIN_CODE
+      object.username = this.me.username
+      object.userId = this.me.userId
+      this.send(JSON.stringify(object))
+    },
+    // 结束
+    quitSend() {
+      const object = {}
+      object.code = this.LOGOUT_CODE
+      object.username = this.me.username
+      object.userId = this.me.userId
+      this.send(JSON.stringify(object))
+    },
+    // 发送群聊消息
     sendMessage() {
       if (this.message === '' || this.message == null) {
         alert('信息不能为空~')
         return
       }
       const object = {}
-      object.code = 2
-      object.username = me.userId
+      object.code = this.GROUP_CHAT_MESSAGE_CODE
+      object.username = this.me.username
       object.msg = this.message
-      object.sendUserId = me.userId
-      send(JSON.stringify(object))
+      object.sendUserId = this.me.userId
+      this.send(JSON.stringify(object))
+    },
+    // 实现匹配
+    match() {
+      this.loading = true
+      MessageBox.confirm('匹配中......', '对战练习', {
+        confirmButtonText: '隐藏',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$message({
+          type: 'info',
+          message: '正在帮您匹配，匹配框已帮您自动隐藏'
+        })
+      }).catch(() => {
+        this.loading = false
+        this.revokeMatch()
+        this.$message({
+          type: 'error',
+          message: '已取消匹配'
+        })
+      })
+      const object = {}
+      object.code = this.MATCHING_MESSAGE_CODE
+      object.username = this.me.username
+      object.sendUserId = this.me.userId
+      console.log(JSON.stringify(object))
+      this.send(JSON.stringify(object))
+    },
+    // 撤销匹配
+    revokeMatch() {
+      const object = {}
+      object.code = this.MATCH_REVOKE_CODE
+      object.username = this.me.username
+      object.sendUserId = this.me.userId
+      console.log(JSON.stringify(object))
+      this.send(JSON.stringify(object))
     }
   }
 }
