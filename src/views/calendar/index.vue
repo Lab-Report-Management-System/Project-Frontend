@@ -11,33 +11,36 @@
             >
               <div>{{ data.day.split('-').slice(1).join('-') }}</div>
               <div v-if="data.isSelected" class="calendar-content">
-                {{ data.isSelected ? '✔️' : '' }}
-              </div>
-              <div v-for="lab in labs" :key="lab.labDeadline">
-                <div v-if="lab.labDeadline === data.day" class="lab-info">
-                  <i class="el-icon-s-flag" />{{ lab.labName }}
+                <div>
+                  <i class="el-icon-edit" />
+                  10:00签到5
+                </div>
+                <div class="del-line">
+                  <i class="el-icon-s-flag" />
+                  课程三：类的设计
                 </div>
               </div>
             </template>
           </el-calendar>
         </el-card>
       </el-col>
-      <!--右侧日历区域-->
+      <!--右侧区域-->
       <el-col :sm="5" :xs="24">
         <el-card class="right-calendar-panel">
-          <el-calendar v-model="calendarValueTwo">
-            <template
-              slot="dateCell"
-              slot-scope="{date, data}"
-            >
-              <div :class="{red:getRed(data.day)}">{{ data.day.split('-').slice(2).join('-') }}</div>
-            </template>
-          </el-calendar>
+          <el-calendar v-model="calendarValueTwo" />
         </el-card>
-        <!--实验提示部分-->
         <el-card class="right-collapse-panel">
           <el-collapse v-model="collapseActive">
-            <el-collapse-item title="实验" :name="1">
+            <el-collapse-item title="日历" :name="1">
+              <div v-for="(item ,index) in scheduleList" :key="index" class="collapse-wrap">
+                <div class="collapse-wrap-square" :style=" {'background': item.color}" />
+                <div class="collapse-wrap-desc">{{ item.className }}</div>
+                <div class="collapse-wrap-icon">
+                  <el-color-picker v-model="item.color" size="mini" />
+                </div>
+              </div>
+            </el-collapse-item>
+            <el-collapse-item title="无期限" :name="2">
               <div v-for="(item ,index) in scheduleList" :key="index" class="collapse-wrap">
                 <div class="collapse-wrap-square" :style=" {'background': item.color}" />
                 <div class="collapse-wrap-desc">{{ item.className }}</div>
@@ -48,10 +51,10 @@
             </el-collapse-item>
           </el-collapse>
         </el-card>
-        <!--链接部分-->
         <div class="right-link-panel">
           <i class="el-icon-date" type="primary" />
-          <el-link type="primary" href="https://github.com/Lab-Report-Management-System"> 点我试试~</el-link>
+          &nbsp;&nbsp;
+          <el-link type="primary"> 成功链接</el-link>
         </div>
       </el-col>
     </el-row>
@@ -59,8 +62,6 @@
 </template>
 
 <script>
-import { getLabInfo } from '../../api/lab.js'
-import { getToken } from '@/utils/auth'
 export default {
   name: 'Calendar',
   data() {
@@ -68,39 +69,12 @@ export default {
       calendarValueTwo: new Date(),
       collapseActive: 1,
       scheduleList: [],
-      colorList: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#909399', '#303133', '#C0C4CC'],
-      labs: [],
-      token: {
-        code: ''
-      }
+      colorList: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#909399', '#303133', '#C0C4CC']
     }
   },
   created() {
-    this.token.code = getToken()
-    getLabInfo(this.token).then(res => {
-      this.labs = res.labEntityList
-      for (let i = 0; i < this.labs.length; i++) {
-        if (this.getCurrentDay() <= this.labs[i].labDeadline) { this.scheduleList.push({ className: this.labs[i].labName, color: this.colorList[Math.floor(Math.random() * 7)] }) }
-      }
-    })
-  },
-  methods: {
-    getCurrentDay() {
-      const currentDate = new Date()
-      // eslint-disable-next-line no-unused-vars
-      let res = ''
-      res += currentDate.getFullYear() + '-'
-      res += (currentDate.getMonth() + 1) + '-'
-      res += currentDate.getDate()
-      return res
-    },
-    getRed(data) {
-      for (let i = 0; i < this.labs.length; i++) {
-        if (this.labs[i].labDeadline === data) {
-          return true
-        }
-      }
-      return false
+    for (let i = 0; i <= 10; i++) {
+      this.scheduleList.push({ className: `同级大学融合线上线下第${i + 1}节课程`, color: this.colorList[Math.floor(Math.random() * 7)] })
     }
   }
 }
@@ -222,15 +196,6 @@ export default {
 
   .right-link-panel {
     margin: 20px 0 0 5px;
-  }
-  .lab-info{
-    color:red;
-  }
-  .red{
-    color: #ff0000;
-    // background-color: red;
-    width: 100%;
-    height: 500%;
   }
 }
 </style>
