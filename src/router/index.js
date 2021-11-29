@@ -32,25 +32,16 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path: '/socket',
-    component: () => import('@/views/webSocket/socket'),
-    hidden: true
-  },
-  {
-    path: '/web',
-    component: () => import('@/views/webSocket/web'),
-    hidden: true
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-  {
-    path: '/Register',
-    component: () => import('@/views/register/index.vue'),
-    hidden: true
-  },
+
+  // {
+  //   path: '/register',
+  //   component: () => import('@/views/register/index.vue'),
+  //   hidden: true
+  // },
   {
     path: '/realRegister',
     component: () => import('@/views/register/updateInformation.vue'),
@@ -84,21 +75,6 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-  {
-    path: '/calendar',
-    component: Layout,
-    // component: () => import('@/views/calendar/index'),
-    name: 'Calendar',
-    meta: { title: '日程管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'index',
-        name: 'calendar',
-        component: () => import('@/views/calendar/index'),
-        meta: { title: '日历', icon: 'form' }
-      }
-    ]
-  },
 
   {
     path: '/example',
@@ -124,6 +100,19 @@ export const constantRoutes = [
         name: 'LabRep',
         component: () => import('@/views/labReport.vue'),
         meta: { title: '实验报告', icon: 'form' }
+      },
+      // 调试日历页
+      {
+        path: 'calendar',
+        name: 'Calendar',
+        component: () => import('@/views/calendar/index.vue'),
+        meta: { title: '日历', icon: 'form' }
+      },
+      {
+        path: 'report',
+        name: 'Report',
+        component: () => import('@/views/dashboard/Report'),
+        meta: { title: '报告填写', icon: 'form' }
       }
     ]
   },
@@ -252,6 +241,12 @@ export const asyncRoutes = [
         name: 'login',
         component: () => import('@/views/table/index'),
         meta: { title: '登录测试', icon: 'table', role: ['Student', 'ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] }
+      },
+      {
+        path: '/Register',
+        name: 'register',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '注册测试', icon: 'tree' }
       },
       {
         path: '/dashboard',
