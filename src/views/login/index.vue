@@ -115,7 +115,7 @@ export default {
       })
     },
     handleRegister() {
-      this.$router.push('/Register')
+      this.$router.push('/register')
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {

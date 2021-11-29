@@ -37,11 +37,11 @@ export const constantRoutes = [
     hidden: true
   },
 
-  // {
-  //   path: '/register',
-  //   component: () => import('@/views/register/index.vue'),
-  //   hidden: true
-  // },
+  {
+    path: '/register',
+    component: () => import('@/views/register/index.vue'),
+    hidden: true
+  },
   {
     path: '/realRegister',
     component: () => import('@/views/register/updateInformation.vue'),
@@ -242,12 +242,12 @@ export const asyncRoutes = [
         component: () => import('@/views/table/index'),
         meta: { title: '登录测试', icon: 'table', role: ['Student', 'ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] }
       },
-      {
-        path: '/Register',
-        name: 'register',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '注册测试', icon: 'tree' }
-      },
+      // {
+      //   path: '/Register',
+      //   name: 'register',
+      //   component: () => import('@/views/tree/index'),
+      //   meta: { title: '注册测试', icon: 'tree' }
+      // },
       {
         path: '/dashboard',
         name: 'dashboard',

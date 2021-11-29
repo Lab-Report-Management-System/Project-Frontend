@@ -142,6 +142,31 @@ export default {
           avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
           content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
           time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
         }
       ],
       content: ''
