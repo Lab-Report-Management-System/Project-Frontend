@@ -32,6 +32,16 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
+    path: '/web',
+    component: () => import('@/views/webSocket/web'),
+    hidden: true
+  },
+  {
+    path: '/socket',
+    component: () => import('@/views/webSocket/socket'),
+    hidden: true
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true

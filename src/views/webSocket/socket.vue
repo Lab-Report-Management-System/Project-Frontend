@@ -14,6 +14,7 @@ import { getInfo } from '@/api/user'
 import { getToken } from '@/utils/auth'
 import { webSocketUrl } from '@/utils/request'
 import { MessageBox } from 'element-ui'
+import { getBattleQuestion } from '@/api/battle'
 
 export default {
   name: 'Socket',
@@ -24,6 +25,7 @@ export default {
       me: null,
       loading: false,
       buttonVisible: true,
+      questions: [],
       PRIVATE_CHAT_MESSAGE_CODE: 1, // 私聊消息
       GROUP_CHAT_MESSAGE_CODE: 2, // 群聊消息
       PING_MESSAGE_CODE: 3, // PING消息
@@ -79,6 +81,7 @@ export default {
                 type: 'success',
                 message: '匹配成功'
               })
+              this.getQuestion()
               break
             case this.MATCH_REVOKE_CODE:
               MessageBox.close()
@@ -181,6 +184,14 @@ export default {
       object.sendUserId = this.me.userId
       console.log(JSON.stringify(object))
       this.send(JSON.stringify(object))
+    },
+    // 获取题目
+    getQuestion() {
+      getBattleQuestion().then(res => {
+        this.questions = res.questions
+        console.log('大的要来了')
+        console.log(this.questions[0])
+      })
     }
   }
 }
