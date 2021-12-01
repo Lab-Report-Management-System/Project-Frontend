@@ -1,7 +1,7 @@
 <template>
-  <div style="position: relative;">
-    <p style="font-family:simhei;font-size: 25px;left: 10%;position: absolute;">{{ name }}同学,你好！</p>
-    <div style="top: 10%;position: absolute;width: 68%;left: 10%;">
+  <div style="">
+    <p style="font-family:simhei;font-size: 25px;left: 20%;">{{ name }}同学,你好！</p>
+    <div style="top: 10%;width: 68%;left: 20%;">
       <el-tabs type="border-card">
         <el-tab-pane v-for="(data,index) in labList" :key="index" @click="clickLab(data)">
           <span slot="label"><i class="el-icon-date" /> {{ data }}</span>
@@ -164,6 +164,11 @@ export default {
           time: '2021-11-28 20:50:22'
         }, {
           name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '?刚',
           avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
           content: '这尽快帮忙落实解决！',
           time: '2021-11-28 20:50:22'
