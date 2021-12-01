@@ -6,6 +6,15 @@
     <el-button v-show="buttonVisible" id="match" @click.native.prevent="match" v-loading="loading">点击匹配</el-button>
     <div id="responseContent" class="textarea scroll" />
     <div id="output" />
+    <!-- 题目 -->
+    <div>
+      <div>题目</div>
+      <div>{{this.title}}</div>
+      <div>A. {{this.answerA}}</div>
+      <div>B. {{this.answerB}}</div>
+      <div>C. {{this.answerC}}</div>
+      <div>D.{{this.answerD}}</div>
+    </div>
   </div>
 </template>
 
@@ -26,6 +35,12 @@ export default {
       loading: false,
       buttonVisible: true,
       questions: [],
+      title: '',
+      answerA: '',
+      answerB: '',
+      answerC: '',
+      answerD: '',
+      pageNumber: 0,
       PRIVATE_CHAT_MESSAGE_CODE: 1, // 私聊消息
       GROUP_CHAT_MESSAGE_CODE: 2, // 群聊消息
       PING_MESSAGE_CODE: 3, // PING消息
@@ -189,6 +204,11 @@ export default {
     getQuestion() {
       getBattleQuestion().then(res => {
         this.questions = res.questions
+        this.title = this.questions[this.pageNumber].title
+        this.answerA = this.questions[this.pageNumber].answerA
+        this.answerB = this.questions[this.pageNumber].answerB
+        this.answerC = this.questions[this.pageNumber].answerC
+        this.answerD = this.questions[this.pageNumber].answerD
         console.log('大的要来了')
         console.log(this.questions[0])
       })
