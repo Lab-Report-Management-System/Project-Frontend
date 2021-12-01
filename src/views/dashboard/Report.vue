@@ -69,8 +69,9 @@
           <div v-model.number="year_length" style="text-align: center;margin-top: 10px">完成度: {{ Math.ceil(100*progress/(year_length*8)) }}%</div>
         </div>
       </el-col>
-    </el-row>
 
+    </el-row>
+    <ve-line :data="chartData" />
   </div>
 </template>
 
@@ -120,7 +121,15 @@ export default {
       NPV: { name: '净现值NPV', 1: '' },
       progress: 5,
       allNum: '',
-      year_length: 5
+      year_length: 5,
+      chartData: {
+        columns: ['日期', '访问用户', '下单用户'],
+        rows: [
+          { '日期': '2018-05-22', '访问用户': 32371, '下单用户': 19810 },
+          { '日期': '2018-05-23', '访问用户': 12328, '下单用户': 4398 },
+          { '日期': '2018-05-24', '访问用户': 92381, '下单用户': 52910 }
+        ]
+      }
     }
   },
   watch: {
