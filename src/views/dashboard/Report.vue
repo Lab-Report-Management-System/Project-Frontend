@@ -58,7 +58,7 @@
             <el-button type="info" plain @click="onCancel">取消</el-button>
             <el-button type="primary" plain @click="cpIRR">计算IRR</el-button>
             <el-button type="primary" plain @click="cpNPV">计算NPV</el-button>
-            <!-- <el-button type="primary" plain @click="cpIRR">计算回收年</el-button> -->
+            <el-button type="primary" plain @click="getChart">生成图像</el-button>
           </el-col>
         </el-card>
       </el-col>
@@ -121,11 +121,49 @@ export default {
       allNum: '',
       year_length: 5,
       chartData: {
-        columns: ['日期', '访问用户', '下单用户'],
+        columns: ['NPV', '百分比R'],
         rows: [
-          { '日期': '2018-05-22', '访问用户': 32371, '下单用户': 19810 },
-          { '日期': '2018-05-23', '访问用户': 12328, '下单用户': 4398 },
-          { '日期': '2018-05-24', '访问用户': 92381, '下单用户': 52910 }
+          { 'NPV': '0.02', '百分比R': 0},
+          { 'NPV': '0.04', '百分比R': 0},
+          { 'NPV': '0.06', '百分比R': 0},
+          { 'NPV': '0.08', '百分比R': 0},
+          { 'NPV': '0.10', '百分比R': 0},
+          { 'NPV': '0.12', '百分比R': 0},
+          { 'NPV': '0.14', '百分比R': 0},
+          { 'NPV': '0.16', '百分比R': 0},
+          { 'NPV': '0.18', '百分比R': 0},
+          { 'NPV': '0.20', '百分比R': 0},
+          { 'NPV': '0.22', '百分比R': 0},
+          { 'NPV': '0.24', '百分比R': 0},
+          { 'NPV': '0.26', '百分比R': 0},
+          { 'NPV': '0.28', '百分比R': 0},
+          { 'NPV': '0.30', '百分比R': 0},
+          { 'NPV': '0.32', '百分比R': 0},
+          { 'NPV': '0.34', '百分比R': 0},
+          { 'NPV': '0.36', '百分比R': 0},
+          { 'NPV': '0.38', '百分比R': 0},
+          { 'NPV': '0.40', '百分比R': 0},
+          { 'NPV': '0.42', '百分比R': 0},
+          { 'NPV': '0.44', '百分比R': 0},
+          { 'NPV': '0.46', '百分比R': 0},
+          { 'NPV': '0.48', '百分比R': 0},
+          { 'NPV': '0.50', '百分比R': 0},
+          { 'NPV': '0.52', '百分比R': 0},
+          { 'NPV': '0.54', '百分比R': 0},
+          { 'NPV': '0.56', '百分比R': 0},
+          { 'NPV': '0.58', '百分比R': 0},
+          { 'NPV': '0.60', '百分比R': 0},
+          { 'NPV': '0.62', '百分比R': 0},
+          { 'NPV': '0.64', '百分比R': 0},
+          { 'NPV': '0.66', '百分比R': 0},
+          { 'NPV': '0.68', '百分比R': 0},
+          { 'NPV': '0.70', '百分比R': 0},
+          { 'NPV': '0.72', '百分比R': 0},
+          { 'NPV': '0.74', '百分比R': 0},
+          { 'NPV': '0.76', '百分比R': 0},
+          { 'NPV': '0.78', '百分比R': 0},
+          { 'NPV': '0.80', '百分比R': 0},
+          { 'NPV': '0.82', '百分比R': 0},
         ]
       }
     }
@@ -135,7 +173,29 @@ export default {
       this.fullname = newVal
     }
   },
+  created() {
+    getChart()
+
+  },
   methods: {
+    getChart(){
+      const i = 0
+      let fValue = 0.0
+      const fDerivative = 0.0
+      let r= 0.02;
+      for (let j =0;j< this.chartData.rows.length;j++){
+        fValue=0
+        for (let k = 0; k < this.year.length; k++) {
+          // console.log(this.tableData.data[6][k+1])
+          // console.log(this.chartData.rows[k].百分比R)
+          fValue = fValue + (this.tableData.data[6][k + 1] / (Math.pow(1.0 + r, k)))
+          // console.log(fValue)
+          // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
+        }
+        this.chartData.rows[j].百分比R=fValue
+        r=r+0.02;
+      }
+    },
     add() {
       // this.progress++;
       console.log(this.tableData)
@@ -221,6 +281,7 @@ export default {
       if (x == '') {
         this.progress--
       }
+
     }
   }
 }
