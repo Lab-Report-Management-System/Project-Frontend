@@ -8,15 +8,12 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
             <el-dropdown-item  divided @click.native="Personal">
-              PersonalInfo
+              个人主页
             </el-dropdown-item>
-            <el-dropdown-item divided @click.native="Home">Home</el-dropdown-item>
-            <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-              <el-dropdown-item>Docs</el-dropdown-item>
-            </a>
-            <el-dropdown-item divided @click.native="logOut">
-              <span style="display:block;">LogOut</span>
-            </el-dropdown-item>
+            <el-dropdown-item divided @click.native="Home">首页</el-dropdown-item>
+          <el-dropdown-item divided @click.native="SignIn">
+            <span style="display:block;">登录</span>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -51,10 +48,6 @@ export default {
     },
     Home(){
     this.$router.push({path:"/"});
-    },
-    async logOut() {
-      // this.$router.push({ path: "/SignIn"});
-      await store.dispatch('user/logout')
     }
   }
 }

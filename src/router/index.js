@@ -123,6 +123,12 @@ export const constantRoutes = [
         name: 'Report',
         component: () => import('@/views/dashboard/Report'),
         meta: { title: '报告填写', icon: 'form' }
+      },
+      {
+        path: 'home',
+        name: 'Home',
+        component: () => import('@/views/dashboard/Home'),
+        meta: { title: '首页', icon: 'from' }
       }
     ]
   },
