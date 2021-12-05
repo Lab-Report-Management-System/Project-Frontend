@@ -1,7 +1,7 @@
 <template>
-  <div style="">
-    <p style="font-family:simhei;font-size: 25px;left: 20%;">{{ name }}同学,你好！</p>
-    <div style="top: 10%;width: 68%;left: 20%;">
+  <div style="width: 68%;margin: 0 auto">
+    <p style="font-family:simhei;font-size: 25px;left: 10%;">{{ name }}同学,你好！</p>
+    <div style="padding-bottom: 30px;">
       <el-tabs type="border-card">
         <el-tab-pane v-for="(data,index) in labList" :key="index" @click="clickLab(data)">
           <span slot="label"><i class="el-icon-date" /> {{ data }}</span>
@@ -23,7 +23,7 @@
       </div>
       <div style="margin-top: 10px">
         <el-input v-model="content" placeholder="请输入评论内容">
-          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0;">发布</el-button>
+          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0">发布</el-button>
         </el-input>
       </div>
     </div>
@@ -142,10 +142,23 @@ export default {
           avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
           content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
           time: '2021-11-28 20:50:22'
-        }, {
-          name: '刚',
+        },
+        {
+          name: '赵小刚',
           avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这尽快帮忙落实解决！',
+          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        },
+        {
+          name: '赵小刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        },
+        {
+          name: '赵小刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
           time: '2021-11-28 20:50:22'
         }, {
           name: '刚',
