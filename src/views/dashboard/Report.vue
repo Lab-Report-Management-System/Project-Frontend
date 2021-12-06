@@ -39,7 +39,7 @@
               <el-input v-model="NPVvalue" style="width: 15%;margin-left: 0.5cm" @change="handlerChange" /></p>
           </el-col>
 
-          <el-table :data="dataResult" border stripe style="width: 100%" size="mini">
+          <el-table :data="dataResult" border stripe style="width: 45%" size="mini">
             <el-table-column width="200" align="center">
               <template slot-scope="scope">
                 {{ scope.row.name }}
@@ -50,23 +50,31 @@
                 <el-input v-model="scope.row[item]" @change="handlerChange(scope.row[item])" />
               </template>
             </el-table-column>
-
           </el-table>
+          <el-col style="position: relative;top: 20%;left: 60%;margin-top: -4cm;">
+            <el-row>
+            <el-button type="primary" plain @click="getChart" style="z-index: 5;width:100px" >生成图像</el-button>
+            </el-row>
+            <el-row style="margin-top: 0.2cm;">
+            <el-button type="primary" plain @click="cpIRR" style="z-index: 5;width:100px" >计算IRR</el-button>
+            </el-row>
+            <el-row style="margin-top: 0.2cm;">
+            <el-button type="primary" plain @click="cpNPV" style="z-index: 5;width:100px" >计算NPV</el-button>
+            </el-row>
+          </el-col>
           <el-col style="margin-top: 0.5cm;margin-left: 2.5cm;margin-bottom: 0.5cm">
             <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交</el-button>
             <el-button type="warning" plain :disabled="isActive" @click="onSave">暂存</el-button>
             <el-button type="info" plain @click="onCancel">取消</el-button>
-            <el-button type="primary" plain @click="cpIRR">计算IRR</el-button>
-            <el-button type="primary" plain @click="cpNPV">计算NPV</el-button>
-            <el-button type="primary" plain @click="getChart">生成图像</el-button>
+
           </el-col>
         </el-card>
       </el-col>
       <!--右侧区域-->
       <el-col :sm="3" :xs="24">
         <div style="margin-top: 25vh;text-align: center;">
-          <el-progress type="circle" :percentage.number="Math.ceil(100*progress/(year_length*8))" />
-          <div v-model.number="year_length" style="text-align: center;margin-top: 10px">完成度: {{ Math.ceil(100*progress/(year_length*8)) }}%</div>
+          <el-progress type="circle" :percentage.number="Math.ceil(100*progress/(year_length*12))" />
+          <div v-model.number="year_length" style="text-align: center;margin-top: 10px">完成度: {{ Math.ceil(100*progress/(year_length*12)) }}%</div>
         </div>
       </el-col>
 
@@ -80,8 +88,8 @@ import { submitLab } from '@/api/student'
 export default {
   data() {
     return {
-      title: '差值法评价互斥方案实验',
-      desc: '软件工程经济学实验',
+      title: '软件工程经济学实验',
+      desc: '差值法评价互斥方案实验',
       year: ['1', '2', '3', '4', '5'],
       dy: ['1'],
       NPVvalue: '',
@@ -100,6 +108,10 @@ export default {
         value: 0.12
       }],
       tableData: { data: [
+        { index: 'A', name: '方案A年现金流', 1: '-500', 2: '50', 3: '120', 4: '200', 5: '200' },
+        { index: '', name: '累计现金流', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: 'B', name: '方案B年现金流', 1: '-800', 2: '80', 3: '250', 4: '300', 5: '300' },
+        { index: '', name: '累计现金流', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '1', name: '现金录入（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '1.1', name: '年收入（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '2', name: '现金流出（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
@@ -117,7 +129,7 @@ export default {
         { index: '', name: '投资收益率（年）', 1: '' }
       ],
       NPV: { name: '净现值NPV', 1: '' },
-      progress: 5,
+      progress: 15,
       allNum: '',
       year_length: 5,
       chartData: {
