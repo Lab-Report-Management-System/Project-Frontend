@@ -1,34 +1,42 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="labForm" label-width="120px">
+    <el-form ref="form" :model="labForm" label-width="120px" style="position: absolute;width: 50%;left: 20%;top: 10%;">
       <el-form-item label="实验名称">
         <el-input v-model="labForm.labName" disabled="" />
       </el-form-item>
-      <el-form-item label="实验目的">
-        <el-input v-model="labForm.labAim" type="textarea" />
+      <el-form-item label="实验描述">
+        <el-input v-model="labForm.labAim" type="textarea" :rows="4"/>
       </el-form-item>
-      <el-form-item label="实验设备">
-        <el-input v-model="labForm.labEquip" type="textarea" />
+      <el-form-item label="选择实验">
+        <el-select v-model="value" clearable placeholder="请选择" >
+            <el-option
+              v-for="item in options"
+              :key="item"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
       </el-form-item>
-      <el-form-item label="实验原理">
-        <el-input v-model="labForm.labPrin" type="textarea" />
-      </el-form-item>
-      <el-form-item label="实验步骤">
-        <el-input v-model="labForm.labStep" type="textarea" />
-      </el-form-item>
-      <el-form-item label="实验现象">
-        <el-input v-model="labForm.labPhe" type="textarea" />
-      </el-form-item>
-      <el-form-item label="实验总结">
-        <el-input v-model="labForm.labConclu" class="labCon" type="textarea" style="height: 50%;" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交</el-button>
-        <el-button type="warning" plain@click="onSave" :disabled="isActive">暂存</el-button>
-        <el-button type="info" plain @click="onCancel">取消</el-button>
-      </el-form-item>
+      <el-form-item label="截止时间">
+        <el-date-picker
+              v-model="value1"
+              type="date"
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd">
+            </el-date-picker>
+      <el-time-picker
+          is-range
+          v-model="value1"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          placeholder="选择时间范围">
+        </el-time-picker>
+        </el-form-item>
+        <el-button type="primary" plain @click="clickDate">主要按钮</el-button>
     </el-form>
-  </div>
+
+</div>
 </template>
 
 <script>
@@ -43,26 +51,42 @@ export default {
       isActive: false,
       labForm: {
         labID: 1,
-        labName: '软件工程课设',
+        labName: '软件工程课程设计',
         labAim: '',
         labEquip: '',
         labPrin: '',
         labConclu: '',
         labStep: '',
         labPhen: '',
-        isActive: ''
-      }
+        isActive: '',
+
+      },
+      pickerOptions: {
+                disabledDate(time) {
+                  return time.getTime() > Date.now();
+                }},
+      options: [{
+                value: '选项1',
+                label: '独立评价方案实验'
+              }, {
+                value: '选项2',
+                label: '差值法评价方案实验'
+              }],
+              value: '',
+              value1: ''
     }
+    // value1: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
+    // value2: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)]
   },
-  created() {
-    this.stuNumber = this.$route.query.stuNumber
-    this.name = this.$route.query.name
-    const parms = { stuNumber: this.$route.query.stuNumber, name: this.$route.query.name, labID: this.$route.query.labID }
-    getStuLabInfo(parms).then(res => {
-      this.labForm = res
-      this.isActive = res.isActive
-      // console.log(res)
-    })
+  // created() {
+  //   this.stuNumber = this.$route.query.stuNumber
+  //   this.name = this.$route.query.name
+  //   const parms = { stuNumber: this.$route.query.stuNumber, name: this.$route.query.name, labID: this.$route.query.labID }
+  //   getStuLabInfo(parms).then(res => {
+  //     this.labForm = res
+  //     this.isActive = res.isActive
+  //     // console.log(res)
+  //   })
     // var url="http://121.5.175.203:8080/api/Video/getFavoriteVideo";
     // var dataDetails=new Object;
     // dataDetails.name=this.$route.query.name;
@@ -74,7 +98,7 @@ export default {
     //        this.labForm=res.data;
 
     // });
-  },
+  // },
   methods: {
     onSubmit() {
       const parms = { stuNumber: this.$route.query.stuNumber, labID: this.$route.query.labID, labName: this.labForm.labName,
@@ -100,7 +124,6 @@ export default {
         labPhe: this.labForm.labPhe,
         labConclu: this.labForm.labConclu,
         isActive: false }
-
       console.log('yes')
       console.log(parms)
       submitLab(parms)
@@ -108,6 +131,10 @@ export default {
     },
     onCancel() {
       this.$router.push({ path: '/dashboard' })
+    },
+    clickDate(){
+      console.log(this.pickerOptions)
+      console.log(this.value1)
     }
   }
 }
@@ -123,4 +150,3 @@ export default {
     }
 }
 </style>
-

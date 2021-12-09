@@ -37,6 +37,20 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/StuHome',
+    name: 'StuHome',
+    component: () => import('@/views/dashboard/StuHome'),
+    hidden: true
+    // meta: { title: '首页', icon: 'from' }
+  },
+  {
+    path: '/TeaHome',
+    name: 'TeaHome',
+    component: () => import('@/views/dashboard/TeaHome'),
+    hidden: true
+    // meta: { title: '首页', icon: 'from' }
+  },
+  {
     path: '/socket',
     component: () => import('@/views/webSocket/socket'),
     hidden: true
@@ -69,11 +83,11 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-  {
-    path: '/labRep',
-    component: () => import('@/views/labReport.vue'),
-    hidden: true
-  },
+  // {
+  //   path: '/LabRep',
+  //   component: () => import('@/views/labReport.vue'),
+  //   hidden: true
+  // },
   {
     path: '/',
     component: Layout,
@@ -81,7 +95,7 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/TeaIndex.vue'),
+      component: () => import('@/views/dashboard/StuHome.vue'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
@@ -106,7 +120,7 @@ export const constantRoutes = [
         meta: { title: 'Tree', icon: 'tree' }
       },
       {
-        path: 'labRep',
+        path: 'LabRep',
         name: 'LabRep',
         component: () => import('@/views/labReport.vue'),
         meta: { title: '实验报告', icon: 'form' }
@@ -123,12 +137,6 @@ export const constantRoutes = [
         name: 'Report',
         component: () => import('@/views/dashboard/Report'),
         meta: { title: '报告填写', icon: 'form' }
-      },
-      {
-        path: 'home',
-        name: 'Home',
-        component: () => import('@/views/dashboard/Home'),
-        meta: { title: '首页', icon: 'from' }
       }
     ]
   },

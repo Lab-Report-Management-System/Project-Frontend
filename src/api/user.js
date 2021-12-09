@@ -8,7 +8,7 @@ export function doLogin(data) {
     data: params
   })
 }
-
+// http://182.61.43.155:6001/api/stuInfo
 export function getInfo() {
   return request({
     url: '/api/user/getInfo',
