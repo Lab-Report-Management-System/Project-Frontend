@@ -237,46 +237,33 @@ export const constantRoutes = [
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
+ * TODO 将带有权限的页面写在这里，按照下面的格式设置roles数组，将会按照权限在左侧边栏渲染
  */
 export const asyncRoutes = [
-  // {
-  //   path: '/labTeacher',
-  //   name: 'labTeacher',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: '/lab',
-  //       meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
-  //       component: () => import('@/views/labTeacher.vue')
-  //     }
-  //   ]
-  //   // meta: { role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'], title: 'labTeacher' },
-  //   // component: () => import('@/views/labTeacher.vue')
-  //   // hidden: false
-  // },
+
   {
     path: '/teacherClass',
     component: () => import('@/views/class/teacherClass.vue'),
     name: 'Test',
-    meta: { title: '测试捏', icon: 'el-icon-s-help', role: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] },
+    meta: { title: '测试捏', icon: 'el-icon-s-help', roles: ['Student', 'ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] },
     children: [
       {
         path: '/login',
         name: 'login',
         component: () => import('@/views/table/index'),
-        meta: { title: '登录测试', icon: 'table', role: ['Student', 'ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] }
+        meta: { title: '登录测试', icon: 'table', roles: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] }
       },
-      // {
-      //   path: '/Register',
-      //   name: 'register',
-      //   component: () => import('@/views/tree/index'),
-      //   meta: { title: '注册测试', icon: 'tree' }
-      // },
+      {
+        path: '/Register',
+        name: 'register',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '注册测试', icon: 'tree' }
+      },
       {
         path: '/dashboard',
         name: 'dashboard',
         component: () => import('@/views/labReport.vue'),
-        meta: { title: '首页测试', icon: 'form' }
+        meta: { title: '首页测试', icon: 'form', roles: ['ResponsibleTeacher'] }
       }
     ]
   },
