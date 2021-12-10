@@ -36,7 +36,6 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else{
         // console.log(hasRoles)
-        // TODO store没有存进去
         try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
@@ -46,9 +45,9 @@ router.beforeEach(async(to, from, next) => {
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           // console.log('211111')
-          // console.log(accessRoutes)
+          console.log(accessRoutes)
           // dynamically add accessible routes
-          // router.addRoutes(accessRoutes)
+          router.addRoutes(accessRoutes)
           // console.log('added哈哈')
           // console.log(router)
           // hack method to ensure that addRoutes is complete

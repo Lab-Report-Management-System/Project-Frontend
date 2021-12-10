@@ -67,7 +67,8 @@
 
 <script>
 export default {
-  name: 'ClassInfo'
+  name: 'ClassInfo',
+  props: ['']
 }
 </script>
 

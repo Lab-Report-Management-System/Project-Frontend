@@ -108,19 +108,7 @@ export const constantRoutes = [
     meta: { title: '实验管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      },
-      {
-        path: 'LabRep',
+        path: 'labRep',
         name: 'LabRep',
         component: () => import('@/views/labReport.vue'),
         meta: { title: '实验报告', icon: 'form' }
@@ -141,83 +129,69 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        redirect: '/studentClass',
-        component: () => import('@/views/class/studentClass.vue'),
-        meta: { title: '班级信息捏', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/studentClass',
-    component: () => import('@/views/class/studentClass.vue'),
-    hidden: true
-  },
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
+  // {
+  //   path: '/studentClass',
+  //   component: () => import('@/views/class/studentClass.vue'),
+  //   hidden: true
+  // },
+  // {
+  //   path: '/nested',
+  //   component: Layout,
+  //   redirect: '/nested/menu1',
+  //   name: 'Nested',
+  //   meta: {
+  //     title: 'Nested',
+  //     icon: 'nested'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'menu1',
+  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
+  //       name: 'Menu1',
+  //       meta: { title: 'Menu1' },
+  //       children: [
+  //         {
+  //           path: 'menu1-1',
+  //           component: () => import('@/views/nested/menu1/menu1-1'),
+  //           name: 'Menu1-1',
+  //           meta: { title: 'Menu1-1' }
+  //         },
+  //         {
+  //           path: 'menu1-2',
+  //           component: () => import('@/views/nested/menu1/menu1-2'),
+  //           name: 'Menu1-2',
+  //           meta: { title: 'Menu1-2' },
+  //           children: [
+  //             {
+  //               path: 'menu1-2-1',
+  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
+  //               name: 'Menu1-2-1',
+  //               meta: { title: 'Menu1-2-1' }
+  //             },
+  //             {
+  //               path: 'menu1-2-2',
+  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
+  //               name: 'Menu1-2-2',
+  //               meta: { title: 'Menu1-2-2' }
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'menu1-3',
+  //           component: () => import('@/views/nested/menu1/menu1-3'),
+  //           name: 'Menu1-3',
+  //           meta: { title: 'Menu1-3' }
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'menu2',
+  //       component: () => import('@/views/nested/menu2/index'),
+  //       name: 'Menu2',
+  //       meta: { title: 'menu2' }
+  //     }
+  //   ]
+  // },
 
   {
     path: 'external-link',
@@ -225,13 +199,11 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://github.com/Lab-Report-Management-System/Project-Frontend/',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: 'Project Link', icon: 'link' }
       }
     ]
-  },
+  }
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 /**
@@ -242,31 +214,27 @@ export const constantRoutes = [
 export const asyncRoutes = [
 
   {
-    path: '/teacherClass',
-    component: () => import('@/views/class/teacherClass.vue'),
-    name: 'Test',
-    meta: { title: '测试捏', icon: 'el-icon-s-help', roles: ['Student', 'ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] },
+    path: '/class',
+    component: Layout,
+    meta: { title: '班级管理', icon: 'form' },
     children: [
       {
-        path: '/login',
-        name: 'login',
-        component: () => import('@/views/table/index'),
-        meta: { title: '登录测试', icon: 'table', roles: ['ResponsibleTeacher', 'Teacher', 'TeachingAssistant'] }
+        path: '/teacherClass',
+        name: 'TeacherClass',
+        // redirect: '/teacherClass',
+        component: () => import('@/views/class/teacherClass.vue'),
+        meta: { title: '教师班级管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
       },
       {
-        path: '/Register',
-        name: 'register',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '注册测试', icon: 'tree' }
-      },
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/labReport.vue'),
-        meta: { title: '首页测试', icon: 'form', roles: ['ResponsibleTeacher'] }
+        path: '/studentClass',
+        name: 'StudentClass',
+        // redirect: '/teacherClass',
+        component: () => import('@/views/class/studentClass.vue'),
+        meta: { title: '学生班级管理', icon: 'form', roles: ['Student'] }
       }
     ]
   },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
