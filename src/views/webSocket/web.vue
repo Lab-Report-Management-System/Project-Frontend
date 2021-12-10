@@ -16,7 +16,6 @@ export default {
   name: 'Web',
   data() {
     return {
-      content: '发送验证码',
       totalTime: 100,
       colors: [
         { color: '#f56c6c', percentage: 20 },

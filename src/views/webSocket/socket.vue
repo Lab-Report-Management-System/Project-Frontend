@@ -22,6 +22,10 @@
       <el-button class="question" @click.native.prevent="submit">提交</el-button>
     </div>
     <!-- 计时器 -->
+    <!-- 倒计时 -->
+    <el-progress v-show="questionVisible" :text-inside="true" :show-text="false" :stroke-width="20" :percentage="getTime()" :color="colors"></el-progress>
+    <!-- 总计时 -->
+    <div v-show="timeVisible">总用时:{{this.answeringTotalTime.toFixed(2)}}</div>
     <!--显示自己的答题情况 -->
     <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" />
     <!-- 显示对方的答题情况 -->
@@ -57,6 +61,7 @@ export default {
       buttonVisible: true,
       questionVisible: false,
       resultVisible: false,
+      timeVisible: false,
       questions: [],
       radio: -1,
       correctNumber: 0,
@@ -67,6 +72,16 @@ export default {
       answerC: '',
       answerD: '',
       pageNumber: 0,
+      totalTime: 100,
+      answeringTotalTime: 0.00,
+      colors: [
+        { color: '#f56c6c', percentage: 20 },
+        { color: '#e6a23c', percentage: 40 },
+        { color: '#5cb87a', percentage: 60 },
+        { color: '#1989fa', percentage: 80 },
+        { color: '#6f7ad3', percentage: 100 }
+      ],
+      clock: '',
       PRIVATE_CHAT_MESSAGE_CODE: 1, // 私聊消息
       GROUP_CHAT_MESSAGE_CODE: 2, // 群聊消息
       PING_MESSAGE_CODE: 3, // PING消息
@@ -118,6 +133,7 @@ export default {
               MessageBox.close()
               this.loading = false
               this.buttonVisible = false
+              this.timeVisible = true
               this.$message({
                 type: 'success',
                 message: '匹配成功'
@@ -233,12 +249,14 @@ export default {
         this.pageNumber = 0
         this.correctNumber = 0
         this.wrongNumber = 0
+        this.answeringTotalTime = 0.00
         this.title = this.questions[this.pageNumber].title
         this.answerA = this.questions[this.pageNumber].answerA
         this.answerB = this.questions[this.pageNumber].answerB
         this.answerC = this.questions[this.pageNumber].answerC
         this.answerD = this.questions[this.pageNumber].answerD
         this.questionVisible = true
+        this.countDown()
       })
     },
     submit() {
@@ -273,7 +291,9 @@ export default {
     },
     // 下一个问题
     nextQuestion() {
+      window.clearInterval(this.clock)
       this.radio = -1
+      this.totalTime = 100
       const length = this.questions.length
       const number = this.pageNumber + 1
       if (number >= length) {
@@ -286,6 +306,7 @@ export default {
       this.answerB = this.questions[this.pageNumber].answerB
       this.answerC = this.questions[this.pageNumber].answerC
       this.answerD = this.questions[this.pageNumber].answerD
+      this.countDown()
     },
     // 获取正确率
     getRate() {
@@ -295,6 +316,7 @@ export default {
     finishAnswer() {
       this.questionVisible = false
       this.resultVisible = true
+      window.clearInterval(this.clock)
       // TODO:websocket 退出房间
       // TODO:显示对手成绩
       // TODO:答题过程中显示对手成绩
@@ -303,11 +325,28 @@ export default {
     exitAnswer() {
       this.resultVisible = false
       this.questionVisible = false
+      this.timeVisible = false
       this.$message({
         message: '感谢参与本轮答题匹配，欢迎下次再来~',
         type: 'success'
       })
       this.buttonVisible = true
+    },
+    countDown() {
+      this.content = this.totalTime
+      this.clock = window.setInterval(() => {
+        this.totalTime--
+        this.answeringTotalTime += 0.2
+        this.content = this.totalTime
+        if (this.totalTime < 1) {
+          window.clearInterval(this.clock)
+          this.totalTime = 100
+          this.submit()
+        }
+      }, 200)
+    },
+    getTime() {
+      return this.totalTime
     }
   }
 }
