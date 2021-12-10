@@ -1,19 +1,40 @@
 <template>
   <div>
+    <!--问候界面 -->
     <h1 id="greetings">你好,</h1>
     <input v-model="message" type="text" class="form-control">
     <el-button @click.native.prevent="sendMessage">发送</el-button>
-    <el-button v-show="buttonVisible" id="match" @click.native.prevent="match" v-loading="loading">点击匹配</el-button>
+    <el-button v-show="buttonVisible" id="match" v-loading="loading" @click.native.prevent="match">点击匹配</el-button>
     <div id="responseContent" class="textarea scroll" />
     <div id="output" />
     <!-- 题目 -->
-    <div>
-      <div>题目</div>
-      <div>{{this.title}}</div>
-      <div>A. {{this.answerA}}</div>
-      <div>B. {{this.answerB}}</div>
-      <div>C. {{this.answerC}}</div>
-      <div>D.{{this.answerD}}</div>
+    <div v-show="questionVisible">
+      <div>题目{{ this.pageNumber+1 }} / {{ this.questions.length }}</div>
+      <div>{{ this.title }}</div>
+      <el-radio-group v-model="radio">
+        <ul class="question">
+          <li><el-radio :label="0">A. {{ this.answerA }}</el-radio></li>
+          <li><el-radio :label="1">B. {{ this.answerB }}</el-radio></li>
+          <li><el-radio :label="2">C. {{ this.answerC }}</el-radio></li>
+          <li><el-radio :label="3">D.{{ this.answerD }}</el-radio></li>
+        </ul>
+      </el-radio-group>
+      <el-button class="question" @click.native.prevent="submit">提交</el-button>
+    </div>
+    <!-- 计时器 -->
+    <!--显示自己的答题情况 -->
+    <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" />
+    <!-- 显示对方的答题情况 -->
+    <!--  查看结果 -->
+    <div v-show="resultVisible">
+      <div>
+        <div>题目总数: {{ this.questions.length }}</div>
+        <div>回答正确: {{ this.correctNumber }}</div>
+        <div>回答错误: {{ this.wrongNumber }}</div>
+        <div>正确率: </div>
+        <el-progress type="circle" :percentage="getRate()" />
+      </div>
+      <el-button @click.native.prevent="exitAnswer">结束答题</el-button>
     </div>
   </div>
 </template>
@@ -34,7 +55,12 @@ export default {
       me: null,
       loading: false,
       buttonVisible: true,
+      questionVisible: false,
+      resultVisible: false,
       questions: [],
+      radio: -1,
+      correctNumber: 0,
+      wrongNumber: 0,
       title: '',
       answerA: '',
       answerB: '',
@@ -204,19 +230,91 @@ export default {
     getQuestion() {
       getBattleQuestion().then(res => {
         this.questions = res.questions
+        this.pageNumber = 0
+        this.correctNumber = 0
+        this.wrongNumber = 0
         this.title = this.questions[this.pageNumber].title
         this.answerA = this.questions[this.pageNumber].answerA
         this.answerB = this.questions[this.pageNumber].answerB
         this.answerC = this.questions[this.pageNumber].answerC
         this.answerD = this.questions[this.pageNumber].answerD
-        console.log('大的要来了')
-        console.log(this.questions[0])
+        this.questionVisible = true
       })
+    },
+    submit() {
+      let answer
+      switch (this.radio) {
+        case 0:
+          answer = 'A'
+          break
+        case 1:
+          answer = 'B'
+          break
+        case 2:
+          answer = 'C'
+          break
+        case 3:
+          answer = 'D'
+          break
+        default:
+          answer = NaN
+      }
+      if (answer === this.questions[this.pageNumber]['correctAnswer']) {
+        this.correctNumber++
+        this.$message({
+          message: '恭喜你，回答成功',
+          type: 'success'
+        })
+      } else {
+        this.wrongNumber++
+        this.$message.error('很遗憾，回答失败')
+      }
+      this.nextQuestion()
+    },
+    // 下一个问题
+    nextQuestion() {
+      this.radio = -1
+      const length = this.questions.length
+      const number = this.pageNumber + 1
+      if (number >= length) {
+        this.finishAnswer()
+        return
+      }
+      this.pageNumber++
+      this.title = this.questions[this.pageNumber].title
+      this.answerA = this.questions[this.pageNumber].answerA
+      this.answerB = this.questions[this.pageNumber].answerB
+      this.answerC = this.questions[this.pageNumber].answerC
+      this.answerD = this.questions[this.pageNumber].answerD
+    },
+    // 获取正确率
+    getRate() {
+      return (this.correctNumber / this.questions.length * 100)
+    },
+    // 完成答题
+    finishAnswer() {
+      this.questionVisible = false
+      this.resultVisible = true
+      // TODO:websocket 退出房间
+      // TODO:显示对手成绩
+      // TODO:答题过程中显示对手成绩
+      // TODO: 后端数据库存分数
+    },
+    exitAnswer() {
+      this.resultVisible = false
+      this.questionVisible = false
+      this.$message({
+        message: '感谢参与本轮答题匹配，欢迎下次再来~',
+        type: 'success'
+      })
+      this.buttonVisible = true
     }
   }
 }
 </script>
 
 <style scoped>
-
+.question{
+  float:left;
+}
 </style>
