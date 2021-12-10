@@ -7,23 +7,16 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
+          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided @click.native="logOut">
-            <span style="display:block;">LogOut</span>
+          <el-dropdown-item divided @click.native="Personal">
+            个人主页
+          </el-dropdown-item>
+          <el-dropdown-item divided @click.native="Home">首页</el-dropdown-item>
+          <el-dropdown-item divided @click.native="SignIn">
+            <span style="display:block;">登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -55,6 +48,15 @@ export default {
     async logOut() {
       // this.$router.push({ path: "/SignIn"});
       await store.dispatch('user/logout')
+    },
+    SignIn() {
+      this.$router.push({ path: '/SignIn' })
+    },
+    Personal() {
+      this.$router.push({ path: '/Personal' })
+    },
+    Home() {
+      this.$router.push({ path: '/' })
     }
   }
 }
