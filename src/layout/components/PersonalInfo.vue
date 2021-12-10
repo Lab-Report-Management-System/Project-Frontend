@@ -278,6 +278,8 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       }
+      console.log(formData)
+      console.log(config)
       console.log(this.file.name)
       this.$axios
         .post('http://121.5.175.203:8080/api/file/upload', formData, config)

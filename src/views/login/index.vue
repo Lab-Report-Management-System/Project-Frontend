@@ -60,7 +60,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+import store from "../../store"
 export default {
   name: 'Login',
   data() {
@@ -121,9 +121,20 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
+            let aDate=store.getters.roles[0]
+            console.log(store.getters.roles[0])
+            if(aDate==="Student"){
+              this.$router.push({ path: this.redirect || '/' })
+              this.loading = false
+            }
+            else{
+              // console.log(store.getters.roles[0])
+              console.log("yes")
+              this.$router.push({ path:'/TeaHome' })
+              this.loading = false
+            }
           }).catch(() => {
             this.loading = false
           })

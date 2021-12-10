@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- dashBoard -->
-    <layout />
+    <!--    <layout />-->
     <!-- Greetings to the student-->
-    <h1 class="title">同学，您好</h1>
+    <h1 class="title">{{ userName }}同学，您好</h1>
     <!-- class Info -->
     <div class="classes">
       <ClassInfo class="info" />
@@ -12,13 +12,20 @@
 </template>
 
 <script>
-import Layout from '@/layout'
 import ClassInfo from './components/classInfo'
+import store from '@/store'
+
+// console.log('username' + store.getters.name)
+// console.log(store.getters.roles)
 export default {
   name: 'StudentClass',
   components: {
-    Layout,
     ClassInfo
+  },
+  data() {
+    return {
+      userName: store.getters.name
+    }
   }
 }
 </script>
