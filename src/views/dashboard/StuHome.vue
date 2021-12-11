@@ -17,7 +17,7 @@
                   <el-tag size="small" style="margin-right: 10px;">软件学院</el-tag>
                   <el-tag type="success" size="small">软件工程学院</el-tag>
                   <div class="user-main-content-login"><el-tag type="info" size="small" style="margin-right: 10px;">上次登录时间:</el-tag>{{ this.lastLoginTime }}</div>
-                  <div class="user-main-content-time">{{ this.first_year }}-{{ this.second_year }}学年第{{ this.term }}学期第{{this.week}}周</div>
+                  <div class="user-main-content-time">{{ this.first_year }}-{{ this.second_year }}学年第{{ this.term }}学期第{{ this.week }}周</div>
                 </div>
               </div>
             </div>
@@ -45,7 +45,7 @@
       <el-col class="panel" :sm="12" :xs="24">
         <el-card shadow="hover">
           <div slot="header" class="panel-head">
-            <div class="panel-head-title">卡片名称</div>
+            <div class="panel-head-title">我的课程</div>
             <el-select v-model="courseValue" placeholder="请选择" size="mini">
               <el-option
                 v-for="item in courseOptions"
@@ -85,7 +85,7 @@
             >
               <template slot-scope="scope">
                 <el-button type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button type="text" size="small" disabled>编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -98,11 +98,11 @@
           <div slot="header" class="panel-head">
             <div class="panel-head-title">系统公告</div>
             <div class="panel-head-right">
-              <el-button type="info" plain size="mini" icon="el-icon-plus">发布公告</el-button>
+              <el-button type="info" plain size="mini" icon="el-icon-plus" disabled>发布公告</el-button>
               <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right" /></el-button>
             </div>
           </div>
-          <div v-for="(item,index) in 4" :key="index" class="notice">
+          <div v-for="(item,index) in 1" :key="index" class="notice">
             <div class="notice-desc">【课程法】差值评价互斥方案实验已发布</div>
             <div class="notice-time">
               <i class="el-icon-bell" /> 2021-12-02 00:50:22
@@ -110,22 +110,23 @@
           </div>
         </el-card>
       </el-col>
+      <!-- 实验报告 -->
       <el-col class="panel" :sm="12" :xs="24">
         <el-card shadow="hover">
           <div slot="header" class="panel-head">
             <div class="panel-head-title">实验报告完成情况</div>
             <div class="panel-head-right">
-              <el-select v-model="courseValue" placeholder="请选择" size="mini" style="margin-right: 10px;">
+              <el-select v-model="allLabValue" placeholder="请选择" size="mini" style="margin-right: 10px;">
                 <el-option
-                  v-for="item in courseOptions"
+                  v-for="item in allReportOptions"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
                 />
               </el-select>
-              <el-select v-model="courseValue" placeholder="请选择" size="mini">
+              <el-select v-model="unfinishedLabValue" placeholder="请选择" size="mini">
                 <el-option
-                  v-for="item in courseOptions"
+                  v-for="item in unfinishedReportOptions"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -159,6 +160,9 @@
 
 <script>
 import { getInfo } from '@/api/user'
+import { getLabInfo } from '@/api/lab'
+import { getToken } from '@/utils/auth'
+import { getTeacherAndCourse } from '@/api/course'
 
 export default {
 
@@ -176,12 +180,21 @@ export default {
       term: '',
       week: 1,
       currentWeek: 1,
-      courseData: [{ courseNum: '115665566', courseName: '软件工程第一节课', teacher: '小h' }],
-      courseOptions: [{ value: '选项1', label: '黄金糕' }],
-      courseValue: ''
+      courses: [],
+      courseData: [],
+      courseOptions: [],
+      allReportOptions: [{ value: '嗯嗯', label: '呵呵' }],
+      unfinishedReportOptions: [{ value: 'ene' }],
+      courseValue: '',
+      allLabValue: '',
+      unfinishedLabValue: '',
+      token: {
+        code: ''
+      }
     }
   },
   created() {
+    // 获取个人信息
     getInfo().then(res => {
       console.log(res)
       this.studentName = res.data.userName
@@ -205,6 +218,28 @@ export default {
       date.setFullYear(2021, 8, 6)
       const time2 = date.getTime()
       this.week = parseInt((time1 - time2) / 1000 / 3600 / 24 / 7) + 1
+    })
+    // 获得所有实验
+    this.token.code = getToken()
+    getLabInfo(this.token).then(res => {
+      console.log('呵呵')
+      console.log(res)
+      // this.allReportOptions = res.labEntityList
+    //   this.allReportOptions.add()
+    //    for (let i = 0; i < this.labs.length; i++) {
+    //   //   if (this.getCurrentDay() <= this.labs[i].labDeadline) {
+    //   //     this.scheduleList.push({ className: this.labs[i].labName, color: this.colorList[Math.floor(Math.random() * 7)] })
+    //   //   }
+    //   }
+    })
+    // 获得首页课程
+    getTeacherAndCourse(this.token).then(res => {
+      console.log(res)
+      this.courses = res.coursesInfoList
+      for (let i = 0; i < this.courses.length; i++) {
+        this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
+        this.courseOptions.push({ label: this.courses[i].course_name })
+      }
     })
   }
 }
