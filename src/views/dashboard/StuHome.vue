@@ -4,20 +4,20 @@
       <el-col class="panel" :sm="12" :xs="24">
         <el-card shadow="hover">
           <div slot="header" class="panel-head">
-            <div class="panel-head-title"> 吴冠奇 同学你好！</div>
+            <div class="panel-head-title"> {{this.nickname}} 同学你好！</div>
           </div>
           <div class="user">
             <div class="user-main">
               <div class="user-main-img">
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+                <el-avatar :src="studentPhoto" />
               </div>
               <div class="user-main-content">
-                <div class="user-main-content-name">吴冠奇</div>
+                <div class="user-main-content-name">{{this.studentName}}</div>
                 <div class="user-main-content-tag">
                   <el-tag size="small" style="margin-right: 10px;">软件学院</el-tag>
                   <el-tag type="success" size="small">软件工程学院</el-tag>
-                  <div class="user-main-content-login"><el-tag type="info" size="small" style="margin-right: 10px;">上次登录时间:</el-tag> 2021-12-01 23:16:22</div>
-                  <div class="user-main-content-time">2020-2021学年第一学期第十二周</div>
+                  <div class="user-main-content-login"><el-tag type="info" size="small" style="margin-right: 10px;">上次登录时间:</el-tag>{{this.lastLoginTime}}</div>
+                  <div class="user-main-content-time">{{this.year-1}}-{{this.year}}学年第一学期第十五周</div>
                 </div>
               </div>
             </div>
@@ -87,13 +87,13 @@
             <div class="panel-head-title">系统公告</div>
             <div class="panel-head-right">
               <el-button type="info" plain size="mini" icon="el-icon-plus">发布公告</el-button>
-              <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right"/></el-button>
+              <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right" /></el-button>
             </div>
           </div>
           <div v-for="(item,index) in 4" :key="index" class="notice">
             <div class="notice-desc">【课程法】差值评价互斥方案实验已发布</div>
             <div class="notice-time">
-              <i class="el-icon-bell"></i> 2021-12-02 00:50:22
+              <i class="el-icon-bell" /> 2021-12-02 00:50:22
             </div>
           </div>
         </el-card>
@@ -124,8 +124,8 @@
           <div class="report">
             <div class="report-title">软件工程学</div>
             <div class="report-main">
-              <div class="report-main-progress" >
-                <el-progress type="circle" :percentage="25"></el-progress>
+              <div class="report-main-progress">
+                <el-progress type="circle" :percentage="25" />
               </div>
               <div class="report-main-content">
                 <div class="report-main-content-box">
@@ -146,23 +146,39 @@
 </template>
 
 <script>
-import { getStuInfo } from '../../api/student.js'
+import { getInfo } from '@/api/user'
+
 export default {
 
   name: 'Home',
   data() {
     return {
+      studentName: '',
+      nickname: '',
+      studentPhoto: '',
+      lastLoginTime: '暂无',
+      year: 2021,
+      month: 9,
+      day: 6,
+      currentWeek: 1,
       courseData: [{ courseNum: '115665566', courseName: '软件工程第一节课', teacher: '小h' }],
       courseOptions: [{ value: '选项1', label: '黄金糕' }],
       courseValue: ''
     }
   },
   created() {
-      console.log("yes")
-      getStuInfo().then(res => {
-        console.log("yes")
-        console.log(res)
-      })
+    getInfo().then(res => {
+      console.log(res)
+      this.studentName = res.data.userName
+      this.nickname = res.data.userNickname
+      this.studentPhoto = res.data.userPhoto
+      this.lastLoginTime = this.$cookies.get('lastLoginTime')
+      this.$cookies.set('lastLoginTime', Date())
+      const date = new Date()
+      this.year = date.getFullYear()
+      this.month = date.getMonth()
+      this.day = date.getDay()
+    })
   }
 }
 </script>
