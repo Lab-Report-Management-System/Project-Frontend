@@ -1,42 +1,60 @@
 <template>
   <div>
     <!--Greetings to the teacher -->
-    <h1 class="title">老师，您好</h1>
+    <h1 class="title">{{ userName }}老师，您好</h1>
     <!--DashBoard -->
-    <layout></layout>
+    <!--    <layout />-->
     <!--class info -->
     <div class="classes">
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-        <el-tab-pane label="班级一(42034201)" name="first">
-          <ClassInfo class="info"></ClassInfo>
+        <el-tab-pane
+          v-for="(item, index) in courseIds"
+          :key="index"
+          :label="'课号:'+item"
+          :name="item"
+        >
+          <!--          {{ id }}-->
+          <ClassInfo class="info" :course-id="item" />
         </el-tab-pane>
-        <el-tab-pane label="班级二(42034202)" name="second">
-          <ClassInfo class="info"></ClassInfo>
-        </el-tab-pane>
-        <el-tab-pane label="班级三(42034203)" name="third">
-          <ClassInfo class="info"></ClassInfo>
-        </el-tab-pane>
+        <!--        <el-tab-pane label="班级二(42034202)" name="second">-->
+        <!--          <ClassInfo class="info" />-->
+        <!--        </el-tab-pane>-->
+        <!--        <el-tab-pane label="班级三(42034203)" name="third">-->
+        <!--          <ClassInfo class="info" />-->
+        <!--        </el-tab-pane>-->
       </el-tabs>
     </div>
   </div>
 </template>
 <script>
-import Layout from '@/layout'
 import ClassInfo from './components/classInfo'
+import store from '@/store'
+import { getCourseIds } from '@/api/teacher'
 export default {
   name: 'TeacherClass',
   components: {
-    Layout,
     ClassInfo
   },
   data() {
     return {
-      activeName: 'first'
+      userName: store.getters.name,
+      courseIds: [],
+      activeName: ''
     }
+  },
+  created() {
+    this.getCourseIds()
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event)
+      // console.log(tab, event)
+    },
+    getCourseIds() {
+      getCourseIds().then(res => {
+        this.courseIds = res.data.courseIds
+        this.activeName = this.courseIds[0]
+        // console.log(this.activeName)
+      })
     }
   }
 }

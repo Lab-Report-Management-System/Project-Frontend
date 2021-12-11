@@ -47,7 +47,7 @@ const actions = {
         commit('SET_TOKEN', data.token)
         localStorage.setItem('token', data.token)
         setToken(data.token)
-        console.log(document.cookie)
+        // console.log(document.cookie)
         resolve()
       }).catch(error => {
         reject(error)
@@ -60,14 +60,15 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
-
+        // debugger
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
 
-        const { roles } = data
+        const { roles, userName, userNickname, userPhoto } = data
+        // debugger
         // console.log('11111')
-        console.log(roles)
+        // console.log(roles)
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
@@ -77,8 +78,8 @@ const actions = {
         commit('SET_ROLES', roles)
         // const { name, avatar } = data
         //
-        // commit('SET_NAME', name)
-        // commit('SET_AVATAR', avatar)
+        commit('SET_NAME', userNickname)
+        commit('SET_AVATAR', userPhoto)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -90,12 +91,14 @@ const actions = {
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       // console.log('????')
-      // logout().then(() => {
+      // logout().then(() =>
+      // debugger
       removeToken() // must remove  token  first
-      console.log('退出退出注销')
       resetRouter()
-      this.$router.push('/')
+      console.log('退出退出注销')
       commit('RESET_STATE')
+      location.reload()
+      // this.$router.push('/')
       resolve()
     // }).catch(error => {
     //   reject(error)
