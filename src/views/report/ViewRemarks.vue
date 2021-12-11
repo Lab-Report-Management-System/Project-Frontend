@@ -50,7 +50,7 @@
                 {{ scope.row[item] }}
               </template>
             </el-table-column>
-            <el-table-column v-for="(item, index) in stuAnswer" :key="index" label="学生答案" width="auto" align="center">
+            <el-table-column v-for="(item, index) in stuAnswer" :key="index" label="您的答案" width="auto" align="center">
               <template slot-scope="scope">
                 {{ scope.row[item] }}
               </template>
@@ -78,11 +78,12 @@
             v-model="ratings"
             show-text
             :texts="textss"
+            disabled
           />
           <el-col style="margin-top: 0.5cm;margin-bottom: 0.5cm">
-            <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交评分</el-button>
-            <el-button type="warning" plain @click="onSave">下一份</el-button>
-            <el-button type="info" plain @click="onCancel">取消</el-button>
+            <!--            <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交评分</el-button>-->
+            <!--            <el-button type="warning" plain @click="onSave">下一份</el-button>-->
+            <el-button type="info" plain @click="onReturn">返回</el-button>
 
           </el-col>
         </el-card>
@@ -315,9 +316,14 @@ export default {
       this.NPVvalue = a
       // console.log(a)
     },
-    onCancel() {
-      // console.log(this.NPVper)
-      this.$router.push({ path: '/dashboard' })
+    onReturn() {
+      // 返回上一页 若没有上一页则到首页
+      if (this.$route.query.goindex === 'true') {
+        this.$router.push('/')
+      } else {
+        this.$router.back(-1)
+      }
+      // this.$router.push({ path: '/dashboard' })
     }
     // handlerChange(x) {
     //   if (x != '') {

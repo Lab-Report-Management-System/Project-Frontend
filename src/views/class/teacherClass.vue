@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--Greetings to the teacher -->
-    <h1 class="title">{{ userName }}老师，您好</h1>
+    <h1 class="title">{{ userName }}{{ role }}，您好</h1>
     <!--DashBoard -->
     <!--    <layout />-->
     <!--class info -->
@@ -39,7 +39,8 @@ export default {
     return {
       userName: store.getters.name,
       courseIds: [],
-      activeName: ''
+      activeName: '',
+      role: store.getters.roles[0] === 'TeachingAssistant' ? '助教' : '老师'
     }
   },
   created() {

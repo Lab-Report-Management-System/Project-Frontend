@@ -37,12 +37,17 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/StuHome',
-    name: 'StuHome',
-    component: () => import('@/views/dashboard/StuHome'),
+    path: '/viewRemarks',
+    component: () => import('@/views/report/ViewRemarks'),
     hidden: true
-    // meta: { title: '首页', icon: 'from' }
   },
+  // {
+  //   path: '/StuHome',
+  //   name: 'StuHome',
+  //   component: () => import('@/views/dashboard/StuHome'),
+  //   hidden: true
+  //   // meta: { title: '首页', icon: 'from' }
+  // },
   {
     path: '/TeaHome',
     name: 'TeaHome',
