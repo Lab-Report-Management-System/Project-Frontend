@@ -23,3 +23,17 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function updateNickname() {
+  return request({
+    url: '/api/user/updateNickname',
+    method: 'post'
+  })
+}
+
+export function setPassword() {
+  return request({
+    url: '/api/user/setPassword',
+    method: 'post'
+  })
+}

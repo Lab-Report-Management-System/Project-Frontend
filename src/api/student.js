@@ -16,7 +16,7 @@ export function studentLogin(data) {
 
 export function getStuInfo(params) {
   return request({
-    url: '/api/stuInfo',
+    url: '/api/student/stuInfo',
     method: 'get',
     params
   })
