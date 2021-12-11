@@ -18,6 +18,9 @@
           <el-dropdown-item divided @click.native="SignIn">
             <span style="display:block;">登录</span>
           </el-dropdown-item>
+          <el-dropdown-item divided @click.native="logOut">
+            注销
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>

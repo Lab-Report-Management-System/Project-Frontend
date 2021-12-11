@@ -91,12 +91,14 @@ const actions = {
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       // console.log('????')
-      // logout().then(() => {
+      // logout().then(() =>
+      // debugger
       removeToken() // must remove  token  first
-      console.log('退出退出注销')
       resetRouter()
-      this.$router.push('/')
+      console.log('退出退出注销')
       commit('RESET_STATE')
+      location.reload()
+      // this.$router.push('/')
       resolve()
     // }).catch(error => {
     //   reject(error)
