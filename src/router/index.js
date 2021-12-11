@@ -131,7 +131,7 @@ export const constantRoutes = [
         path: 'calendar',
         name: 'calendar',
         component: () => import('@/views/calendar/index.vue'),
-        meta: { title: '日程管理', icon: 'form' }
+        meta: { title: '日程管理', icon: 'el-icon-date' }
       }
     ]
   }

@@ -206,8 +206,8 @@
 </template>
 
 <script>
-import Navbar from './Navbar1.vue'
-import {getInfo} from '../../api/user.js'
+import Navbar from './Navbar.vue'
+import { getInfo } from '@/api/user'
 export default {
   name: 'PersonalInfo',
   components: {
@@ -232,15 +232,14 @@ export default {
       circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
       personalData:
         {
-          email: "",
+          email: '',
           nickname: '',
-          StuNum:"",
+          StuNum: '',
           // avatarUrl: 'http://121.5.175.203:8080/api/File/getfile/chain.jpg', // 如果没有就返回空字符串即可
           password: '',
           sex: '',
-          identify:""
-        }
-      ,
+          identify: ''
+        },
       rules: {
         nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }]
       }
@@ -254,18 +253,18 @@ export default {
     //   .then(res => { this.personalData = res.data })
   },
   created() {
-    console.log("yes")
-      getInfo().then(res=>{
-        console.log(res)
-        console.log("yes")
-         this.circleUrl=res.data.userPhoto;
-         // this.personalData.head_pic=res.userPhoto;
-         this.personalData.email=res.data.userEmail;
-         this.personalData.nickname=res.data.userNickname
-         this.personalData.StuNum=1953608;
-         this.personalData.sex="male";
-         this.personalData.identify=res.data.roles[0]
-      })
+    console.log('yes')
+    getInfo().then(res => {
+      console.log(res)
+      console.log('yes')
+      this.circleUrl = res.data.userPhoto
+      // this.personalData.head_pic=res.userPhoto;
+      this.personalData.email = res.data.userEmail
+      this.personalData.nickname = res.data.userNickname
+      this.personalData.StuNum = 1953608
+      this.personalData.sex = 'male'
+      this.personalData.identify = res.data.roles[0]
+    })
   },
   methods: {
     changePwd() {
