@@ -113,13 +113,7 @@ export const constantRoutes = [
         component: () => import('@/views/labReport.vue'),
         meta: { title: '实验报告', icon: 'form' }
       },
-      // 调试日历页
-      {
-        path: 'calendar',
-        name: 'Calendar',
-        component: () => import('@/views/calendar/index.vue'),
-        meta: { title: '日历', icon: 'form' }
-      },
+
       {
         path: 'report',
         name: 'Report',
@@ -128,6 +122,19 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/calendar',
+    component: Layout,
+    name: 'calendar',
+    children: [
+      {
+        path: 'calendar',
+        name: 'calendar',
+        component: () => import('@/views/calendar/index.vue'),
+        meta: { title: '日程管理', icon: 'form' }
+      }
+    ]
+  }
 
   // {
   //   path: '/studentClass',
@@ -193,17 +200,6 @@ export const constantRoutes = [
   //   ]
   // },
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/Lab-Report-Management-System/Project-Frontend/',
-        meta: { title: 'Project Link', icon: 'link' }
-      }
-    ]
-  }
-
 ]
 
 /**
@@ -231,6 +227,16 @@ export const asyncRoutes = [
         // redirect: '/teacherClass',
         component: () => import('@/views/class/studentClass.vue'),
         meta: { title: '学生班级管理', icon: 'form', roles: ['Student'] }
+      }
+    ]
+  },
+  {
+    path: 'external-link',
+    component: Layout,
+    children: [
+      {
+        path: 'https://github.com/Lab-Report-Management-System/Project-Frontend/',
+        meta: { title: 'Project Link', icon: 'link' }
       }
     ]
   },
