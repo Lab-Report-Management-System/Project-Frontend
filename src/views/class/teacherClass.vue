@@ -14,7 +14,7 @@
           :name="item"
         >
           <!--          {{ id }}-->
-          <ClassInfo class="info" />
+          <ClassInfo class="info" :course-id="item" />
         </el-tab-pane>
         <!--        <el-tab-pane label="班级二(42034202)" name="second">-->
         <!--          <ClassInfo class="info" />-->
@@ -29,6 +29,7 @@
 <script>
 import ClassInfo from './components/classInfo'
 import store from '@/store'
+import { getCourseIds } from '@/api/teacher'
 export default {
   name: 'TeacherClass',
   components: {
@@ -36,20 +37,24 @@ export default {
   },
   data() {
     return {
-      activeName: '0',
       userName: store.getters.name,
-      courseIds: ['0', '1']
+      courseIds: [],
+      activeName: ''
     }
   },
   created() {
-
+    this.getCourseIds()
   },
   methods: {
     handleClick(tab, event) {
       // console.log(tab, event)
     },
     getCourseIds() {
-
+      getCourseIds().then(res => {
+        this.courseIds = res.data.courseIds
+        this.activeName = this.courseIds[0]
+        // console.log(this.activeName)
+      })
     }
   }
 }

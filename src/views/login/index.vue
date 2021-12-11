@@ -60,7 +60,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import store from "../../store"
+import store from '../../store'
 export default {
   name: 'Login',
   data() {
@@ -123,18 +123,27 @@ export default {
           this.loading = true
 
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            let aDate=store.getters.roles[0]
-            console.log(store.getters.roles[0])
-            if(aDate==="Student"){
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
+            const hasRoles = store.getters.roles && store.getters.roles.length > 0
+            if (hasRoles) {
+              if (hasRoles.includes('Student')) {
+                this.$router.push({ path: this.redirect || '/' })
+              } else if (hasRoles.include('Teacher') || hasRoles.include('ResponsibleTeacher') || hasRoles.include('TeachingAssistant')) {
+                this.$router.push({ path: '/TeaHome' })
+              }
             }
-            else{
-              // console.log(store.getters.roles[0])
-              console.log("yes")
-              this.$router.push({ path:'/TeaHome' })
-              this.loading = false
-            }
+            this.$router.push({ path: this.redirect || '/' })
+            this.loading = false
+
+            // debugger
+            // if (aDate === 'Student') {
+            //   this.$router.push({ path: this.redirect || '/' })
+            //   this.loading = false
+            // } else {
+            //   // console.log(store.getters.roles[0])
+            //   console.log('yes')
+            //   this.$router.push({ path: '/TeaHome' })
+
+            // }
           }).catch(() => {
             this.loading = false
           })

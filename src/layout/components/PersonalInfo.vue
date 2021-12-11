@@ -203,7 +203,7 @@
 </template>
 
 <script>
-import Navbar from './Navbar1.vue'
+import Navbar from './Navbar.vue'
 // import Top from '@/components/topNavigation.vue'
 export default {
   name: 'PersonalInfo',
