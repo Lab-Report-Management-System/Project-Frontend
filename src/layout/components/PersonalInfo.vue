@@ -145,7 +145,7 @@
             </el-form-item>
           </el-row>
           <el-row v-if="isClickPwd" :gutter="10">
-            <el-form-item>
+            <!-- <el-form-item>
               <el-col :span="4" :offset="5">
                 <label class="fontNormal">旧密码:</label>
               </el-col>
@@ -159,7 +159,7 @@
                   style="height: 30px"
                 />
               </el-col>
-            </el-form-item>
+            </el-form-item> -->
           </el-row>
           <el-row v-if="isClickPwd" :gutter="10">
             <el-form-item>
@@ -208,6 +208,8 @@
 <script>
 import Navbar from './Navbar.vue'
 import { getInfo } from '@/api/user'
+import {updateNickname} from '@/api/user'
+import {setPassword} from '@/api/user'
 export default {
   name: 'PersonalInfo',
   components: {
@@ -225,7 +227,7 @@ export default {
       oldPwd: '',
       newPwd: '',
       newPwd2: '',
-      pwdSame: true,
+      // pwdSame: true,
       newSame: true,
       isSelect: false,
       aaa: 'contain',
@@ -275,40 +277,37 @@ export default {
       console.log(this.isLogIn1)
     },
     getFile(event) {
-      this.isSelect = true
-      this.file = event.target.files[0]
-      console.log(this.file)
-      event.preventDefault()
-      const formData = new FormData()
-      formData.append('file', this.file)
+      // this.isSelect = true
+      // this.file = event.target.files[0]
+      // console.log(this.file)
+      // event.preventDefault()
+      // const formData = new FormData()
+      // formData.append('file', this.file)
 
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-      console.log(formData)
-      console.log(config)
-      console.log(this.file.name)
-      this.$axios
-        .post('http://121.5.175.203:8080/api/file/upload', formData, config)
-        .then(function(response) {
-          if (response.status === 200) {
-            console.log(response.data)
-          }
-        })
-      this.personalData.head_pic =
-        'http://121.5.175.203:8080/api/File/getfile/' + this.file.name
-      console.log(this.personalData.head_pic)
+      // const config = {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // }
+      // console.log(formData)
+      // console.log(config)
+      // console.log(this.file.name)
+      // this.$axios
+      //   .post('http://121.5.175.203:8080/api/file/upload', formData, config)
+      //   .then(function(response) {
+      //     if (response.status === 200) {
+      //       console.log(response.data)
+      //     }
+      //   })
+      // this.personalData.head_pic =
+      //   'http://121.5.175.203:8080/api/File/getfile/' + this.file.name
+      // console.log(this.personalData.head_pic)
     },
     confirme() {
       var isCorrect = true
       if (this.isClickPwd == true) {
-        if (this.oldPwd != this.personalData.password) this.pwdSame = false
-        else this.pwdSame = true
-        if (this.newPwd != this.newPwd2) this.newSame = false
-        else this.newSame = true
-        if (!(this.pwdSame && this.newSame)) isCorrect = false
+        if (this.newPwd != this.newPwd2) this.isCorrect = false
+        else isCorrect = true
       }
       if (isCorrect) {
         // 上传昵称、性别、密码**********
@@ -321,35 +320,20 @@ export default {
             })
           }
         })
-        var url = 'http://121.5.175.203:8080/api/students/changeInfo'
-        var data = new Object()
-        data.name = this.personalData.nickname
-        // data.pwd=this.newPwd;
-        if (this.isSelect == true) {
-          data.pic = this.file.name
-        } else {
-          data.pic = this.personalData.head_pic
-        }
-        data.email = this.personalData.email
-        data.sex = this.personalData.sex
-        console.log(this.personalData.nickname)
-        console.log(this.personalData.sex)
         this.$axios.post(url, data)
           .then(res => {
             console.log(res.data)
           }
           )
+        updateNickname(this.personalData.nickname).then(res => {
+          console.log(res)
+          console.log('yes')
+        })
         if (this.isClickPwd == true) {
-          var url1 = 'http://121.5.175.203:8080/api/students/changePwd'
-          var data1 = new Object()
-          data1.email = this.personalData.email
-          data1.pwd = this.newPwd
-          this.$axios.post(url1, data1)
-            .then(res => {
-              // identifyCode=res.data;
-              console.log(res.data)
-            }
-            )
+          setPassword(this.newPwd).then(res => {
+            console.log(res)
+            console.log('yes')
+          })
         }
       }
     },
