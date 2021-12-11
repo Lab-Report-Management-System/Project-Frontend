@@ -101,28 +101,6 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '实验管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'labRep',
-        name: 'LabRep',
-        component: () => import('@/views/labReport.vue'),
-        meta: { title: '实验报告', icon: 'form' }
-      },
-
-      {
-        path: 'report',
-        name: 'Report',
-        component: () => import('@/views/dashboard/Report'),
-        meta: { title: '报告填写', icon: 'form' }
-      }
-    ]
-  },
-  {
     path: '/calendar',
     component: Layout,
     name: 'calendar',
@@ -208,7 +186,34 @@ export const constantRoutes = [
  * TODO 将带有权限的页面写在这里，按照下面的格式设置roles数组，将会按照权限在左侧边栏渲染
  */
 export const asyncRoutes = [
+  {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/table',
+    name: 'Example',
+    meta: { title: '实验管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'labRep',
+        name: 'LabRep',
+        component: () => import('@/views/labReport.vue'),
+        meta: { title: '实验报告', icon: 'form' }
+      },
 
+      {
+        path: 'report',
+        name: 'Report',
+        component: () => import('@/views/dashboard/Report'),
+        meta: { title: '报告填写', icon: 'form', roles: ['Student'] }
+      },
+      {
+        path: 'markReport',
+        name: 'MarkReport',
+        component: () => import('@/views/report/MarkReport'),
+        meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      }
+    ]
+  },
   {
     path: '/class',
     component: Layout,
