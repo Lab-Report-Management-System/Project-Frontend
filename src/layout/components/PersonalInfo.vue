@@ -99,7 +99,7 @@
               ><p class="fontNormal" style="width: 60px;">学工号:</p></el-col>
               <el-col :span="3" :offset="0">
                 <p class="fontWrite">
-                  &nbsp;&nbsp;&nbsp;{{ personalData.email }}
+                  &nbsp;&nbsp;&nbsp;{{ personalData.StuNum }}
                 </p></el-col>
             </el-form-item>
           </el-row>
@@ -108,7 +108,10 @@
               <el-col :span="2" :offset="5">
                 <p class="fontNormal">身份:</p>
               </el-col>
-
+              <el-col :span="3" :offset="0">
+                <p class="fontWrite">
+                  &nbsp;&nbsp;&nbsp;{{ personalData.identify }}
+                </p></el-col>
             </el-form-item>
           </el-row>
           <el-row :gutter="10">
@@ -204,7 +207,7 @@
 
 <script>
 import Navbar from './Navbar.vue'
-// import Top from '@/components/topNavigation.vue'
+import { getInfo } from '@/api/user'
 export default {
   name: 'PersonalInfo',
   components: {
@@ -213,10 +216,10 @@ export default {
   },
   data() {
     return {
-      imgAdd1: '1',
-      userName1: '1',
-      isLogIn1: '1', // 根据登录状态判断顶部导航的显示状态
-      email1: '',
+      // imgAdd1: '1',
+      // userName1: '1',
+      // isLogIn1: '1', // 根据登录状态判断顶部导航的显示状态
+      // email1: '',
       isClickPwd: false,
       file: '',
       oldPwd: '',
@@ -224,20 +227,19 @@ export default {
       newPwd2: '',
       pwdSame: true,
       newSame: true,
-      personalData: '',
       isSelect: false,
       aaa: 'contain',
       circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      personalData: [
+      personalData:
         {
-          id: 'idididid',
-          email: '1953603@tongji.edu.cn',
-          nickname: 'candy',
-          avatarUrl: 'http://121.5.175.203:8080/api/File/getfile/chain.jpg', // 如果没有就返回空字符串即可
-          password: 'thisispwd',
-          sex: 'male'
-        }
-      ],
+          email: '',
+          nickname: '',
+          StuNum: '',
+          // avatarUrl: 'http://121.5.175.203:8080/api/File/getfile/chain.jpg', // 如果没有就返回空字符串即可
+          password: '',
+          sex: '',
+          identify: ''
+        },
       rules: {
         nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }]
       }
@@ -245,17 +247,24 @@ export default {
   },
   mounted() {
     // getInfo/823206295@qq.com
-    var url = 'http://121.5.175.203:8080/api/Students/getInfo/' + this.email1
-    this.$axios
-      .get(url)
-      .then(res => { this.personalData = res.data })
+    // var url = 'http://121.5.175.203:8080/api/Students/getInfo/' + this.email1
+    // this.$axios
+    //   .get(url)
+    //   .then(res => { this.personalData = res.data })
   },
   created() {
-    this.imgAdd1 = this.$route.query.imgAdd12,
-    this.userName1 = this.$route.query.userName12,
-    this.isLogIn1 = this.$route.query.isLogIn12,
-    // 根据登录状态判断顶部导航的显示状态
-    this.email1 = this.$route.query.email12
+    console.log('yes')
+    getInfo().then(res => {
+      console.log(res)
+      console.log('yes')
+      this.circleUrl = res.data.userPhoto
+      // this.personalData.head_pic=res.userPhoto;
+      this.personalData.email = res.data.userEmail
+      this.personalData.nickname = res.data.userNickname
+      this.personalData.StuNum = 1953608
+      this.personalData.sex = 'male'
+      this.personalData.identify = res.data.roles[0]
+    })
   },
   methods: {
     changePwd() {
