@@ -41,13 +41,7 @@ export const constantRoutes = [
     component: () => import('@/views/report/ViewRemarks'),
     hidden: true
   },
-  // {
-  //   path: '/StuHome',
-  //   name: 'StuHome',
-  //   component: () => import('@/views/dashboard/StuHome'),
-  //   hidden: true
-  //   // meta: { title: '首页', icon: 'from' }
-  // },
+
   {
     path: '/TeaHome',
     name: 'TeaHome',
@@ -94,12 +88,16 @@ export const constantRoutes = [
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
-  },
-  // {
-  //   path: '/LabRep',
-  //   component: () => import('@/views/labReport.vue'),
-  //   hidden: true
-  // },
+  }
+
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ * TODO 将带有权限的页面写在这里，按照下面的格式设置roles数组，将会按照权限在左侧边栏渲染
+ */
+export const asyncRoutes = [
   {
     path: '/',
     component: Layout,
@@ -108,7 +106,13 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/StuHome.vue'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard', roles: ['Student'] }
+    },
+    {
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/TeaHome.vue'),
+      meta: { title: '首页', icon: 'dashboard', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
     }]
   },
 
@@ -124,80 +128,8 @@ export const constantRoutes = [
         meta: { title: '日程管理', icon: 'el-icon-date' }
       }
     ]
-  }
+  },
 
-  // {
-  //   path: '/studentClass',
-  //   component: () => import('@/views/class/studentClass.vue'),
-  //   hidden: true
-  // },
-  // {
-  //   path: '/nested',
-  //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: 'Nested',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
-  //       children: [
-  //         {
-  //           path: 'menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
-  //         },
-  //         {
-  //           path: 'menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: 'Menu1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       name: 'Menu2',
-  //       meta: { title: 'menu2' }
-  //     }
-  //   ]
-  // },
-
-]
-
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- * TODO 将带有权限的页面写在这里，按照下面的格式设置roles数组，将会按照权限在左侧边栏渲染
- */
-export const asyncRoutes = [
   {
     path: '/example',
     component: Layout,
