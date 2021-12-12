@@ -75,6 +75,7 @@ import { submitLab } from '@/api/student'
 export default {
   data() {
     return {
+      labID:"",
       title: '软件工程经济学实验',
       desc: '差值法评价互斥方案实验',
       year: ['1', '2', '3', '4', '5'],
@@ -126,11 +127,15 @@ export default {
       this.fullname = newVal
     }
   },
-  // created() {
-  //   getReportState().then(res=>{
-  //     this.isActive=res.isActive;
-  //   })
-  // }
+  created() {
+    this.labID = this.$route.query.labID
+    if(this.$route.query.state!= 1){
+      this.isActive = false
+    }
+    else{
+      this.isActive = true;
+    }
+  },
   methods: {
     add() {
       // this.progress++;
