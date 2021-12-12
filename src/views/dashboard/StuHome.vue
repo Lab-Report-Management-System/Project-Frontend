@@ -23,25 +23,26 @@
             </div>
             <div class="user-panel">
               <div class="user-panel-wrap">
-                <img src="../../assets/images/lab.png" alt="">
+                <a><img src="../../assets/images/lab.png" alt=""></a>
                 <div class="user-panel-desc">填写实验报告</div>
               </div>
               <div class="user-panel-wrap">
-                <img src="../../assets/images/class.png" alt="">
+                <a><img src="../../assets/images/class.png" alt=""></a>
                 <div class="user-panel-desc">查看班级</div>
               </div>
               <div class="user-panel-wrap">
-                <img src="../../assets/images/grade.png" alt="">
+                <a><img src="../../assets/images/grade.png" alt=""></a>
                 <div class="user-panel-desc">成绩管理</div>
               </div>
               <div class="user-panel-wrap">
-                <img src="../../assets/images/battle.png" alt="">
+                <a><img src="../../assets/images/battle.png" alt=""></a>
                 <div class="user-panel-desc">答题对战</div>
               </div>
             </div>
           </div>
         </el-card>
       </el-col>
+      <!--查看课程-->
       <el-col class="panel" :sm="12" :xs="24">
         <el-card shadow="hover">
           <div slot="header" class="panel-head">
@@ -92,6 +93,7 @@
         </el-card>
       </el-col>
     </el-row>
+    <!--课程公告-->
     <el-row :gutter="10">
       <el-col class="panel" :sm="12" :xs="24">
         <el-card shadow="hover">
@@ -102,10 +104,10 @@
               <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right" /></el-button>
             </div>
           </div>
-          <div v-for="(item,index) in 1" :key="index" class="notice">
-            <div class="notice-desc">【课程法】差值评价互斥方案实验已发布</div>
+          <div v-for="(item,index) in announcement.length" :key="index" class="notice">
+            <div class="notice-desc">{{ announcement[item-1].content }}</div>
             <div class="notice-time">
-              <i class="el-icon-bell" /> 2021-12-02 00:50:22
+              <i class="el-icon-bell" /> {{ announcement[item-1].time }}
             </div>
           </div>
         </el-card>
@@ -135,7 +137,7 @@
             </div>
           </div>
           <div class="report">
-            <div class="report-title">软件工程学</div>
+            <div class="report-title">{{ this.latestCourseName }}</div>
             <div class="report-main">
               <div class="report-main-progress">
                 <el-progress type="circle" :percentage="25" />
@@ -143,11 +145,11 @@
               <div class="report-main-content">
                 <div class="report-main-content-box">
                   <div class="report-main-content-box-tit">下一个即将截止的实验</div>
-                  <div>插值法评论互斥实验</div>
+                  <div>{{ this.latestLabName }}</div>
                 </div>
                 <div class="report-main-content-box">
                   <div class="report-main-content-box-tit">截止时间</div>
-                  <div>2021年10月17日</div>
+                  <div>{{ this.latestLabDeadline }}</div>
                 </div>
               </div>
             </div>
@@ -162,7 +164,8 @@
 import { getInfo } from '@/api/user'
 import { getLabInfo } from '@/api/lab'
 import { getToken } from '@/utils/auth'
-import { getTeacherAndCourse } from '@/api/course'
+import { getTeacherAndCourse, getCourseByLabId } from '@/api/course'
+import { getSystemAnnouncement, getCourseAnnouncementOfStu } from '@/api/announcement'
 
 export default {
 
@@ -183,17 +186,23 @@ export default {
       courses: [],
       courseData: [],
       courseOptions: [],
-      allReportOptions: [{ value: '嗯嗯', label: '呵呵' }],
-      unfinishedReportOptions: [{ value: 'ene' }],
+      allReportOptions: [],
+      unfinishedReportOptions: [],
       courseValue: '',
       allLabValue: '',
       unfinishedLabValue: '',
+      latestLabDeadline: '',
+      latestLabName: '',
+      latestCourseName: '',
+      latestLabId: 1,
+      announcement: [],
       token: {
         code: ''
       }
     }
   },
   created() {
+    this.token.code = getToken()
     // 获取个人信息
     getInfo().then(res => {
       console.log(res)
@@ -219,28 +228,68 @@ export default {
       const time2 = date.getTime()
       this.week = parseInt((time1 - time2) / 1000 / 3600 / 24 / 7) + 1
     })
-    // 获得所有实验
-    this.token.code = getToken()
-    getLabInfo(this.token).then(res => {
-      console.log('呵呵')
-      console.log(res)
-      // this.allReportOptions = res.labEntityList
-    //   this.allReportOptions.add()
-    //    for (let i = 0; i < this.labs.length; i++) {
-    //   //   if (this.getCurrentDay() <= this.labs[i].labDeadline) {
-    //   //     this.scheduleList.push({ className: this.labs[i].labName, color: this.colorList[Math.floor(Math.random() * 7)] })
-    //   //   }
-    //   }
-    })
     // 获得首页课程
     getTeacherAndCourse(this.token).then(res => {
       console.log(res)
       this.courses = res.coursesInfoList
       for (let i = 0; i < this.courses.length; i++) {
         this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
-        this.courseOptions.push({ label: this.courses[i].course_name })
+        this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })
       }
     })
+    // 获得所有实验
+    getLabInfo(this.token).then(res => {
+      let latestLabTime = '3033-12-31'
+      let latestLabName = '暂无'
+      let latestLabId = 1
+      console.log(res)
+      for (let i = 0; i < res.labEntityList.length; i++) {
+        this.allReportOptions.push({ value: res.labEntityList[i].labId, label: res.labEntityList[i].labName })
+        if (this.getCurrentDay() <= res.labEntityList[i].labDeadline) {
+          if (res.labEntityList[i].labDeadline <= latestLabTime) {
+            latestLabTime = res.labEntityList[i].labDeadline
+            latestLabName = res.labEntityList[i].labName
+            latestLabId = res.labEntityList[i].labId
+          }
+          this.unfinishedReportOptions.push({ value: res.labEntityList[i].labId, label: res.labEntityList[i].labName })
+        }
+      }
+      // 没有匹配到最近的实验
+      if (latestLabTime === '3033-12-31') {
+        latestLabTime = ''
+      }
+      this.latestLabDeadline = latestLabTime
+      this.latestLabName = latestLabName
+      this.latestLabId = latestLabId
+      const labId = { 'labId': this.latestLabId }
+      getCourseByLabId(labId).then(res => {
+        this.latestCourseName = res.courseList[0].courseName
+      })
+    })
+
+    getSystemAnnouncement(this.token).then(res => {
+      console.log(res)
+      for (let i = 0; i < res.announcementEntityList.length; i++) {
+        this.announcement.push(res.announcementEntityList[i])
+      }
+    })
+    getCourseAnnouncementOfStu(this.token).then(res => {
+      console.log(res)
+      for (let i = 0; i < res.announcementEntityList.length; i++) {
+        this.announcement.push(res.announcementEntityList[i])
+      }
+    })
+  },
+  methods: {
+    getCurrentDay() {
+      const currentDate = new Date()
+      // eslint-disable-next-line no-unused-vars
+      let res = ''
+      res += currentDate.getFullYear() + '-'
+      res += (currentDate.getMonth() + 1) + '-'
+      res += currentDate.getDate()
+      return res
+    }
   }
 }
 </script>

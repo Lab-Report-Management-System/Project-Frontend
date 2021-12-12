@@ -16,3 +16,12 @@ export function getTeacherAndCourse(data) {
     params: data
   })
 }
+
+// 根据实验ID查找课程
+export function getCourseByLabId(data) {
+  return request({
+    url: 'api/course/labId',
+    method: 'get',
+    params: data
+  })
+}
