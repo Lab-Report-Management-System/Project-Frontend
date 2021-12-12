@@ -82,7 +82,7 @@
               ><p class="fontNormal">昵称:</p></el-col>
               <el-col :span="8" :offset="0">
                 <el-input
-                  v-model="personalData.nickname"
+                  v-model="personalData.userNickname"
                   style="margin-top: 20px;"
                   class="fontWrite"
                   maxlength="10"
@@ -236,7 +236,7 @@ export default {
       personalData:
         {
           email: '',
-          nickname: '',
+          userNickname: '',
           StuNum: '',
           // avatarUrl: 'http://121.5.175.203:8080/api/File/getfile/chain.jpg', // 如果没有就返回空字符串即可
           password: '',
@@ -263,7 +263,7 @@ export default {
       this.circleUrl = res.data.userPhoto
       // this.personalData.head_pic=res.userPhoto;
       this.personalData.email = res.data.userEmail
-      this.personalData.nickname = res.data.userNickname
+      this.personalData.userNickname = res.data.userNickname
       this.personalData.StuNum = 1953608
       this.personalData.sex = 'male'
       this.personalData.identify = res.data.roles[0]
@@ -278,8 +278,8 @@ export default {
       console.log(this.isLogIn1)
     },
     getFile(event) {
-      
-      
+
+
       this.file = event.target.files[0]
       event.preventDefault()
       const formData = new FormData()
@@ -299,14 +299,14 @@ export default {
         console.log(res)
         console.log('yes')
       })
-      
-      
+
+
       updatePhoto(this.file).then(res => {
         console.log(res)
         console.log('yes')
       })
-      
-      
+
+
       updatePhoto(formData).then(res => {
         console.log(res)
         console.log('yes')
@@ -341,12 +341,10 @@ export default {
             })
           }
         })
-        this.$axios.post(url, data)
-          .then(res => {
-            console.log(res.data)
-          }
-          )
-        updateNickname(this.personalData.nickname).then(res => {
+        // let data=new Object();
+        let data={'userNickname':this.personalData.userNickname}
+        // data['userNickname']=
+        updateNickname(data).then(res => {
           console.log(res)
           console.log('yes')
         })

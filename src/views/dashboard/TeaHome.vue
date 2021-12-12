@@ -1,303 +1,273 @@
 <template>
-  <div class="home">
-    <el-row :gutter="10">
-      <el-col class="panel" :sm="12" :xs="24">
-        <el-card shadow="hover">
-          <div slot="header" class="panel-head">
-            <div class="panel-head-title"> 吴冠奇 同学你好！</div>
-          </div>
-          <div class="user">
-            <div class="user-main">
-              <div class="user-main-img">
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-              </div>
-              <div class="user-main-content">
-                <div class="user-main-content-name">吴冠奇</div>
-                <div class="user-main-content-tag">
-                  <el-tag size="small" style="margin-right: 10px;">软件学院</el-tag>
-                  <el-tag type="success" size="small">软件工程学院</el-tag>
-                  <div class="user-main-content-login"><el-tag type="info" size="small" style="margin-right: 10px;">上次登录时间:</el-tag> 2021-12-01 23:16:22</div>
-                  <div class="user-main-content-time">2020-2021学年第一学期第十二周</div>
-                </div>
-              </div>
+  <div style="width: 68%;margin: 0 auto">
+    <p style="font-family:simhei;font-size: 25px;left: 10%;">{{ name }}同学,你好！</p>
+    <div style="padding-bottom: 30px;">
+      <el-tabs type="border-card">
+        <el-tab-pane v-for="(data,index) in labList" :key="index" @click="clickLab(data)">
+          <span slot="label"><i class="el-icon-date" /> {{ data }}</span>
+          <TableList :table-data="tableData1[index]" />
+        </el-tab-pane>
+      </el-tabs>
+      <div class="comment">
+        <div class="comment-title"><i class="el-icon-s-comment" /> 评论区</div>
+        <div class="comment-main">
+          <div v-for="(item, index) in commentList" :key="index" class="comment-main-item">
+            <div class="comment-main-item-top">
+              <el-avatar size="small" :src="item.avatar" />
+              <div>{{ item.name }}</div>
+              <span>{{ item.time }}</span>
             </div>
-            <div class="user-panel">
-              <div v-for="(item, index) in 4" :key="index" class="user-panel-wrap">
-                <img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" alt="">
-                <div class="user-panel-desc">填写实验报告</div>
-              </div>
-            </div>
+            <div class="comment-main-item-content">{{ item.content }}</div>
           </div>
-        </el-card>
-      </el-col>
-      <el-col class="panel" :sm="12" :xs="24">
-        <el-card shadow="hover">
-          <div slot="header" class="panel-head">
-            <div class="panel-head-title">卡片名称</div>
-            <el-select v-model="courseValue" placeholder="请选择" size="mini">
-              <el-option
-                v-for="item in courseOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </div>
-          <el-table
-            :data="courseData"
-            border
-            style="width: 100%"
-            height="240"
-          >
-            <el-table-column
-              prop="courseNum"
-              label="课号"
-              width="120"
-              align="center"
-            />
-            <el-table-column
-              prop="courseName"
-              label="课程名称"
-              align="center"
-            />
-            <el-table-column
-              prop="teacher"
-              label="教师"
-              width="100"
-              align="center"
-            />
-            <el-table-column
-              label="操作"
-              width="100"
-              align="center"
-            >
-              <template slot-scope="scope">
-                <el-button type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="10">
-      <el-col class="panel" :sm="12" :xs="24">
-        <el-card shadow="hover">
-          <div slot="header" class="panel-head">
-            <div class="panel-head-title">系统公告</div>
-            <div class="panel-head-right">
-              <el-button type="info" plain size="mini" icon="el-icon-plus">发布公告</el-button>
-              <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right"/></el-button>
-            </div>
-          </div>
-          <div v-for="(item,index) in 4" :key="index" class="notice">
-            <div class="notice-desc">【课程法】差值评价互斥方案实验已发布</div>
-            <div class="notice-time">
-              <i class="el-icon-bell"></i> 2021-12-02 00:50:22
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col class="panel" :sm="12" :xs="24">
-        <el-card shadow="hover">
-          <div slot="header" class="panel-head">
-            <div class="panel-head-title">实验报告完成情况</div>
-            <div class="panel-head-right">
-              <el-select v-model="courseValue" placeholder="请选择" size="mini" style="margin-right: 10px;">
-                <el-option
-                  v-for="item in courseOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-              <el-select v-model="courseValue" placeholder="请选择" size="mini">
-                <el-option
-                  v-for="item in courseOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </div>
-          </div>
-          <div class="report">
-            <div class="report-title">软件工程学</div>
-            <div class="report-main">
-              <div class="report-main-progress" >
-                <el-progress type="circle" :percentage="25"></el-progress>
-              </div>
-              <div class="report-main-content">
-                <div class="report-main-content-box">
-                  <div class="report-main-content-box-tit">下一个即将截止的实验</div>
-                  <div>插值法评论互斥实验</div>
-                </div>
-                <div class="report-main-content-box">
-                  <div class="report-main-content-box-tit">截止时间</div>
-                  <div>2021年10月17日</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+        </div>
+      </div>
+      <div style="margin-top: 10px">
+        <el-input v-model="content" placeholder="请输入评论内容">
+          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0">发布</el-button>
+        </el-input>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import TableList from './tableList.vue'
+import TableList1 from './tableList.vue'
 export default {
-  name: 'Home',
+  components: {
+    TableList,
+    TableList1
+  },
+
   data() {
     return {
-      courseData: [{ courseNum: '115665566', courseName: '软件工程第一节课', teacher: '小黎' }],
-      courseOptions: [{ value: '选项1', label: '黄金糕' }],
-      courseValue: ''
+      num: ['', '', ''],
+      num2: '2',
+      labList: [
+        '实验一',
+        '实验二',
+        '实验三'
+      ],
+      name: '呵呵',
+      none: '暂无消息',
+      rowID: '',
+      tableData1: [[{
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: true,
+        state: 1,
+        labID: 0
+      }, {
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: false,
+        state: 2,
+        labID: 1
+      }, {
+        labName: '软工实验系统',
+        name: 'w',
+        stuNumber: '0000001',
+        isActive: true,
+        state: 1,
+        labID: 2
+      }, {
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: false,
+        state: 0,
+        labID: 3
+      }], [{
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: true,
+        state: 1,
+        labID: 0
+      }, {
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: false,
+        state: 2,
+        labID: 1
+      }, {
+        labName: '软工实验系统',
+        name: 'w',
+        stuNumber: '0000001',
+        isActive: true,
+        state: 1,
+        labID: 2
+      }, {
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: false,
+        state: 0,
+        labID: 3
+      }], [{
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: true,
+        state: 1,
+        labID: 0
+      }, {
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: false,
+        state: 2,
+        labID: 1
+      }, {
+        labName: '软工实验系统',
+        name: 'w',
+        stuNumber: '0000001',
+        isActive: true,
+        state: 1,
+        labID: 2
+      }, {
+        labName: '软工实验系统',
+        name: 'W',
+        stuNumber: '0000001',
+        isActive: false,
+        state: 0,
+        labID: 3
+      }]],
+      commentList: [
+        {
+          name: '赵小刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        },
+        {
+          name: '赵小刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        },
+        {
+          name: '赵小刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        },
+        {
+          name: '赵小刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }, {
+          name: '?刚',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          content: '这尽快帮忙落实解决！',
+          time: '2021-11-28 20:50:22'
+        }
+      ],
+      content: ''
     }
+  },
+  created() {
+    this.commentList.push(this.commentList[0])
+  },
+  methods: {
+    tableRowClassName({ row, rowIndex }) {
+      this.rowID = rowIndex
+      if (this.tableData1[rowIndex].state == 2) {
+        return 'warning-row'
+      }
+      if (this.tableData1[rowIndex].state == 1) {
+        return 'success-row'
+      }
+      return ''
+    },
+    handleClickEdit(row) {
+      // this.$router.push({path:"/example/labTeacher",query:{
+      //                   name:row.name,
+      //                   stuNumber:row.stuNumber,
+      //                   labID:row.labID,
+      //                   isActive:row.isActive
+      //                 }});
+    },
+    clickLab(data) {
+      console.log('yes')
+    }
+
   }
+  // created(){
+  //     var url="http://121.5.175.203:8080/api/Video/getFavoriteVideo";
+  //     var data=new Object;
+  //     data.stuNumber=this.$router.query.stuNumber;
+  //     data.name=this.$router.query.name;
+  //     this.$axios.get(data,url)
+  //     .then(res => {
+  //            this.tableData=res.data;
+  //     });
+  //     this.name=this.tableData.name;
+  // }
 }
 </script>
-
 <style lang="scss" scoped>
-.home {
-  padding: 10px;
-  .panel {
-    margin-bottom: 10px;
-
-    ::v-deep .el-card__body {
-      height: 280px;
-      overflow-y: auto;
-    }
-    .panel-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .panel-head-title {
-        font-weight: 600;
-        line-height: 28px;
-        font-size: 14px;
-        color: #363636;
-      }
-      .panel-head-right {
-        display: flex;
-        justify-content: space-between;
-      }
-    }
-
-    .user{
-      .user-main {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        .user-main-img {
-          width: 36%;
-          padding-right: 5%;
-          ::v-deep .el-avatar {
-            display: block;
-            margin: 0 auto;
-            width: 120px !important;
-            height: 120px !important;
-          }
-        }
-        .user-main-content {
-          width: 60%;
-          .user-main-content-name {
-            font-size: 28px;
-            color: #333;
-            font-weight: 600;
-            letter-spacing: 1px;
-          }
-          .user-main-content-tag {
-            margin-top: 8px;
-          }
-          .user-main-content-login {
-            margin: 10px 0;
-            color: #696969;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-          }
-          .user-main-content-time {
-            font-size: 18px;
-            color: #363636;
-            font-weight: 600;
-          }
-        }
-      }
-      .user-panel {
-        width: 100%;
-        padding: 0 5%;
-        display: flex;
-        margin-top: 16px;
-        .user-panel-wrap {
-          width: 25%;
-          img {
-            display: block;
-            width: 64px !important;
-            height: 64px !important;
-            margin: 0 auto;
-          }
-          .user-panel-desc {
-            text-align: center;
-            font-size: 14px;
-            height: 20px;
-            color: #696969;
-            line-height: 30px;
-          }
-        }
-      }
-    }
-
-    .notice {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 46px;
-      border-bottom: 1px solid #eee;
-      .notice-desc {
-        width: calc(100% - 130px);
-        font-size: 14px;
-        color: #2b2f3a;
-      }
-      .notice-time {
-        width: 130px;
-        text-align: right;
-        color: #666666;
-        font-size: 12px;
-      }
-    }
-
-    .report {
-      .report-title{
-        color: #5a5e66;
-      }
-      .report-main {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 6%;
-        .report-main-progress {
-          width: 48%;
-          text-align: right;
-          padding-right: 10%;
-        }
-        .report-main-content {
-          width: 52%;
-          .report-main-content-box {
-            padding: 10px 0;
-            font-size: 18px;
-            color: #2b2f3a;
-            margin-bottom: 10px;
-            .report-main-content-box-tit {
-              color: #999;
-              font-size: 13px;
-              line-height: 30px;
-            }
-          }
-        }
-      }
-    }
-
+  .el-table .warning-row {
+    background: oldlace;
   }
-}
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+  .comment {
+    margin: 10px auto;
+    overflow: hidden;
+    .comment-title {
+      line-height: 50px;
+      color: #323232;
+    }
+    .comment-main {
+      .comment-main-item{
+        padding: 4px 10px;
+        margin-bottom: 5px;
+        background: #f4f4f4;
+        .comment-main-item-top {
+          padding: 4px 0 8px 0;
+          display: flex;
+          align-items: flex-end;
+          div {
+            font-size: 14px;
+            margin: 0 6px 0 2px;
+          }
+          span {
+            font-size: 12px;
+            color: #ccc;
+          }
+        }
+        .comment-main-item-content {
+          font-size: 14px;
+          color: #666666;
+        }
+      }
+    }
+  }
 </style>
