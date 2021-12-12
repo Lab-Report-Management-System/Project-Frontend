@@ -84,6 +84,13 @@ export const constantRoutes = [
 
   },
   {
+    path: '/submitReport',
+    name: 'submitReport',
+    component: () => import('@/views/dashboard/submitReport.vue'),
+    hidden: true
+
+  },
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
