@@ -210,6 +210,7 @@ import Navbar from './Navbar.vue'
 import { getInfo } from '@/api/user'
 import {updateNickname} from '@/api/user'
 import {setPassword} from '@/api/user'
+import {updatePhoto} from '@/api/user'
 export default {
   name: 'PersonalInfo',
   components: {
@@ -277,21 +278,41 @@ export default {
       console.log(this.isLogIn1)
     },
     getFile(event) {
-      // this.isSelect = true
-      // this.file = event.target.files[0]
-      // console.log(this.file)
-      // event.preventDefault()
-      // const formData = new FormData()
-      // formData.append('file', this.file)
+      
+      
+      this.file = event.target.files[0]
+      event.preventDefault()
+      const formData = new FormData()
+      formData.append('file', this.file)
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      updatePhoto(formData,config).then(res => {
+        console.log(res)
+        console.log('yes')
+      })
 
-      // const config = {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // }
-      // console.log(formData)
-      // console.log(config)
-      // console.log(this.file.name)
+
+      updatePhoto(event).then(res => {
+        console.log(res)
+        console.log('yes')
+      })
+      
+      
+      updatePhoto(this.file).then(res => {
+        console.log(res)
+        console.log('yes')
+      })
+      
+      
+      updatePhoto(formData).then(res => {
+        console.log(res)
+        console.log('yes')
+      })
+      // this.isSelect = true
+
       // this.$axios
       //   .post('http://121.5.175.203:8080/api/file/upload', formData, config)
       //   .then(function(response) {

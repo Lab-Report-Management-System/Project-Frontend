@@ -78,6 +78,12 @@ export const constantRoutes = [
 
   },
   {
+    path: '/TeaLabManage',
+    name: 'TeaLabManage',
+    component: () => import('@/views/dashboard/TeaIndex.vue'),
+    hidden: true
+  },
+  {
     path: '/submitReport',
     name: 'submitReport',
     component: () => import('@/views/dashboard/submitReport.vue'),

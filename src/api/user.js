@@ -37,3 +37,10 @@ export function setPassword() {
     method: 'post'
   })
 }
+
+export function updatePhoto() {
+  return request({
+    url: '/api/user/updatePhoto',
+    method: 'post'
+  })
+}

@@ -109,7 +109,7 @@ export default {
         { index: '3', name: '净现金流量', 1: -1000, 2: -200, 3: -32, 4: 172, 5: 418 },
         { index: '3.1', name: '累计净现金流量', 1: '', 2: '', 3: '', 4: '', 5: '' }
       ],
-      state: null },
+      },
       isActive: false,
       dataResult: [
         // { index: '指标', name: '净现值NPV（10%）', 1: ''},
@@ -119,7 +119,8 @@ export default {
       NPV: { name: '净现值NPV', 1: '' },
       progress: 15,
       allNum: '',
-      year_length: 5
+      year_length: 5,
+      state: null
     }
   },
   watch: {
