@@ -249,11 +249,7 @@ export default {
     }
   },
   mounted() {
-    // getInfo/823206295@qq.com
-    // var url = 'http://121.5.175.203:8080/api/Students/getInfo/' + this.email1
-    // this.$axios
-    //   .get(url)
-    //   .then(res => { this.personalData = res.data })
+
   },
   created() {
     console.log('yes')
@@ -282,16 +278,12 @@ export default {
       event.preventDefault()
       const formData = new window.FormData()
       formData.append('file', this.file)
-      // console.log(formData.get('file'))
       updatePhoto(formData).then(res => {
-        // console.log(res)
-        // console.log('yes')
         this.$message.success('修改成功')
         getInfo().then(res => {
           console.log(res)
           console.log('yes')
           this.circleUrl = res.data.userPhoto
-          // this.personalData.head_pic=res.userPhoto;
           this.personalData.email = res.data.userEmail
           this.personalData.nickname = res.data.userNickname
           this.personalData.StuNum = 1953608
@@ -299,18 +291,6 @@ export default {
           this.personalData.identify = res.data.roles[0]
         })
       })
-      // this.isSelect = true
-
-      // this.$axios
-      //   .post('http://121.5.175.203:8080/api/file/upload', formData, config)
-      //   .then(function(response) {
-      //     if (response.status === 200) {
-      //       console.log(response.data)
-      //     }
-      //   })
-      // this.personalData.head_pic =
-      //   'http://121.5.175.203:8080/api/File/getfile/' + this.file.name
-      // console.log(this.personalData.head_pic)
     },
     confirme() {
       var isCorrect = true
@@ -330,7 +310,7 @@ export default {
           }
         })
         // let data=new Object();
-        let data={'userNickname':this.personalData.userNickname}
+        const data = { 'userNickname': this.personalData.userNickname }
         // data['userNickname']=
         updateNickname(data).then(res => {
           console.log(res)
