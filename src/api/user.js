@@ -24,10 +24,11 @@ export function logout() {
   })
 }
 
-export function updateNickname() {
+export function updateNickname(params) {
   return request({
     url: '/api/user/updateNickname',
-    method: 'post'
+    method: 'post',
+    params
   })
 }
 
