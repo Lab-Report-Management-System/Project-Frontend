@@ -38,9 +38,12 @@ export function setPassword() {
   })
 }
 
-export function updatePhoto() {
+export function updatePhoto(data) {
+  // const params = new URLSearchParams(data)
   return request({
     url: '/api/user/updatePhoto',
-    method: 'post'
+    method: 'post',
+    data: data
+    // headers: { 'Content-Type': 'multipart/form-data;charset=UTF-8' }
   })
 }

@@ -208,9 +208,9 @@
 <script>
 import Navbar from './Navbar.vue'
 import { getInfo } from '@/api/user'
-import {updateNickname} from '@/api/user'
-import {setPassword} from '@/api/user'
-import {updatePhoto} from '@/api/user'
+import { updateNickname } from '@/api/user'
+import { setPassword } from '@/api/user'
+import { updatePhoto } from '@/api/user'
 export default {
   name: 'PersonalInfo',
   components: {
@@ -278,38 +278,26 @@ export default {
       console.log(this.isLogIn1)
     },
     getFile(event) {
-      
-      
       this.file = event.target.files[0]
       event.preventDefault()
-      const formData = new FormData()
+      const formData = new window.FormData()
       formData.append('file', this.file)
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-      updatePhoto(formData,config).then(res => {
-        console.log(res)
-        console.log('yes')
-      })
-
-
-      updatePhoto(event).then(res => {
-        console.log(res)
-        console.log('yes')
-      })
-      
-      
-      updatePhoto(this.file).then(res => {
-        console.log(res)
-        console.log('yes')
-      })
-      
-      
+      // console.log(formData.get('file'))
       updatePhoto(formData).then(res => {
-        console.log(res)
-        console.log('yes')
+        // console.log(res)
+        // console.log('yes')
+        this.$message.success('修改成功')
+        getInfo().then(res => {
+          console.log(res)
+          console.log('yes')
+          this.circleUrl = res.data.userPhoto
+          // this.personalData.head_pic=res.userPhoto;
+          this.personalData.email = res.data.userEmail
+          this.personalData.nickname = res.data.userNickname
+          this.personalData.StuNum = 1953608
+          this.personalData.sex = 'male'
+          this.personalData.identify = res.data.roles[0]
+        })
       })
       // this.isSelect = true
 
