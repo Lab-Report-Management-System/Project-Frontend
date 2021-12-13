@@ -13,8 +13,8 @@ export const webSocketUrl = 'ws://182.61.43.155:7979/websocket?userId='
 
 // manageClass an axios instance
 const service = axios.create({
-  // baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
-  baseURL: 'http://localhost:6001/', // url = base url + request url
+  baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
+  // baseURL: 'http://localhost:6001/', // url = base url + request url
   // baseURL: 'http://lab-tongji.cn:6001/',
 
   // url = base url + request url
