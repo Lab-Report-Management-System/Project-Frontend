@@ -1,273 +1,405 @@
 <template>
-  <div style="width: 68%;margin: 0 auto">
-    <p style="font-family:simhei;font-size: 25px;left: 10%;">{{ name }}同学,你好！</p>
-    <div style="padding-bottom: 30px;">
-      <el-tabs type="border-card">
-        <el-tab-pane v-for="(data,index) in labList" :key="index" @click="clickLab(data)">
-          <span slot="label"><i class="el-icon-date" /> {{ data }}</span>
-          <TableList :table-data="tableData1[index]" />
-        </el-tab-pane>
-      </el-tabs>
-      <div class="comment">
-        <div class="comment-title"><i class="el-icon-s-comment" /> 评论区</div>
-        <div class="comment-main">
-          <div v-for="(item, index) in commentList" :key="index" class="comment-main-item">
-            <div class="comment-main-item-top">
-              <el-avatar size="small" :src="item.avatar" />
-              <div>{{ item.name }}</div>
-              <span>{{ item.time }}</span>
-            </div>
-            <div class="comment-main-item-content">{{ item.content }}</div>
+  <div class="home">
+    <el-row :gutter="10">
+      <el-col class="panel" :sm="12" :xs="24">
+        <el-card shadow="hover">
+          <div slot="header" class="panel-head">
+            <div class="panel-head-title"> {{ this.nickname }} 同学你好！</div>
           </div>
-        </div>
-      </div>
-      <div style="margin-top: 10px">
-        <el-input v-model="content" placeholder="请输入评论内容">
-          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0">发布</el-button>
-        </el-input>
-      </div>
-    </div>
+          <div class="user">
+            <div class="user-main">
+              <div class="user-main-img">
+                <el-avatar :src="studentPhoto" />
+              </div>
+              <div class="user-main-content">
+                <div class="user-main-content-name">{{ this.studentName }}</div>
+                <div class="user-main-content-tag">
+                  <el-tag size="small" style="margin-right: 10px;">软件学院</el-tag>
+                  <el-tag type="success" size="small">软件工程学院</el-tag>
+                  <div class="user-main-content-login"><el-tag type="info" size="small" style="margin-right: 10px;">上次登录时间:</el-tag>{{ this.lastLoginTime }}</div>
+                  <div class="user-main-content-time">{{ this.first_year }}-{{ this.second_year }}学年第{{ this.term }}学期第{{ this.week }}周</div>
+                </div>
+              </div>
+            </div>
+            <div class="user-panel">
+              <div class="user-panel-wrap">
+                <a><img src="../../assets/images/lab.png" alt=""></a>
+                <div class="user-panel-desc">批改实验报告</div>
+              </div>
+              <div class="user-panel-wrap">
+                <a><img src="../../assets/images/class.png" alt=""></a>
+                <div class="user-panel-desc">查看班级</div>
+              </div>
+              <div class="user-panel-wrap">
+                <a><img src="../../assets/images/grade.png" alt=""></a>
+                <div class="user-panel-desc">成绩管理</div>
+              </div>
+              <div class="user-panel-wrap">
+                <a><img src="../../assets/images/battle.png" alt=""></a>
+                <div class="user-panel-desc">答题对战</div>
+              </div>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <!--查看课程-->
+      <el-col class="panel" :sm="12" :xs="24">
+        <el-card shadow="hover">
+          <div slot="header" class="panel-head">
+            <div class="panel-head-title">我的课程</div>
+            <el-select v-model="courseValue" placeholder="请选择" size="mini">
+              <el-option
+                v-for="item in courseOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+          <el-table
+            :data="courseData"
+            border
+            style="width: 100%"
+            height="240"
+          >
+            <el-table-column
+              prop="courseNum"
+              label="课号"
+              width="120"
+              align="center"
+            />
+            <el-table-column
+              prop="courseName"
+              label="课程名称"
+              align="center"
+            />
+            <el-table-column
+              prop="teacher"
+              label="教师"
+              width="100"
+              align="center"
+            />
+            <el-table-column
+              label="操作"
+              width="100"
+              align="center"
+            >
+              <template slot-scope="scope">
+                <el-button type="text" size="small">查看</el-button>
+                <el-button type="text" size="small" disabled>编辑</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
+    <!--课程公告-->
+    <el-row :gutter="10">
+      <el-col class="panel" :sm="12" :xs="24">
+        <el-card shadow="hover">
+          <div slot="header" class="panel-head">
+            <div class="panel-head-title">系统公告</div>
+            <div class="panel-head-right">
+              <el-button type="info" plain size="mini" icon="el-icon-plus" disabled>发布公告</el-button>
+              <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right" /></el-button>
+            </div>
+          </div>
+          <div v-for="(item,index) in announcement.length" :key="index" class="notice">
+            <div class="notice-desc">{{ announcement[item-1].content }}</div>
+            <div class="notice-time">
+              <i class="el-icon-bell" /> {{ announcement[item-1].time }}
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <!-- 实验报告 -->
+      <el-col class="panel" :sm="12" :xs="24">
+        <el-card shadow="hover">
+          <div slot="header" class="panel-head">
+            <div class="panel-head-title">班级实验报告完成情况</div>
+          </div>
+          <div class="report">
+            <div class="report-title">{{ this.latestCourseName }}</div>
+            <div class="report-main">
+              <div class="report-main-progress">
+                <el-progress type="circle" :percentage="SubmissionRate" />
+              </div>
+              <div class="report-main-content">
+                <div class="report-main-content-box">
+                  <div class="report-main-content-box-tit">实验：</div>
+                  <div>{{ labName }}</div>
+                </div>
+                <div class="report-main-content-box">
+                  <div class="report-main-content-box-tit">提交率</div>
+                  <div>{{ SubmissionRate }}%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import TableList from './tableList.vue'
-import TableList1 from './tableList.vue'
-export default {
-  components: {
-    TableList,
-    TableList1
-  },
+import { getInfo } from '@/api/user'
+import { getLabInfo } from '@/api/lab'
+import { getToken } from '@/utils/auth'
+import { getTeacherAndCourse, getCourseByLabId } from '@/api/course'
+import { getSystemAnnouncement, getCourseAnnouncementOfStu } from '@/api/announcement'
 
+export default {
+
+  name: 'Home',
   data() {
     return {
-      num: ['', '', ''],
-      num2: '2',
-      labList: [
-        '实验一',
-        '实验二',
-        '实验三'
-      ],
-      name: '呵呵',
-      none: '暂无消息',
-      rowID: '',
-      tableData1: [[{
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 0
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 2,
-        labID: 1
-      }, {
-        labName: '软工实验系统',
-        name: 'w',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 2
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 0,
-        labID: 3
-      }], [{
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 0
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 2,
-        labID: 1
-      }, {
-        labName: '软工实验系统',
-        name: 'w',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 2
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 0,
-        labID: 3
-      }], [{
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 0
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 2,
-        labID: 1
-      }, {
-        labName: '软工实验系统',
-        name: 'w',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 2
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 0,
-        labID: 3
-      }]],
-      commentList: [
-        {
-          name: '赵小刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        },
-        {
-          name: '赵小刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        },
-        {
-          name: '赵小刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        },
-        {
-          name: '赵小刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这个客户是我们的重点客户,请相关同时尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        }, {
-          name: '刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        }, {
-          name: '刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        }, {
-          name: '刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        }, {
-          name: '刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        }, {
-          name: '?刚',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          content: '这尽快帮忙落实解决！',
-          time: '2021-11-28 20:50:22'
-        }
-      ],
-      content: ''
+      studentName: '',
+      nickname: '',
+      studentPhoto: '',
+      lastLoginTime: '暂无',
+      first_year: 2021,
+      second_year: 2020,
+      month: 9,
+      day: 6,
+      term: '',
+      week: 1,
+      currentWeek: 1,
+      courses: [],
+      courseData: [],
+      courseOptions: [],
+      allReportOptions: [],
+      unfinishedReportOptions: [],
+      courseValue: '',
+      allLabValue: '',
+      unfinishedLabValue: '',
+      SubmissionRate: '0',
+      labName: '暂无',
+      latestCourseName: '软件工程经济学课程',
+      latestLabId: 1,
+      announcement: [],
+      token: {
+        code: ''
+      }
     }
   },
   created() {
-    this.commentList.push(this.commentList[0])
+    this.token.code = getToken()
+    // 获取个人信息
+    getInfo().then(res => {
+      console.log(res)
+      this.studentName = res.data.userName
+      this.nickname = res.data.userNickname
+      this.studentPhoto = res.data.userPhoto
+      this.lastLoginTime = this.$cookies.get('lastLoginTime')
+      this.$cookies.set('lastLoginTime', Date())
+      const date = new Date()
+      this.month = date.getMonth()
+      this.day = date.getDay()
+      if (this.month >= 8) {
+        this.first_year = date.getFullYear()
+        this.second_year = this.first_year + 1
+        this.term = '一'
+      } else {
+        this.second_year = date.getFullYear()
+        this.first_year = this.second_year - 1
+        this.term = '二'
+      }
+      const time1 = date.getTime()
+      date.setFullYear(2021, 8, 6)
+      const time2 = date.getTime()
+      this.week = parseInt((time1 - time2) / 1000 / 3600 / 24 / 7) + 1
+    })
+    // 获得首页课程
+    getTeacherAndCourse(this.token).then(res => {
+      console.log(res)
+      this.courses = res.coursesInfoList
+      for (let i = 0; i < this.courses.length; i++) {
+        this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
+        this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })
+      }
+    })
+    // 获得所有实验
+    getLabSubmitInfo(this.token).then(res => {
+      let labName='暂无'
+      let SubmissionRate='0'
+      let latestLabId = 1
+      this.SubmissionRate = res.SubmissionRate
+      this.labName = res.labName
+      this.latestLabId = res.latestLabId
+      const labId = { 'labId': this.latestLabId }
+      getCourseByLabName(labId).then(res => {
+        this.latestCourseName = res.courseList[0].courseName
+      })
+    })
+
+    getSystemAnnouncement(this.token).then(res => {
+      console.log(res)
+      for (let i = 0; i < res.announcementEntityList.length; i++) {
+        this.announcement.push(res.announcementEntityList[i])
+      }
+    })
+    getCourseAnnouncementOfStu(this.token).then(res => {
+      console.log(res)
+      for (let i = 0; i < res.announcementEntityList.length; i++) {
+        this.announcement.push(res.announcementEntityList[i])
+      }
+    })
   },
   methods: {
-    tableRowClassName({ row, rowIndex }) {
-      this.rowID = rowIndex
-      if (this.tableData1[rowIndex].state == 2) {
-        return 'warning-row'
-      }
-      if (this.tableData1[rowIndex].state == 1) {
-        return 'success-row'
-      }
-      return ''
-    },
-    handleClickEdit(row) {
-      // this.$router.push({path:"/example/labTeacher",query:{
-      //                   name:row.name,
-      //                   stuNumber:row.stuNumber,
-      //                   labID:row.labID,
-      //                   isActive:row.isActive
-      //                 }});
-    },
-    clickLab(data) {
-      console.log('yes')
+    getCurrentDay() {
+      const currentDate = new Date()
+      // eslint-disable-next-line no-unused-vars
+      let res = ''
+      res += currentDate.getFullYear() + '-'
+      res += (currentDate.getMonth() + 1) + '-'
+      res += currentDate.getDate()
+      return res
     }
-
   }
-  // created(){
-  //     var url="http://121.5.175.203:8080/api/Video/getFavoriteVideo";
-  //     var data=new Object;
-  //     data.stuNumber=this.$router.query.stuNumber;
-  //     data.name=this.$router.query.name;
-  //     this.$axios.get(data,url)
-  //     .then(res => {
-  //            this.tableData=res.data;
-  //     });
-  //     this.name=this.tableData.name;
-  // }
 }
 </script>
-<style lang="scss" scoped>
-  .el-table .warning-row {
-    background: oldlace;
-  }
 
-  .el-table .success-row {
-    background: #f0f9eb;
-  }
-  .comment {
-    margin: 10px auto;
-    overflow: hidden;
-    .comment-title {
-      line-height: 50px;
-      color: #323232;
+<style lang="scss" scoped>
+.home {
+  padding: 10px;
+  .panel {
+    margin-bottom: 10px;
+
+    ::v-deep .el-card__body {
+      height: 280px;
+      overflow-y: auto;
     }
-    .comment-main {
-      .comment-main-item{
-        padding: 4px 10px;
-        margin-bottom: 5px;
-        background: #f4f4f4;
-        .comment-main-item-top {
-          padding: 4px 0 8px 0;
-          display: flex;
-          align-items: flex-end;
-          div {
-            font-size: 14px;
-            margin: 0 6px 0 2px;
-          }
-          span {
-            font-size: 12px;
-            color: #ccc;
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .panel-head-title {
+        font-weight: 600;
+        line-height: 28px;
+        font-size: 14px;
+        color: #363636;
+      }
+      .panel-head-right {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    .user{
+      .user-main {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        .user-main-img {
+          width: 36%;
+          padding-right: 5%;
+          ::v-deep .el-avatar {
+            display: block;
+            margin: 0 auto;
+            width: 120px !important;
+            height: 120px !important;
           }
         }
-        .comment-main-item-content {
-          font-size: 14px;
-          color: #666666;
+        .user-main-content {
+          width: 60%;
+          .user-main-content-name {
+            font-size: 28px;
+            color: #333;
+            font-weight: 600;
+            letter-spacing: 1px;
+          }
+          .user-main-content-tag {
+            margin-top: 8px;
+          }
+          .user-main-content-login {
+            margin: 10px 0;
+            color: #696969;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+          }
+          .user-main-content-time {
+            font-size: 18px;
+            color: #363636;
+            font-weight: 600;
+          }
+        }
+      }
+      .user-panel {
+        width: 100%;
+        padding: 0 5%;
+        display: flex;
+        margin-top: 16px;
+        .user-panel-wrap {
+          width: 25%;
+          img {
+            display: block;
+            width: 64px !important;
+            height: 64px !important;
+            margin: 0 auto;
+          }
+          .user-panel-desc {
+            text-align: center;
+            font-size: 14px;
+            height: 20px;
+            color: #696969;
+            line-height: 30px;
+          }
         }
       }
     }
+
+    .notice {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 46px;
+      border-bottom: 1px solid #eee;
+      .notice-desc {
+        width: calc(100% - 130px);
+        font-size: 14px;
+        color: #2b2f3a;
+      }
+      .notice-time {
+        width: 130px;
+        text-align: right;
+        color: #666666;
+        font-size: 12px;
+      }
+    }
+
+    .report {
+      .report-title{
+        color: #5a5e66;
+      }
+      .report-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 6%;
+        .report-main-progress {
+          width: 48%;
+          text-align: right;
+          padding-right: 10%;
+        }
+        .report-main-content {
+          width: 52%;
+          .report-main-content-box {
+            padding: 10px 0;
+            font-size: 18px;
+            color: #2b2f3a;
+            margin-bottom: 10px;
+            .report-main-content-box-tit {
+              color: #999;
+              font-size: 13px;
+              line-height: 30px;
+            }
+          }
+        }
+      }
+    }
+
   }
+}
 </style>

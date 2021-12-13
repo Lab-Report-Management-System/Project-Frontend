@@ -186,6 +186,13 @@ export const asyncRoutes = [
         // redirect: '/teacherClass',
         component: () => import('@/views/class/studentClass.vue'),
         meta: { title: '学生班级管理', icon: 'form', roles: ['Student'] }
+      },
+      {
+        path: '/stuClassInfo',
+        name: 'stuClassInfo',
+        // redirect: '/teacherClass',
+        component: () => import('@/views/class/stuClassInfo.vue'),
+        meta: { title: '班级信息', icon: 'form', roles: ['Teacher','ResponsibleTeacher', 'TeachingAssistant'] }
       }
     ]
   },
