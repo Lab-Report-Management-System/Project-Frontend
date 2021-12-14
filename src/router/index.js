@@ -37,6 +37,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/fight',
+    component: () => import('@/views/webSocket/fight'),
+    hidden: true
+  },
+  {
     path: '/viewRemarks',
     component: () => import('@/views/report/ViewRemarks'),
     hidden: true

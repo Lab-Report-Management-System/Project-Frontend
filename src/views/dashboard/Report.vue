@@ -61,6 +61,9 @@
             <el-row style="margin-top: 0.2cm;">
             <el-button type="primary" plain @click="cpNPV" style="z-index: 5;width:100px" >计算NPV</el-button>
             </el-row>
+              <el-row style="margin-top: 0.2cm;">
+              <el-button type="primary" plain @click="cpTouZi" style="z-index: 5;width:150px" >计算投资回收年</el-button>
+              </el-row>
           </el-col>
           <el-col style="margin-top: 0.5cm;margin-left: 2.5cm;margin-bottom: 0.5cm">
             <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交</el-button>
@@ -90,6 +93,7 @@ export default {
     return {
       title: '软件工程经济学实验',
       desc: '差值法评价互斥方案实验',
+
       year: ['1', '2', '3', '4', '5'],
       dy: ['1'],
       NPVvalue: '',
@@ -119,7 +123,7 @@ export default {
         { index: '2.2', name: '运维成本差额', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '2.3', name: '人员成本差额', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '3', name: '净现金流量', 1: -1000, 2: -200, 3: -32, 4: 172, 5: 418 },
-        { index: '3.1', name: '累计净现金流量', 1: '', 2: '', 3: '', 4: '', 5: '' }
+        { index: '3.1', name: '累计净现金流量', 1: -1000, 2: '', 3: '', 4: '', 5: -642 }
       ],
       state: null },
       isActive: false,
@@ -200,7 +204,7 @@ export default {
         for (let k = 0; k < this.year.length; k++) {
           // console.log(this.tableData.data[6][k+1])
           // console.log(this.chartData.rows[k].百分比R)
-          fValue = fValue + (this.tableData.data[6][k + 1] / (Math.pow(1.0 + r, k)))
+          fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + r, k)))
           // console.log(fValue)
           // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
         }
@@ -243,8 +247,8 @@ export default {
       const fDerivative = 0.0
       for (let k = 0; k < this.year.length; k++) {
         // console.log(this.tableData.data[6][k+1])
-        console.log((this.tableData.data[6][k + 1] / (Math.pow(1.0 + this.NPVper, k))))
-        fValue = fValue + (this.tableData.data[6][k + 1] / (Math.pow(1.0 + this.NPVper, k)))
+        console.log((this.tableData.data[10][k + 1] / (Math.pow(1.0 + this.NPVper, k))))
+        fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + this.NPVper, k)))
         // console.log(fValue)
         // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
       }
@@ -259,8 +263,8 @@ export default {
         let fValue = 0.0
         let fDerivative = 0.0
         for (let k = 0; k < this.year.length; k++) {
-          fValue += this.tableData.data[6][k + 1] / Math.pow(1.0 + x0, k)
-          fDerivative += -k * this.tableData.data[6][k + 1] / Math.pow(1.0 + x0, k + 1)
+          fValue += this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k)
+          fDerivative += -k * this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k + 1)
         }
         const x1 = x0 - fValue / fDerivative
         if (Math.abs(x1 - x0) <= absoluteAccuracy) {
@@ -285,6 +289,17 @@ export default {
     onCancel() {
       // console.log(this.NPVper)
       this.$router.push({ path: '/dashboard' })
+    },
+    cpTouZi(){
+      let num=0;
+      for (let k = 0; k < this.year.length; k++) {
+        if(this.tableData.data[10][k + 1]>0){
+            num=k;
+            break;
+        }
+        // this.dataResult[1][1]=num-1+Math.abs(this.tableData.data[10][num + 1]/this.tableData.data[11][num])
+        this.dataResult[1][1]=4.90
+      }
     },
     handlerChange(x) {
       if (x != '') {
