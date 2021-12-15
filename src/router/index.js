@@ -46,14 +46,6 @@ export const constantRoutes = [
     component: () => import('@/views/report/ViewRemarks'),
     hidden: true
   },
-
-  {
-    path: '/TeaHome',
-    name: 'TeaHome',
-    component: () => import('@/views/dashboard/TeaHome'),
-    hidden: true
-    // meta: { title: '首页', icon: 'from' }
-  },
   {
     path: '/socket',
     component: () => import('@/views/webSocket/socket'),
