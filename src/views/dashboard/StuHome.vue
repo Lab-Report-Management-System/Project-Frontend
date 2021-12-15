@@ -165,7 +165,7 @@ import { getInfo } from '@/api/user'
 import { getLabInfo } from '@/api/lab'
 import { getToken } from '@/utils/auth'
 import { getTeacherAndCourse, getCourseByLabId } from '@/api/course'
-import { getSystemAnnouncement, getCourseAnnouncementOfStu } from '@/api/announcement'
+import { getSystemAnnouncement, getCourseAnnouncement } from '@/api/announcement'
 
 export default {
 
@@ -205,7 +205,6 @@ export default {
     this.token.code = getToken()
     // 获取个人信息
     getInfo().then(res => {
-      console.log(res)
       this.studentName = res.data.userName
       this.nickname = res.data.userNickname
       this.studentPhoto = res.data.userPhoto
@@ -230,7 +229,6 @@ export default {
     })
     // 获得首页课程
     getTeacherAndCourse(this.token).then(res => {
-      console.log(res)
       this.courses = res.coursesInfoList
       for (let i = 0; i < this.courses.length; i++) {
         this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
@@ -242,7 +240,6 @@ export default {
       let latestLabTime = '3033-12-31'
       let latestLabName = '暂无'
       let latestLabId = 1
-      console.log(res)
       for (let i = 0; i < res.labEntityList.length; i++) {
         this.allReportOptions.push({ value: res.labEntityList[i].labId, label: res.labEntityList[i].labName })
         if (this.getCurrentDay() <= res.labEntityList[i].labDeadline) {
@@ -268,13 +265,11 @@ export default {
     })
 
     getSystemAnnouncement(this.token).then(res => {
-      console.log(res)
       for (let i = 0; i < res.announcementEntityList.length; i++) {
         this.announcement.push(res.announcementEntityList[i])
       }
     })
-    getCourseAnnouncementOfStu(this.token).then(res => {
-      console.log(res)
+    getCourseAnnouncement(this.token).then(res => {
       for (let i = 0; i < res.announcementEntityList.length; i++) {
         this.announcement.push(res.announcementEntityList[i])
       }

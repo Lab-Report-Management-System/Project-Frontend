@@ -4,7 +4,7 @@
       <el-col class="panel" :sm="12" :xs="24">
         <el-card shadow="hover">
           <div slot="header" class="panel-head">
-            <div class="panel-head-title"> {{ this.nickname }} 同学你好！</div>
+            <div class="panel-head-title"> {{ this.nickname }} 老师你好！</div>
           </div>
           <div class="user">
             <div class="user-main">
@@ -12,7 +12,7 @@
                 <el-avatar :src="studentPhoto" />
               </div>
               <div class="user-main-content">
-                <div class="user-main-content-name">{{ this.studentName }}</div>
+                <div class="user-main-content-name">{{ this.teacherName }}</div>
                 <div class="user-main-content-tag">
                   <el-tag size="small" style="margin-right: 10px;">软件学院</el-tag>
                   <el-tag type="success" size="small">软件工程学院</el-tag>
@@ -147,14 +147,14 @@ import { getInfo } from '@/api/user'
 import { getLabInfo } from '@/api/lab'
 import { getToken } from '@/utils/auth'
 import { getTeacherAndCourse, getCourseByLabId } from '@/api/course'
-import { getSystemAnnouncement, getCourseAnnouncementOfStu } from '@/api/announcement'
+import { getSystemAnnouncement, getCourseAnnouncement } from '@/api/announcement'
 
 export default {
 
   name: 'Home',
   data() {
     return {
-      studentName: '',
+      teacherName: '',
       nickname: '',
       studentPhoto: '',
       lastLoginTime: '暂无',
@@ -173,7 +173,7 @@ export default {
       courseValue: '',
       allLabValue: '',
       unfinishedLabValue: '',
-      SubmissionRate: '0',
+      SubmissionRate: 1,
       labName: '暂无',
       latestCourseName: '软件工程经济学课程',
       latestLabId: 1,
@@ -187,8 +187,7 @@ export default {
     this.token.code = getToken()
     // 获取个人信息
     getInfo().then(res => {
-      console.log(res)
-      this.studentName = res.data.userName
+      this.teacherName = res.data.userName
       this.nickname = res.data.userNickname
       this.studentPhoto = res.data.userPhoto
       this.lastLoginTime = this.$cookies.get('lastLoginTime')
@@ -212,35 +211,31 @@ export default {
     })
     // 获得首页课程
     getTeacherAndCourse(this.token).then(res => {
-      console.log(res)
       this.courses = res.coursesInfoList
       for (let i = 0; i < this.courses.length; i++) {
         this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
         this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })
       }
     })
-    // 获得所有实验
-    getLabSubmitInfo(this.token).then(res => {
-      let labName='暂无'
-      let SubmissionRate='0'
-      let latestLabId = 1
-      this.SubmissionRate = res.SubmissionRate
-      this.labName = res.labName
-      this.latestLabId = res.latestLabId
-      const labId = { 'labId': this.latestLabId }
-      getCourseByLabName(labId).then(res => {
-        this.latestCourseName = res.courseList[0].courseName
-      })
-    })
-
+    // // 获得所有实验
+    // getLabSubmitInfo(this.token).then(res => {
+    //   let labName='暂无'
+    //   let SubmissionRate='0'
+    //   let latestLabId = 1
+    //   this.SubmissionRate = res.SubmissionRate
+    //   this.labName = res.labName
+    //   this.latestLabId = res.latestLabId
+    //   const labId = { 'labId': this.latestLabId }
+    //   getCourseByLabName(labId).then(res => {
+    //     this.latestCourseName = res.courseList[0].courseName
+    //   })
+    // })
     getSystemAnnouncement(this.token).then(res => {
-      console.log(res)
       for (let i = 0; i < res.announcementEntityList.length; i++) {
         this.announcement.push(res.announcementEntityList[i])
       }
     })
-    getCourseAnnouncementOfStu(this.token).then(res => {
-      console.log(res)
+    getCourseAnnouncement(this.token).then(res => {
       for (let i = 0; i < res.announcementEntityList.length; i++) {
         this.announcement.push(res.announcementEntityList[i])
       }

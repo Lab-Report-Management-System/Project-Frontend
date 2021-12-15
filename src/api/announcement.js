@@ -8,9 +8,9 @@ export function getSystemAnnouncement(params) {
   })
 }
 
-export function getCourseAnnouncementOfStu(params) {
+export function getCourseAnnouncement(params) {
   return request({
-    url: '/api/announcement/student/course',
+    url: '/api/announcement/dashboard/course',
     method: 'post',
     params
   })
