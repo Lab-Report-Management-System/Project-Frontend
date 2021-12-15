@@ -94,7 +94,7 @@ export default {
   },
   created() {
     this.getCourseDetailById()
-    this.classroom = Math.ceil(Math.random() * 100 + 100)
+    this.courseInfo.classroom = Math.ceil(Math.random() * 100 + 100)
     // console.log(this.courseId)
   },
   methods: {
