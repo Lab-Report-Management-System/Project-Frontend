@@ -13,8 +13,8 @@ export const webSocketUrl = 'ws://182.61.43.155:7979/websocket?userId='
 
 // manageClass an axios instance
 const service = axios.create({
-  baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
-  // baseURL: 'http://localhost:6001/', // url = base url + request url
+  // baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
+  baseURL: 'http://localhost:6001/', // url = base url + request url
   // baseURL: 'http://lab-tongji.cn:6001/',
 
   // url = base url + request url
@@ -27,21 +27,21 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    console.log('Request sent')
+    // console.log('Request sent')
     const token = getToken()
-    console.log('interceptor ' + token)
+    // console.log('interceptor ' + token)
     if (token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['token'] = getToken()
-      console.log('已有token')
+      // console.log('已有token')
     }
     return config
   },
   error => {
     // do something with request error
-    console.log(error) // for d debug
+    // console.log(error) // for d debug
     return Promise.reject(error)
   }
 )
@@ -59,7 +59,7 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    console.log(response)
+    // console.log(response)
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
@@ -90,7 +90,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    // console.log('err' + error) // for debug
     Message({
       message: error.message,
       type: 'error',

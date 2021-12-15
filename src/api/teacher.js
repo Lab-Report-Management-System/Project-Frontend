@@ -6,3 +6,4 @@ export function getCourseIds() {
     method: 'get'
   })
 }
+

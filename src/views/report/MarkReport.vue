@@ -45,7 +45,7 @@
                 {{ scope.row.name }}
               </template>
             </el-table-column>
-            <el-table-column v-for="(item, index) in dy" :key="index" label="标准答案" width="200" align="center">
+            <el-table-column v-for="(item, index) in dy" :key="index" label="标准答案" width="auto" align="center">
               <template slot-scope="scope">
                 {{ scope.row[item] }}
               </template>
@@ -102,6 +102,8 @@
 </template>
 
 <script>
+import { getReportDetails } from '@/api/report'
+
 export default {
   data() {
     return {
@@ -114,6 +116,8 @@ export default {
       NPVvalue: '',
       comments: '',
       ratings: 5,
+      labReportId: parseInt(this.$route.query.labReportId),
+      nextLabReportId: null,
       NPVper: '',
       textss: ['不及格', '及格', '中', '良', '优'],
       options: [{
@@ -216,10 +220,27 @@ export default {
   },
 
   created() {
-    // this.getChart()
+    this.getReportDetails()
   },
   methods: {
     getReportDetails() {
+      getReportDetails({ 'labReportId': this.labReportId }).then(res => {
+        const { tableData, dataResult, NPVper, NPV, nextLabReportId } = res
+        this.tableData = tableData
+        this.dataResult[0]['2'] = dataResult[0]['1']
+        this.dataResult[1]['2'] = dataResult[1]['1']
+        this.NPVper = NPVper
+        this.NPV = NPV
+        this.nextLabReportId = nextLabReportId
+
+        this.computeIRR()
+        this.computeNPV()
+        this.cpNPV()
+        this.cpIRR()
+        this.getChart()
+      })
+    },
+    submitMark() {
 
     },
     getChart() {
@@ -242,7 +263,7 @@ export default {
     },
     add() {
       // this.progress++;
-      console.log(this.tableData)
+      // console.log(this.tableData)
       this.year.push(this.year.length + 1 + '')
       this.year_length++
     },
@@ -250,7 +271,7 @@ export default {
       this.year.pop()
     },
     onSubmit() {
-      console.log('yes')
+      // console.log('yes')
       // const params = this.tableData
       //  1 for submit
       // this.tableData.state = 1
@@ -264,11 +285,13 @@ export default {
     },
     onSave() {
       console.log('yes')
-      // const params = this.tableData
-      //  0 for save
-      // params['state'] = 0
-      // submitLab(params)
-      this.$message('正在加载下一份!')
+      if (this.nextLabReportId == null) {
+        // getReportDetails({ 'labReportId': this.nextLabReportId }).then(res=>{
+        //
+        // })
+      } else {
+        this.$message('正在加载下一份!')
+      }
     },
     computeNPV() {
       const i = 0
