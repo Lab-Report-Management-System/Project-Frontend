@@ -33,7 +33,7 @@ export function getStuLabInfo(params) {
 
 export function studentRegister(data) {
   data.studentPassword = require('js-sha256').sha256(data.studentPassword)
-  console.log(data)
+  // console.log(data)
   const params = new URLSearchParams(data)
   return request({
     url: '/api/student/updateInformation',
@@ -43,6 +43,8 @@ export function studentRegister(data) {
 }
 
 export function submitLab(params) {
+  console.log('sssssssssss')
+  console.log(params)
   return request({
     url: '/api/student/submitReport',
     method: 'post',

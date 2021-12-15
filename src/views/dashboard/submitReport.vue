@@ -75,7 +75,7 @@ import { submitLab } from '@/api/student'
 export default {
   data() {
     return {
-      labID:"",
+      labId: 1,
       title: '软件工程经济学实验',
       desc: '差值法评价互斥方案实验',
       year: ['1', '2', '3', '4', '5'],
@@ -97,9 +97,9 @@ export default {
       }],
       tableData: { data: [
         { index: 'A', name: '方案A年现金流', 1: '-500', 2: '50', 3: '120', 4: '200', 5: '200' },
-        { index: '', name: '累计现金流', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: '', name: '累计现金流', 1: '-500', 2: '-450', 3: '-330', 4: '-130', 5: '70' },
         { index: 'B', name: '方案B年现金流', 1: '-800', 2: '80', 3: '250', 4: '300', 5: '300' },
-        { index: '', name: '累计现金流', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: '', name: '累计现金流', 1: '-800', 2: '-720', 3: '-470', 4: '-170', 5: '130' },
         { index: '1', name: '现金录入（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '1.1', name: '年收入（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '2', name: '现金流出（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
@@ -108,7 +108,7 @@ export default {
         { index: '2.3', name: '人员成本差额', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '3', name: '净现金流量', 1: -1000, 2: -200, 3: -32, 4: 172, 5: 418 },
         { index: '3.1', name: '累计净现金流量', 1: '', 2: '', 3: '', 4: '', 5: '' }
-      ],
+      ]
       },
       isActive: false,
       dataResult: [
@@ -129,18 +129,17 @@ export default {
     }
   },
   created() {
-    this.labID = this.$route.query.labID
-    if(this.$route.query.state!= 1){
-      this.isActive = false
+    if (this.$route.query.labId) {
+      this.labId = this.$route.query.labId
     }
-    else{
-      this.isActive = true;
-    }
+    // console.log('created')
+    // console.log(this.labId)
+    this.isActive = this.$route.query.state === 1
   },
   methods: {
     add() {
       // this.progress++;
-      console.log(this.tableData)
+      // console.log(this.tableData)
       this.year.push(this.year.length + 1 + '')
       this.year_length++
     },
@@ -148,18 +147,19 @@ export default {
       this.year.pop()
     },
     onSubmit() {
-      console.log('yes')
-      this.tableData.state = 1
-      submitLab(this.year_length,this.tableData,this.NPVper,this.NPV,this.dataResult).then(res => {
-        console.log(res)
+      // console.log('yes')
+      this.state = 1
+      submitLab({ 'labId': this.labId, 'year_length': this.year_length, 'tableData': this.tableData, 'NPVper': this.NPVper, 'NPV': this.NPV, 'dataResult': this.dataResult, 'state': this.state }).then(res => {
+        // console.log(res)
         this.$message('提交成功!')
       })
     },
     onSave() {
-      console.log('yes')
-      this.tableData.state = 2
-      submitLab(this.year_length,this.tableData,this.NPVper,this.NPV,this.dataResult).then(res => {
-        console.log(res)
+      // console.log('???wtf')
+      this.state = 2
+      submitLab({ 'labId': this.labId, 'year_length': this.year_length, 'tableData': this.tableData, 'NPVper': this.NPVper, 'NPV': this.NPV, 'dataResult': this.dataResult, 'state': this.state }).then(res => {
+        // console.log(res)
+        // TODO 不一定成功
         this.$message('暂存成功!')
       })
     },
@@ -174,7 +174,6 @@ export default {
       if (x == '') {
         this.progress--
       }
-
     }
   }
 }

@@ -260,7 +260,7 @@ export default {
       // this.personalData.head_pic=res.userPhoto;
       this.personalData.email = res.data.userEmail
       this.personalData.userNickname = res.data.userNickname
-      this.personalData.StuNum = 1953608
+      this.personalData.StuNum = res.data.userEmail.split('@')[0]
       this.personalData.sex = 'male'
       this.personalData.identify = res.data.roles[0]
     })
