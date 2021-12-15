@@ -11,7 +11,7 @@ export function getCourseDetailById(data) {
 // 学生首页课程信息
 export function getTeacherAndCourse(data) {
   return request({
-    url: '/api/course/student/home',
+    url: '/api/course/home',
     method: 'post',
     params: data
   })
