@@ -23,19 +23,19 @@
             </div>
             <div class="user-panel">
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/lab.png" alt=""></a>
+                <router-link to="example/report"><img src="../../assets/images/lab.png" alt=""></router-link>
                 <div class="user-panel-desc">填写实验报告</div>
               </div>
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/class.png" alt=""></a>
+                <router-link to=""><img src="../../assets/images/class.png" alt=""></router-link>
                 <div class="user-panel-desc">查看班级</div>
               </div>
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/grade.png" alt=""></a>
+                <router-link to=""><img src="../../assets/images/grade.png" alt=""></router-link>
                 <div class="user-panel-desc">成绩管理</div>
               </div>
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/battle.png" alt=""></a>
+                <router-link to="socket"><img src="../../assets/images/battle.png" alt=""></router-link>
                 <div class="user-panel-desc">答题对战</div>
               </div>
             </div>
@@ -140,7 +140,7 @@
             <div class="report-title">{{ this.latestCourseName }}</div>
             <div class="report-main">
               <div class="report-main-progress">
-                <el-progress type="circle" :percentage="25" />
+                <el-progress type="circle" :percentage=this.completeRate />
               </div>
               <div class="report-main-content">
                 <div class="report-main-content-box">
@@ -166,6 +166,7 @@ import { getLabInfo } from '@/api/lab'
 import { getToken } from '@/utils/auth'
 import { getTeacherAndCourse, getCourseByLabId } from '@/api/course'
 import { getSystemAnnouncement, getCourseAnnouncement } from '@/api/announcement'
+import { getCompleteRate } from '@/api/report'
 
 export default {
 
@@ -195,6 +196,7 @@ export default {
       latestLabName: '',
       latestCourseName: '',
       latestLabId: 1,
+      completeRate: 0,
       announcement: [],
       token: {
         code: ''
@@ -261,6 +263,9 @@ export default {
       const labId = { 'labId': this.latestLabId }
       getCourseByLabId(labId).then(res => {
         this.latestCourseName = res.courseList[0].courseName
+      })
+      getCompleteRate(labId).then(res => {
+        this.completeRate = res.completeRate
       })
     })
 

@@ -7,3 +7,11 @@ export function getReportDetails(params) {
     params: params
   })
 }
+
+export function getCompleteRate(params) {
+  return request({
+    url: '/api/report/completeRate',
+    method: 'get',
+    params: params
+  })
+}
