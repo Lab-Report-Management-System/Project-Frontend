@@ -234,7 +234,7 @@ export default {
         this.NPV = NPV
         this.nextLabReportId = nextLabReportId
         // console.log('233')
-        console.log(nextLabReportId)
+        // console.log(nextLabReportId)
         this.computeIRR()
         this.computeNPV()
         this.cpNPV()
@@ -271,16 +271,22 @@ export default {
     },
     onSubmit() {
       postReportMarks({ 'labReportId': this.labReportId, 'score': this.ratings, 'comment': this.comments, 'state': 3 }).then(res => {
-        const { status } = res
-        this.$message(status)
+        const { message } = res
+        this.$message(message)
         this.isActive = true
       })
       // })
     },
     onSave() {
-      console.log('yes')
+      this.onSubmit()
       if (this.nextLabReportId == null) {
         this.$message.error('批阅已结束')
+        // 返回上一页 若没有上一页则到首页
+        if (this.$route.query.goindex === 'true') {
+          this.$router.push('/')
+        } else {
+          this.$router.back(-1)
+        }
       } else {
         this.$router.push({
           path: '/example/markReport',
