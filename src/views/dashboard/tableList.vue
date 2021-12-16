@@ -21,7 +21,7 @@
       width="120"
     >
       <template slot-scope="scope">
-        <p>{{ tableData[rowID].userId }}</p>
+        <p>{{ tableData[rowID].stuNumber }}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -29,7 +29,7 @@
       width="120"
     >
       <template slot-scope="scope">
-        <p>{{ tableData[rowID].userName }}</p>
+        <p>{{ tableData[rowID].name }}</p>
       </template>
     </el-table-column>
     <el-table-column

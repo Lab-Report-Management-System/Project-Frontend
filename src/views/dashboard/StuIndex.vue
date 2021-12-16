@@ -180,29 +180,29 @@ export default {
       userName: 'ss',
       tableData1: [[{
         labName: '软工实验系统',
-        name: this.userName,
-        stuNumber: this.userId,
+        name: '',
+        stuNumber: '',
         isActive: true,
         state: 1,
         labID: 0
       }, {
         labName: '软工实验系统',
-        name: this.userName,
-        stuNumber: this.userId,
+        name: '',
+        stuNumber: '',
         isActive: false,
         state: 2,
         labID: 1
       }, {
         labName: '软工实验系统',
-        name: this.userName,
-        stuNumber: this.userId,
+        name: '',
+        stuNumber: '',
         isActive: true,
         state: 1,
         labID: 2
       }, {
         labName: '软工实验系统',
-        name: this.userName,
-        stuNumber: this.userId,
+        name: '',
+        stuNumber: '',
         isActive: false,
         state: 0,
         labID: 3
@@ -261,6 +261,11 @@ export default {
       content: ''
     }
   },
+  // watch: {
+  //   userId: function(newValue) {
+  //
+  //   }
+  // },
   created() {
     this.commentList.push(this.commentList[0])
     getInfo().then(res => {
@@ -269,7 +274,14 @@ export default {
       // console.log(res.data.userName)
       this.userId = res.data.userID
       this.userName = res.data.userName
+      // console.log('222222222222')
+      // console.log(this.userId)
     })
+    for (let i = 0; i < this.tableData1.length; i++) {
+      // console.log()
+      this.tableData1[i]['name'] = this.userName
+      this.tableData1[i]['stuNumber'] = this.userId
+    }
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {

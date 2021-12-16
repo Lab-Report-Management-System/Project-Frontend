@@ -78,6 +78,7 @@ export default {
   },
   created() {
     // this.tableData2=this.tableData;
+    console.log('sa')
     console.log(this.tableData)
     // initial();
   },
