@@ -103,6 +103,7 @@
 
 <script>
 import { getReportDetails } from '@/api/report'
+import { postReportMarks } from '@/api/teacher'
 
 export default {
   data() {
@@ -232,16 +233,14 @@ export default {
         this.NPVper = NPVper
         this.NPV = NPV
         this.nextLabReportId = nextLabReportId
-
+        // console.log('233')
+        console.log(nextLabReportId)
         this.computeIRR()
         this.computeNPV()
         this.cpNPV()
         this.cpIRR()
         this.getChart()
       })
-    },
-    submitMark() {
-
     },
     getChart() {
       const i = 0
@@ -271,25 +270,24 @@ export default {
       this.year.pop()
     },
     onSubmit() {
-      // console.log('yes')
-      // const params = this.tableData
-      //  1 for submit
-      // this.tableData.state = 1
-      // params['state'] = 1
-      // console.log(params)
-      // submitLab(this.tableData).then(res => {
-      //   console.log(res)
-      this.$message('提交成功!')
+      postReportMarks({ 'labReportId': this.labReportId, 'score': this.ratings, 'comment': this.comments, 'state': 3 }).then(res => {
+        const { status } = res
+        this.$message(status)
+        this.isActive = true
+      })
       // })
-      this.isActive = true
     },
     onSave() {
       console.log('yes')
       if (this.nextLabReportId == null) {
-        // getReportDetails({ 'labReportId': this.nextLabReportId }).then(res=>{
-        //
-        // })
+        this.$message.error('批阅已结束')
       } else {
+        this.$router.push({
+          path: '/example/markReport',
+          query: {
+            labReportId: this.nextLabReportId
+          }
+        })
         this.$message('正在加载下一份!')
       }
     },
@@ -299,7 +297,7 @@ export default {
       const fDerivative = 0.0
       for (let k = 0; k < this.year.length; k++) {
         // console.log(this.tableData.data[6][k+1])
-        console.log((this.tableData.data[6][k + 1] / (Math.pow(1.0 + this.NPVper, k))))
+        // console.log((this.tableData.data[6][k + 1] / (Math.pow(1.0 + this.NPVper, k))))
         fValue = fValue + (this.tableData.data[6][k + 1] / (Math.pow(1.0 + this.NPVper, k)))
         // console.log(fValue)
         // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
@@ -331,7 +329,7 @@ export default {
       const a = this.computeIRR()
       this.dataResult[0][1] = Math.round(a * 10000) / 100
       this.dataResult[0][1] = this.dataResult[0][1].toString() + '%'
-      console.log(a)
+      // console.log(a)
     },
     cpNPV() {
       const a = this.computeNPV()

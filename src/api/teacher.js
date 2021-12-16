@@ -7,3 +7,11 @@ export function getCourseIds() {
   })
 }
 
+export function postReportMarks(data) {
+  const params = new URLSearchParams(data)
+  return request({
+    url: '/api/teacher/postReportMarks',
+    method: 'post',
+    data: params
+  })
+}
