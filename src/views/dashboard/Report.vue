@@ -53,17 +53,17 @@
           </el-table>
           <el-col style="position: relative;top: 20%;left: 60%;margin-top: -4cm;">
             <el-row>
-            <el-button type="primary" plain @click="getChart" style="z-index: 5;width:100px" >生成图像</el-button>
+              <el-button type="primary" plain style="z-index: 5;width:100px" @click="getChart">生成图像</el-button>
             </el-row>
             <el-row style="margin-top: 0.2cm;">
-            <el-button type="primary" plain @click="cpIRR" style="z-index: 5;width:100px" >计算IRR</el-button>
+              <el-button type="primary" plain style="z-index: 5;width:100px" @click="cpIRR">计算IRR</el-button>
             </el-row>
             <el-row style="margin-top: 0.2cm;">
-            <el-button type="primary" plain @click="cpNPV" style="z-index: 5;width:100px" >计算NPV</el-button>
+              <el-button type="primary" plain style="z-index: 5;width:100px" @click="cpNPV">计算NPV</el-button>
             </el-row>
-              <el-row style="margin-top: 0.2cm;">
-              <el-button type="primary" plain @click="cpTouZi" style="z-index: 5;width:150px" >计算投资回收年</el-button>
-              </el-row>
+            <el-row style="margin-top: 0.2cm;">
+              <el-button type="primary" plain style="z-index: 5;width:150px" @click="cpTouZi">计算投资回收年</el-button>
+            </el-row>
           </el-col>
           <el-col style="margin-top: 0.5cm;margin-left: 2.5cm;margin-bottom: 0.5cm">
             <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交</el-button>
@@ -91,8 +91,9 @@ import { submitLab } from '@/api/student'
 export default {
   data() {
     return {
-      title: '软件工程经济学实验',
-      desc: '差值法评价互斥方案实验',
+      title: '差值法评价互斥方案实验',
+      desc: '本实验需要每一位同学查阅相关资料，获取近5-10年的现金数据，并计算对应的收入差额、净现值NPV、内部收益率等。\n' +
+        '请将相关数据填入以下表格中。',
 
       year: ['1', '2', '3', '4', '5'],
       dy: ['1'],
@@ -139,47 +140,47 @@ export default {
       chartData: {
         columns: ['NPV', '百分比R'],
         rows: [
-          { 'NPV': '0.02', '百分比R': 0},
-          { 'NPV': '0.04', '百分比R': 0},
-          { 'NPV': '0.06', '百分比R': 0},
-          { 'NPV': '0.08', '百分比R': 0},
-          { 'NPV': '0.10', '百分比R': 0},
-          { 'NPV': '0.12', '百分比R': 0},
-          { 'NPV': '0.14', '百分比R': 0},
-          { 'NPV': '0.16', '百分比R': 0},
-          { 'NPV': '0.18', '百分比R': 0},
-          { 'NPV': '0.20', '百分比R': 0},
-          { 'NPV': '0.22', '百分比R': 0},
-          { 'NPV': '0.24', '百分比R': 0},
-          { 'NPV': '0.26', '百分比R': 0},
-          { 'NPV': '0.28', '百分比R': 0},
-          { 'NPV': '0.30', '百分比R': 0},
-          { 'NPV': '0.32', '百分比R': 0},
-          { 'NPV': '0.34', '百分比R': 0},
-          { 'NPV': '0.36', '百分比R': 0},
-          { 'NPV': '0.38', '百分比R': 0},
-          { 'NPV': '0.40', '百分比R': 0},
-          { 'NPV': '0.42', '百分比R': 0},
-          { 'NPV': '0.44', '百分比R': 0},
-          { 'NPV': '0.46', '百分比R': 0},
-          { 'NPV': '0.48', '百分比R': 0},
-          { 'NPV': '0.50', '百分比R': 0},
-          { 'NPV': '0.52', '百分比R': 0},
-          { 'NPV': '0.54', '百分比R': 0},
-          { 'NPV': '0.56', '百分比R': 0},
-          { 'NPV': '0.58', '百分比R': 0},
-          { 'NPV': '0.60', '百分比R': 0},
-          { 'NPV': '0.62', '百分比R': 0},
-          { 'NPV': '0.64', '百分比R': 0},
-          { 'NPV': '0.66', '百分比R': 0},
-          { 'NPV': '0.68', '百分比R': 0},
-          { 'NPV': '0.70', '百分比R': 0},
-          { 'NPV': '0.72', '百分比R': 0},
-          { 'NPV': '0.74', '百分比R': 0},
-          { 'NPV': '0.76', '百分比R': 0},
-          { 'NPV': '0.78', '百分比R': 0},
-          { 'NPV': '0.80', '百分比R': 0},
-          { 'NPV': '0.82', '百分比R': 0},
+          { 'NPV': '0.02', '百分比R': 0 },
+          { 'NPV': '0.04', '百分比R': 0 },
+          { 'NPV': '0.06', '百分比R': 0 },
+          { 'NPV': '0.08', '百分比R': 0 },
+          { 'NPV': '0.10', '百分比R': 0 },
+          { 'NPV': '0.12', '百分比R': 0 },
+          { 'NPV': '0.14', '百分比R': 0 },
+          { 'NPV': '0.16', '百分比R': 0 },
+          { 'NPV': '0.18', '百分比R': 0 },
+          { 'NPV': '0.20', '百分比R': 0 },
+          { 'NPV': '0.22', '百分比R': 0 },
+          { 'NPV': '0.24', '百分比R': 0 },
+          { 'NPV': '0.26', '百分比R': 0 },
+          { 'NPV': '0.28', '百分比R': 0 },
+          { 'NPV': '0.30', '百分比R': 0 },
+          { 'NPV': '0.32', '百分比R': 0 },
+          { 'NPV': '0.34', '百分比R': 0 },
+          { 'NPV': '0.36', '百分比R': 0 },
+          { 'NPV': '0.38', '百分比R': 0 },
+          { 'NPV': '0.40', '百分比R': 0 },
+          { 'NPV': '0.42', '百分比R': 0 },
+          { 'NPV': '0.44', '百分比R': 0 },
+          { 'NPV': '0.46', '百分比R': 0 },
+          { 'NPV': '0.48', '百分比R': 0 },
+          { 'NPV': '0.50', '百分比R': 0 },
+          { 'NPV': '0.52', '百分比R': 0 },
+          { 'NPV': '0.54', '百分比R': 0 },
+          { 'NPV': '0.56', '百分比R': 0 },
+          { 'NPV': '0.58', '百分比R': 0 },
+          { 'NPV': '0.60', '百分比R': 0 },
+          { 'NPV': '0.62', '百分比R': 0 },
+          { 'NPV': '0.64', '百分比R': 0 },
+          { 'NPV': '0.66', '百分比R': 0 },
+          { 'NPV': '0.68', '百分比R': 0 },
+          { 'NPV': '0.70', '百分比R': 0 },
+          { 'NPV': '0.72', '百分比R': 0 },
+          { 'NPV': '0.74', '百分比R': 0 },
+          { 'NPV': '0.76', '百分比R': 0 },
+          { 'NPV': '0.78', '百分比R': 0 },
+          { 'NPV': '0.80', '百分比R': 0 },
+          { 'NPV': '0.82', '百分比R': 0 }
         ]
       }
     }
@@ -191,16 +192,15 @@ export default {
   },
   created() {
     getChart()
-
   },
   methods: {
-    getChart(){
+    getChart() {
       const i = 0
       let fValue = 0.0
       const fDerivative = 0.0
-      let r= 0.02;
-      for (let j =0;j< this.chartData.rows.length;j++){
-        fValue=0
+      let r = 0.02
+      for (let j = 0; j < this.chartData.rows.length; j++) {
+        fValue = 0
         for (let k = 0; k < this.year.length; k++) {
           // console.log(this.tableData.data[6][k+1])
           // console.log(this.chartData.rows[k].百分比R)
@@ -208,8 +208,8 @@ export default {
           // console.log(fValue)
           // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
         }
-        this.chartData.rows[j].百分比R=fValue
-        r=r+0.02;
+        this.chartData.rows[j].百分比R = fValue
+        r = r + 0.02
       }
     },
     add() {
@@ -290,15 +290,15 @@ export default {
       // console.log(this.NPVper)
       this.$router.push({ path: '/dashboard' })
     },
-    cpTouZi(){
-      let num=0;
+    cpTouZi() {
+      let num = 0
       for (let k = 0; k < this.year.length; k++) {
-        if(this.tableData.data[10][k + 1]>0){
-            num=k;
-            break;
+        if (this.tableData.data[10][k + 1] > 0) {
+          num = k
+          break
         }
         // this.dataResult[1][1]=num-1+Math.abs(this.tableData.data[10][num + 1]/this.tableData.data[11][num])
-        this.dataResult[1][1]=4.90
+        this.dataResult[1][1] = 4.90
       }
     },
     handlerChange(x) {
@@ -308,7 +308,6 @@ export default {
       if (x == '') {
         this.progress--
       }
-
     }
   }
 }
