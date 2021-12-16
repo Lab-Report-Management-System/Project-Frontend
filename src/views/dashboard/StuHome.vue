@@ -85,7 +85,7 @@
               align="center"
             >
               <template slot-scope="scope">
-                <el-button type="text" size="small">查看</el-button>
+                <el-button type="text" size="small" @click="manageLab">查看</el-button>
                 <el-button type="text" size="small" disabled>编辑</el-button>
               </template>
             </el-table-column>
@@ -293,6 +293,9 @@ export default {
       res += (currentDate.getMonth() + 1) + '-'
       res += currentDate.getDate()
       return res
+    },
+    manageLab() {
+      this.$router.push('/lab/stuLabManage')
     }
   }
 }

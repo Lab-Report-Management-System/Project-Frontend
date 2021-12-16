@@ -56,11 +56,7 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-  {
-    path: '/StuLabManage',
-    component: () => import('@/views/dashboard/StuIndex.vue'),
-    hidden: true
-  },
+
   {
     path: '/register',
     component: () => import('@/views/register/index.vue'),
@@ -134,6 +130,18 @@ export const asyncRoutes = [
         component: () => import('@/views/calendar/index.vue'),
         meta: { title: '日程管理', icon: 'el-icon-date' }
       }
+    ]
+  },
+  {
+    path: '/lab',
+    component: Layout,
+    children: [{
+      path: 'stuLabManage',
+      component: () => import('@/views/dashboard/StuIndex.vue'),
+      hidden: true,
+      meta: { title: '学生实验管理', roles: ['Student'] }
+    }
+
     ]
   },
 

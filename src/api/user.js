@@ -13,7 +13,6 @@ export function getInfo() {
   return request({
     url: '/api/user/getInfo',
     method: 'get'
-    // params: { token }
   })
 }
 
