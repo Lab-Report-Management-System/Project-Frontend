@@ -87,7 +87,7 @@ export const constantRoutes = [
   {
     path: '/submitReport',
     name: 'submitReport',
-    component: () => import('@/views/dashboard/submitReport.vue'),
+    component: () => import('@/views/report/submitReport.vue'),
     hidden: true
 
   },
@@ -154,7 +154,7 @@ export const asyncRoutes = [
       {
         path: 'report',
         name: 'Report',
-        component: () => import('@/views/dashboard/Report'),
+        component: () => import('@/views/report/Report'),
         meta: { title: '报告填写', icon: 'form', roles: ['Student'] }
       },
       {
@@ -189,7 +189,7 @@ export const asyncRoutes = [
         name: 'stuClassInfo',
         // redirect: '/teacherClass',
         component: () => import('@/views/class/stuClassInfo.vue'),
-        meta: { title: '班级信息', icon: 'form', roles: ['Teacher','ResponsibleTeacher', 'TeachingAssistant'] }
+        meta: { title: '班级信息', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
       }
     ]
   },

@@ -72,7 +72,8 @@
             type="textarea"
             :rows="2"
             style="width: 50%"
-            placeholder="请输入评价内容"
+            disabled
+            placeholder="这里是老师的评价..."
           />
           <el-rate
             v-model="ratings"
@@ -103,6 +104,8 @@
 </template>
 
 <script>
+import { getReportDetails } from '@/api/report'
+
 export default {
   data() {
     return {
@@ -114,6 +117,7 @@ export default {
       stuAnswer: ['2'],
       NPVvalue: '',
       comments: '',
+      labReportId: this.$route.query.labReportId,
       ratings: 5,
       NPVper: '',
       textss: ['不及格', '及格', '中', '良', '优'],
@@ -217,11 +221,20 @@ export default {
   },
 
   created() {
-    // this.getChart()
+    this.getReportDetails()
   },
   methods: {
     getReportDetails() {
-
+      getReportDetails({ 'labReportId': this.labReportId }).then(res => {
+        const { tableData, dataResult, NPVper, NPV, comments, ratings } = res
+        this.tableData = tableData
+        this.dataResult[0]['2'] = dataResult[0]['1']
+        this.dataResult[1]['2'] = dataResult[1]['1']
+        this.NPVper = NPVper
+        this.NPV = NPV
+        this.comments = comments
+        this.ratings = ratings
+      })
     },
     getChart() {
       const i = 0
