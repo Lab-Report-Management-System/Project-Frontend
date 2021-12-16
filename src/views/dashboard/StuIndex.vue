@@ -159,12 +159,6 @@ export default {
       this.initial()
     })
   },
-  watch:{
-     'tableData1': function(newVal) {
-       this.tableData1 = newVal
-       console.log(this.tableData1)
-     }
-  },
   methods: {
     tableRowClassName({ row, rowIndex }) {
       this.rowID = rowIndex
