@@ -148,7 +148,7 @@ export const asyncRoutes = [
         path: 'labRep',
         name: 'LabRep',
         component: () => import('@/views/labReport.vue'),
-        meta: { title: '实验报告', icon: 'form' }
+        meta: { title: '发布实验', icon: 'form', roles: ['Teacher'] }
       },
 
       {
