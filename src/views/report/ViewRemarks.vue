@@ -243,10 +243,10 @@ export default {
       let r = 0.02
       for (let j = 0; j < this.chartData.rows.length; j++) {
         fValue = 0
-        for (let k = 0; k < this.year.length; k++) {
+        for (let k = -1; k < this.year.length-1; k++) {
           // console.log(this.tableData.data[6][k+1])
           // console.log(this.chartData.rows[k].百分比R)
-          fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + r, k)))
+          fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + r, k+1)))
           // console.log(fValue)
           // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
         }
