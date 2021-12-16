@@ -140,7 +140,7 @@
             <div class="report-title">{{ this.latestCourseName }}</div>
             <div class="report-main">
               <div class="report-main-progress">
-                <el-progress type="circle" :percentage=this.completeRate />
+                <el-progress type="circle" :percentage="this.completeRate" />
               </div>
               <div class="report-main-content">
                 <div class="report-main-content-box">
@@ -265,7 +265,11 @@ export default {
         this.latestCourseName = res.courseList[0].courseName
       })
       getCompleteRate(labId).then(res => {
-        this.completeRate = res.completeRate
+        if (res.completeRate === null) {
+          this.completeRate = 0
+        } else {
+          this.completeRate = res.completeRate
+        }
       })
     })
 
