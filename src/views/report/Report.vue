@@ -21,9 +21,9 @@
                 {{ scope.row.name }}
               </template>
             </el-table-column>
-            <el-table-column v-for="(item, index) in year" :key="index" :label="item" align="center">
+            <el-table-column v-for="(item, index) in year" :key="index" :label="index" align="center">
               <template slot-scope="scope">
-                <el-input v-model="scope.row[item]" @change="handlerChange" />
+                <el-input v-model="scope.row[index]" @change="handlerChange" />
               </template>
             </el-table-column>
           </el-table>
@@ -95,7 +95,7 @@ export default {
       desc: '本实验需要每一位同学查阅相关资料，获取近5-10年的现金数据，并计算对应的收入差额、净现值NPV、内部收益率等。\n' +
         '请将相关数据填入以下表格中。',
 
-      year: ['1', '2', '3', '4', '5'],
+      year: ['1', '2', '3', '4', '5','6'],
       dy: ['1'],
       NPVvalue: '',
       NPVper: '',
@@ -124,7 +124,7 @@ export default {
         { index: '2.2', name: '运维成本差额', 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '2.3', name: '人员成本差额', 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
         { index: '3', name: '净现金流量', 0: -1000, 1: -200, 2: -32, 3: 172, 4: 418,5:710 },
-        { index: '3.1', name: '累计净现金流量', 0: '', 1: '', 2: '', 3: '', 4: -642,5:68 }
+        { index: '3.1', name: '累计净现金流量', 0: 0, 1: 0, 2: 0, 3: 0, 4: -642,5:68 }
       ],
       state: null },
       isActive: false,
@@ -245,10 +245,10 @@ export default {
       const i = 0
       let fValue = 0.0
       const fDerivative = 0.0
-      for (let k = 0; k < this.year.length; k++) {
+      for (let k = -1; k < this.year.length-1; k++) {
         // console.log(this.tableData.data[6][k+1])
-        console.log((this.tableData.data[10][k + 1] / (Math.pow(1.0 + this.NPVper, k))))
-        fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + this.NPVper, k)))
+        console.log((this.tableData.data[10][k + 1] / (Math.pow(1.0 + this.NPVper, k+1))))
+        fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + this.NPVper, k+1)))
         // console.log(fValue)
         // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
       }
@@ -262,9 +262,9 @@ export default {
       while (i < maxIterationCount) {
         let fValue = 0.0
         let fDerivative = 0.0
-        for (let k = 0; k < this.year.length; k++) {
-          fValue += this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k)
-          fDerivative += -k * this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k + 1)
+        for (let k = -1; k < this.year.length-1; k++) {
+          fValue += this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k+1)
+          fDerivative += -(k+1) * this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k + 2)
         }
         const x1 = x0 - fValue / fDerivative
         if (Math.abs(x1 - x0) <= absoluteAccuracy) {
@@ -297,9 +297,10 @@ export default {
           num = k
           break
         }
-        this.dataResult[1][1] = num-1+Math.abs(this.tableData.data[10][num + 1]/this.tableData.data[11][num])
+
         // this.dataResult[1][1] = 4.90
       }
+      this.dataResult[1][1] = Math.round((num+Math.abs(this.tableData.data[11][num]/this.tableData.data[10][num+1]))*100)/100
     },
     handlerChange(x) {
       if (x != '') {
