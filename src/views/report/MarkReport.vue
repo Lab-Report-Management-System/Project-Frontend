@@ -21,7 +21,7 @@
                 {{ scope.row.name }}
               </template>
             </el-table-column>
-            <el-table-column v-for="(item, index) in year" :key="index" :label="item" align="center">
+            <el-table-column v-for="(item, index) in year" :key="index" :label="index" align="center">
               <template slot-scope="scope">
                 {{ scope.row[item] }}
               </template>
