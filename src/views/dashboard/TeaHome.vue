@@ -23,19 +23,19 @@
             </div>
             <div class="user-panel">
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/lab.png" alt=""></a>
+                <router-link to="example/markReport"><img src="../../assets/images/lab.png" alt=""></router-link>
                 <div class="user-panel-desc">批改实验报告</div>
               </div>
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/class.png" alt=""></a>
+                <router-link to=""><img src="../../assets/images/class.png" alt=""></router-link>
                 <div class="user-panel-desc">查看班级</div>
               </div>
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/grade.png" alt=""></a>
+                <router-link to=""><img src="../../assets/images/grade.png" alt=""></router-link>
                 <div class="user-panel-desc">成绩管理</div>
               </div>
               <div class="user-panel-wrap">
-                <a><img src="../../assets/images/battle.png" alt=""></a>
+                <router-link to=""><img src="../../assets/images/battle.png" alt=""></router-link>
                 <div class="user-panel-desc">答题对战</div>
               </div>
             </div>
@@ -86,7 +86,7 @@
             >
               <template slot-scope="scope">
                 <el-button type="text" size="small">查看</el-button>
-                <el-button type="text" size="small" disabled>编辑</el-button>
+                <el-button type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -100,7 +100,7 @@
           <div slot="header" class="panel-head">
             <div class="panel-head-title">系统公告</div>
             <div class="panel-head-right">
-              <el-button type="info" plain size="mini" icon="el-icon-plus" disabled>发布公告</el-button>
+              <el-button type="info" plain size="mini" icon="el-icon-plus" >发布公告</el-button>
               <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right" /></el-button>
             </div>
           </div>
@@ -122,16 +122,16 @@
             <div class="report-title">{{ this.latestCourseName }}</div>
             <div class="report-main">
               <div class="report-main-progress">
-                <el-progress type="circle" :percentage="SubmissionRate" />
+                <el-progress type="circle" :percentage="this.submissionRate" />
               </div>
               <div class="report-main-content">
                 <div class="report-main-content-box">
                   <div class="report-main-content-box-tit">实验：</div>
-                  <div>{{ labName }}</div>
+                  <div>{{this.latestLabName}}</div>
                 </div>
                 <div class="report-main-content-box">
                   <div class="report-main-content-box-tit">提交率</div>
-                  <div>{{ SubmissionRate }}%</div>
+                  <div>{{ this.submissionRate }}%</div>
                 </div>
               </div>
             </div>
@@ -148,6 +148,7 @@ import { getLabInfo } from '@/api/lab'
 import { getToken } from '@/utils/auth'
 import { getTeacherAndCourse, getCourseByLabId } from '@/api/course'
 import { getSystemAnnouncement, getCourseAnnouncement } from '@/api/announcement'
+import { getSubmitRate } from '@/api/report'
 
 export default {
 
@@ -168,14 +169,12 @@ export default {
       courses: [],
       courseData: [],
       courseOptions: [],
-      allReportOptions: [],
-      unfinishedReportOptions: [],
       courseValue: '',
       allLabValue: '',
       unfinishedLabValue: '',
-      SubmissionRate: 1,
-      labName: '暂无',
-      latestCourseName: '软件工程经济学课程',
+      submissionRate: 0,
+      latestLabName: '',
+      latestCourseName: '',
       latestLabId: 1,
       announcement: [],
       token: {
@@ -217,19 +216,36 @@ export default {
         this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })
       }
     })
-    // // 获得所有实验
-    // getLabSubmitInfo(this.token).then(res => {
-    //   let labName='暂无'
-    //   let SubmissionRate='0'
-    //   let latestLabId = 1
-    //   this.SubmissionRate = res.SubmissionRate
-    //   this.labName = res.labName
-    //   this.latestLabId = res.latestLabId
-    //   const labId = { 'labId': this.latestLabId }
-    //   getCourseByLabName(labId).then(res => {
-    //     this.latestCourseName = res.courseList[0].courseName
-    //   })
-    // })
+    // 获得所有实验
+    getLabInfo(this.token).then(res => {
+      let latestLabTime = '3033-12-31'
+      let latestLabName = '暂无'
+      let latestLabId = 1
+      for (let i = 0; i < res.labEntityList.length; i++) {
+        if (this.getCurrentDay() <= res.labEntityList[i].labDeadline) {
+          if (res.labEntityList[i].labDeadline <= latestLabTime) {
+            latestLabTime = res.labEntityList[i].labDeadline
+            latestLabName = res.labEntityList[i].labName
+            latestLabId = res.labEntityList[i].labId
+          }
+        }
+      }
+      // 没有匹配到最近的实验
+      if (latestLabTime === '3033-12-31') {
+        latestLabTime = ''
+      }
+      this.latestLabDeadline = latestLabTime
+      this.latestLabName = latestLabName
+      this.latestLabId = latestLabId
+      const labId = { 'labId': this.latestLabId }
+      getCourseByLabId(labId).then(res => {
+        this.latestCourseName = res.courseList[0].courseName
+      })
+      getSubmitRate(labId).then(res => {
+        console.log(res)
+        this.submissionRate = res.finishRate
+      })
+    })
     getSystemAnnouncement(this.token).then(res => {
       for (let i = 0; i < res.announcementEntityList.length; i++) {
         this.announcement.push(res.announcementEntityList[i])
