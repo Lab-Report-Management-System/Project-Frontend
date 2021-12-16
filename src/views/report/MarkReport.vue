@@ -135,18 +135,18 @@ export default {
         value: 0.12
       }],
       tableData: { data: [
-        { index: 'A', name: '方案A年现金流', 1: '-500', 2: '50', 3: '120', 4: '200', 5: '200' },
-        { index: '', name: '累计现金流', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: 'B', name: '方案B年现金流', 1: '-800', 2: '80', 3: '250', 4: '300', 5: '300' },
-        { index: '', name: '累计现金流', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: '1', name: '现金录入（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: '1.1', name: '年收入（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: '2', name: '现金流出（差额）', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: '2.1', name: '投资差额', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: '2.2', name: '运维成本差额', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: '2.3', name: '人员成本差额', 1: '', 2: '', 3: '', 4: '', 5: '' },
-        { index: '3', name: '净现金流量', 1: -1000, 2: -200, 3: -32, 4: 172, 5: 418 },
-        { index: '3.1', name: '累计净现金流量', 1: '', 2: '', 3: '', 4: '', 5: '' }
+        { index: 'A', name: '方案A年现金流', 0: '-500', 1: '50', 2: '120', 3: '200', 4: '200',5:'' },
+        { index: '', name: '累计现金流', 0: '', 1: '', 2: '', 3: '', 4: '',5:'' },
+        { index: 'B', name: '方案B年现金流', 0: '-800', 1: '80', 2: '250', 3: '300', 4: '300',5:'' },
+        { index: '', name: '累计现金流', 0: '', 0: '', 2: '', 3: '', 4: '' ,5:''},
+        { index: '1', name: '现金录入（差额）', 0: '', 1: '', 2: '', 3: '', 4: '',5: },
+        { index: '1.1', name: '年收入（差额）', 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: '2', name: '现金流出（差额）', 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: '2.1', name: '投资差额', 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: '2.2', name: '运维成本差额', 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: '2.3', name: '人员成本差额', 0: '', 1: '', 2: '', 3: '', 4: '', 5: '' },
+        { index: '3', name: '净现金流量', 0: -1000, 1: -200, 2: -32, 3: 172, 4: 418,,5:710 },
+        { index: '3.1', name: '累计净现金流量', 0: '', 1: '', 2: '', 3: '', 4: -642,5:68 }
       ],
       state: null },
       isActive: false,
@@ -156,9 +156,9 @@ export default {
         { index: '', name: '投资收益率（年）', 1: '', 2: '22' }
       ],
       NPV: { name: '净现值NPV', 1: '' },
-      progress: 15,
+      progress: 18,
       allNum: '',
-      year_length: 5,
+      year_length: 6,
       chartData: {
         columns: ['NPV', '百分比R'],
         rows: [
@@ -252,7 +252,7 @@ export default {
         for (let k = 0; k < this.year.length; k++) {
           // console.log(this.tableData.data[6][k+1])
           // console.log(this.chartData.rows[k].百分比R)
-          fValue = fValue + (this.tableData.data[6][k + 1] / (Math.pow(1.0 + r, k)))
+          fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + r, k)))
           // console.log(fValue)
           // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
         }
@@ -304,7 +304,7 @@ export default {
       for (let k = 0; k < this.year.length; k++) {
         // console.log(this.tableData.data[6][k+1])
         // console.log((this.tableData.data[6][k + 1] / (Math.pow(1.0 + this.NPVper, k))))
-        fValue = fValue + (this.tableData.data[6][k + 1] / (Math.pow(1.0 + this.NPVper, k)))
+        fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + this.NPVper, k)))
         // console.log(fValue)
         // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
       }
@@ -319,8 +319,8 @@ export default {
         let fValue = 0.0
         let fDerivative = 0.0
         for (let k = 0; k < this.year.length; k++) {
-          fValue += this.tableData.data[6][k + 1] / Math.pow(1.0 + x0, k)
-          fDerivative += -k * this.tableData.data[6][k + 1] / Math.pow(1.0 + x0, k + 1)
+          fValue += this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k)
+          fDerivative += -k * this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k + 1)
         }
         const x1 = x0 - fValue / fDerivative
         if (Math.abs(x1 - x0) <= absoluteAccuracy) {
@@ -341,6 +341,17 @@ export default {
       const a = this.computeNPV()
       this.NPVvalue = a
       // console.log(a)
+    },
+    cpTouZi() {
+      let num = 0
+      for (let k = 0; k < this.year.length; k++) {
+        if (this.tableData.data[11][k + 1] > 0) {
+          num = k
+          break
+        }
+        this.dataResult[1][1] = num-1+Math.abs(this.tableData.data[10][num + 1]/this.tableData.data[11][num])
+        // this.dataResult[1][1] = 4.90
+      }
     },
     onCancel() {
       // console.log(this.NPVper)
