@@ -34,6 +34,7 @@
 import TableList from './stuTableList.vue'
 import { getInfo } from '@/api/user'
 import user from '@/store/modules/user'
+import { getReportState } from '@/api/student'
 // import TableList1 from './tableList.vue'
 export default {
   components: {
@@ -55,6 +56,7 @@ export default {
       rowID: '',
       userId: 1953603,
       userName: 'ss',
+      state: 0,
       tableData1: [[{
         labName: '软工实验系统',
         name: '',
@@ -68,7 +70,7 @@ export default {
         stuNumber: '',
         isActive: false,
         state: 2,
-        labID: 1
+        labID: 3
       }, {
         labName: '软工实验系统',
         name: '',
@@ -82,7 +84,7 @@ export default {
         stuNumber: '',
         isActive: false,
         state: 0,
-        labID: 3
+        labID: 1
       }]],
       commentList: [
         {
@@ -138,32 +140,22 @@ export default {
       content: ''
     }
   },
-  // watch: {
-  //   userId: function(newValue) {
-  //
-  //   }
-  // },
+  watch: {
+    'tableData1': function(newVal) {
+      this.tableData1 = newVal
+    }
+  },
   created() {
     this.commentList.push(this.commentList[0])
     getInfo().then(res => {
-      console.log('222222222222')
-      console.log(res.data.userID)
-      // const { userID, userName } = res.data
-      // console.log(res.data.userName)
       this.userId = res.data.userID
-      // this.tableData1.name = res.data.userID
-      // this.tableData1.name = res.data.userID
       this.userName = res.data.userName
-      console.log('222222222222')
-      console.log(this.userName)
       this.initial()
     })
-  },
-  watch:{
-     'tableData1': function(newVal) {
-       this.tableData1 = newVal
-       console.log(this.tableData1)
-     }
+    getReportState({ 'labId': 1 }).then(res => {
+      const { state } = res
+      this.tableData1[this.tableData1.length - 1][this.tableData1.length - 1].state = state
+    })
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -176,14 +168,13 @@ export default {
       }
       return ''
     },
-    initial(){
-      console.log("yes")
-      console.log(this.userName)
-      for (let i = 0; i < this.tableData1[0].length; i++) {
-        console.log("1111123")
-        console.log(this.tableData1[0].length)
-        this.tableData1[0][i].name = this.userName
-        this.tableData1[0][i].stuNumber= this.userId
+    initial() {
+      for (let j = 0; j < this.tableData1.length; j++) {
+        for (let i = 0; i < this.tableData1[0].length; i++) {
+          console.log(this.tableData1[0].length)
+          this.tableData1[j][i].name = this.userName
+          this.tableData1[j][i].stuNumber = this.userId
+        }
       }
     },
     handleClickEdit(row) {

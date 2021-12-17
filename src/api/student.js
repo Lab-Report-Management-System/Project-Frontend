@@ -43,12 +43,18 @@ export function studentRegister(data) {
 }
 
 export function submitLab(params) {
-  console.log('sssssssssss')
-  console.log(params)
   return request({
     url: '/api/student/submitReport',
     method: 'post',
     headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     data: JSON.stringify(params)
+  })
+}
+
+export function getReportState(params) {
+  return request({
+    url: '/api/student/getReportState',
+    method: 'get',
+    params
   })
 }

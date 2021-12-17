@@ -10,7 +10,7 @@
     <el-table-column
       label="实验报告名称"
       prop="labName"
-      width="250"
+      width="auto"
     >
       <template slot-scope="scope">
         <p>{{ tableData[rowID].labName }}</p>
@@ -34,7 +34,7 @@
     </el-table-column>
     <el-table-column
       label="指导教师"
-      width="120"
+      width="auto"
     >黄杰
     </el-table-column>
 
@@ -97,11 +97,9 @@ export default {
       return ''
     },
     handleClickEdit(row) {
-      this.$router.push({ path: '/example/labTeacher', query: {
-        name: row.name,
-        stuNumber: row.stuNumber,
-        labID: row.labID,
-        isActive: row.isActive
+      this.$router.push({ path: '/lab/submitReport', query: {
+        state: 1,
+        labID: 1
       }})
     }
 
