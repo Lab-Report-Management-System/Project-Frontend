@@ -5,9 +5,9 @@
         <el-tag size="large" style="position: absolute;top: 25%;left: 34%;">学号：{{stuNumber}}</el-tag>
         <el-tag size="large" style="position: absolute;top: 60%;left: 34%;">姓名：{{stuName}}</el-tag>
       </div>
-      <div style="background-color: #204162;width: 40%;height: 2px;position: absolute;top: 18%;left: 5%;"></div>
-      <img src="../../assets/images/background.jpg" style="border-radius: 25px;width: 30%;height: 75%;position: absolute;left: 10%;top: 20%;"/>
-      <div v-show="questionVisible" style="position: absolute;left: 20%;top: 35%;">
+      <div style="background-color: #204162;width: 40%;height: 2px;position: absolute;top: 18%;left: 25%;"></div>
+      <img src="../../assets/images/background.jpg" style="border-radius: 25px;width: 30%;height: 75%;position: absolute;left: 30%;top: 20%;"/>
+      <div v-show="questionVisible" style="position: absolute;left: 40%;top: 35%;">
         <div>题目{{ this.pageNumber+1 }} / {{ this.questions.length }}</div>
         <div>{{ this.title }}</div>
         <el-radio-group v-model="radio">
@@ -23,17 +23,34 @@
           <img src="../../assets/images/2-2.png" style="width: 85%;height: 65%;" />
         </div>
       </div>
-      <div v-show="!questionVisible" style="position: absolute;left: 20%;top: 35%;">
+      <el-progress v-show="questionVisible" type="circle" :text-inside="true" :show-text="false" :stroke-width="25" :percentage="getTime()" :color="colors" style="position: absolute;left: 15%;top: 35%;"></el-progress>
+          <!-- 总计时 -->
+          <div v-show="timeVisible">总用时:{{this.answeringTotalTime.toFixed(2)}}</div>
+          <!--显示自己的答题情况 -->
+          <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" style="position: absolute;left: 15%;top: 60%;" size="large"/>
+          <!-- 显示对方的答题情况 -->
+          <!--  查看结果 -->
+          <div v-show="resultVisible">
+            <div>
+              <div>题目总数: {{ this.questions.length }}</div>
+              <div>回答正确: {{ this.correctNumber }}</div>
+              <div>回答错误: {{ this.wrongNumber }}</div>
+              <div>正确率: </div>
+              <el-progress type="circle" :percentage="getRate()" />
+            </div>
+            <el-button @click.native.prevent="exitAnswer">结束答题</el-button>
+          </div>
+      <div v-show="!questionVisible" style="position: absolute;left: 40%;top: 35%;">
         <p style="font-family: 楷体;font-size: 30px;margin-left: -1cm;text-align: center;">在线答题</br>快来积极参与吧！</p>
         <img src="../../assets/images/tip.png" style="position: absolute;width: 250px;height: 200px;left: -24%;top: -18%;"/>
-        <div  @click.native.prevent="submit" style="margin-top: 4cm;">
-          <img src="../../assets/images/1-4.png" style="position: relative;width: 85%;height: 65%;border-radius:20px;"/>
+        <div   style="margin-top: 4cm;">
+          <img src="../../assets/images/1-4.png" @click="match" style="position: relative;width: 85%;height: 65%;border-radius:20px;"/>
         </div>
       </div>
       <el-card class="box-card" style="width:15%;height: 90%;position: absolute;left: 80%;top: 5%;background-color: #ebffff;">
-        <el-avatar v-loading="loading" :size="150"  fit="contain" style="margin-left: 1cm;margin-top: 1.35cm;"/>
-        <el-avatar :size="150" v-loading="loading" fit="contain" style="margin-left: 1cm;margin-top: 1.35cm;"/>
-        <el-avatar :size="150" v-loading="loading" fit="contain" style="margin-left: 1cm;margin-top: 1.35cm;"/>
+        <el-avatar v-loading="loading1" :size="150"  fit="contain" style="margin-left: 1cm;margin-top: 1.35cm;"/>
+        <el-avatar :size="150" v-loading="loading2" fit="contain" style="margin-left: 1cm;margin-top: 1.35cm;"/>
+        <el-avatar :size="150" v-loading="loading3" fit="contain" style="margin-left: 1cm;margin-top: 1.35cm;"/>
       </el-card>
     </div>
 </template>
@@ -55,11 +72,14 @@ export default {
       socket: '',
       circleUrl:require("../../assets/images/1-2.png"),
       me: null,
-      loading: true,
+      loading: false,
+      loading1: false,
+      loading2: false,
+      loading3: false,
       buttonVisible: true,
-      questionVisible: false,
+      questionVisible: true,
       resultVisible: false,
-      timeVisible: false,
+      timeVisible: true,
       questions: [],
       radio: -1,
       correctNumber: 0,
@@ -207,6 +227,9 @@ export default {
     // 实现匹配
     match() {
       this.loading = true
+      this.loading1 = true
+      this.loading2 = true
+      this.loading3 = true
       MessageBox.confirm('匹配中......', '对战练习', {
         confirmButtonText: '隐藏',
         cancelButtonText: '取消',
