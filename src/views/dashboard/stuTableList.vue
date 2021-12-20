@@ -81,14 +81,26 @@ export default {
   },
   created() {
     // this.tableData2=this.tableData;
-    // console.log('sa')
-    // console.log(this.tableData)
+    console.log('sa')
+    console.log(this.tableData)
+    console.log(this.tableData[3])
+    let aaa =this.tableData[3]
+    console.log('sa')
+    console.log(aaa.isActive)
+    // console.log(this.tableData[3]["getisActive"])
     // initial();
     getLabReportId({ labId: 1 }).then(res => {
       const { labReportId } = res
       this.labReportId = labReportId
     })
-    console.log(this.tableData)
+    // console.log(this.tableData)
+  },
+  watch:{
+    'tableData': function(newVal) {
+      console.log("this.tableData")
+      console.log(this.tableData)
+      this.$set(this.tableData[3],isActive ,newVal[3].isActive)
+      }
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
