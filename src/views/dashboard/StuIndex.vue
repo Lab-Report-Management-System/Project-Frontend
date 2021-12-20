@@ -23,7 +23,7 @@
       </div>
       <div style="margin-top: 10px">
         <el-input v-model="content" placeholder="请输入评论内容">
-          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0">发布</el-button>
+          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0" @click="submitComment">发布</el-button>
         </el-input>
       </div>
     </div>
@@ -35,6 +35,7 @@ import TableList from './stuTableList.vue'
 import { getInfo } from '@/api/user'
 import user from '@/store/modules/user'
 import { getReportState } from '@/api/student'
+import { getForumDetails, submitForum } from '@/api/course'
 // import TableList1 from './tableList.vue'
 export default {
   components: {
@@ -56,6 +57,7 @@ export default {
       rowID: '',
       userId: 1953603,
       userName: 'ss',
+      courseId: 42014603,
       state: 0,
       tableData1: [[{
         labName: '软工实验系统',
@@ -146,8 +148,8 @@ export default {
     }
   },
   created() {
-    console.log(this.tableData1[0])
-    this.commentList.push(this.commentList[0])
+    this.getComments()
+    // this.commentList.push(this.commentList[0])
     getInfo().then(res => {
       this.userId = res.data.userID
       this.userName = res.data.userName
@@ -196,6 +198,19 @@ export default {
       }
       return ''
     },
+    submitComment() {
+      submitForum({ content: this.content, courseId: 42014603 }).then(res => {
+        const { message } = res
+        this.$message(message)
+        this.getComments()
+      })
+    },
+    getComments() {
+      getForumDetails({ 'courseId': 42014603 }).then(res => {
+        const { commentList } = res.data
+        this.commentList = commentList
+      })
+    },
     initial() {
       for (let j = 0; j < this.tableData1.length; j++) {
         for (let i = 0; i < this.tableData1[0].length; i++) {
@@ -218,6 +233,7 @@ export default {
     }
 
   }
+
   // created(){
   //     var url="http://121.5.175.203:8080/api/Video/getFavoriteVideo";
   //     var data=new Object;

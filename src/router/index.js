@@ -131,7 +131,7 @@ export const asyncRoutes = [
       {
       path: 'stuLabManage',
       component: () => import('@/views/dashboard/StuIndex.vue'),
-      hidden: true,
+      // hidden: true,
       meta: { title: '学生实验管理', roles: ['Student'] }
     },
     {
