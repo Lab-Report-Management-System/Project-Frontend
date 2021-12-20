@@ -176,11 +176,11 @@ export default {
       console.log("yessss")
       console.log(state)
       this.tableData1[0][this.tableData1[0].length - 1].state = state
-      if(state==0){
+      if(state==1){
         this.tableData1[0][this.tableData1[0].length - 1].isActive = true
       }
       else{
-        this.tableData1[0][this.tableData1[0].length - 1].isActive = true
+        this.tableData1[0][this.tableData1[0].length - 1].isActive = false
       }
       console.log(this.tableData1[0][this.tableData1[0].length - 1])
     })
