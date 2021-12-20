@@ -193,7 +193,7 @@ export const asyncRoutes = [
   {
     path: '/class',
     component: Layout,
-    meta: { title: '班级管理', icon: 'form' },
+    meta: { title: '班级管理', icon: 'form',roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
     children: [
       {
         path: '/',
