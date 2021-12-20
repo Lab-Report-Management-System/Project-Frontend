@@ -22,9 +22,9 @@
         </div>
       </div>
       <div style="margin-top: 10px">
-        <el-input v-model="content" placeholder="请输入评论内容">
-          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0">发布</el-button>
-        </el-input>
+        <!--        <el-input v-model="content" placeholder="请输入评论内容">-->
+        <!--          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0" @click="submitComment">发布</el-button>-->
+        <!--        </el-input>-->
       </div>
     </div>
   </div>
@@ -33,6 +33,7 @@
 <script>
 import TableList from './tableList.vue'
 import TableList1 from './tableList.vue'
+import { getForumDetails, submitForum } from '@/api/course'
 export default {
   components: {
     TableList,
@@ -191,7 +192,7 @@ export default {
     }
   },
   created() {
-    this.commentList.push(this.commentList[0])
+    this.getComments()
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -204,6 +205,12 @@ export default {
       }
       return ''
     },
+    getComments() {
+      getForumDetails({ 'courseId': 42014603 }).then(res => {
+        const { commentList } = res.data
+        this.commentList = commentList
+      })
+    },
     handleClickEdit(row) {
       // this.$router.push({path:"/example/labTeacher",query:{
       //                   name:row.name,
@@ -214,6 +221,13 @@ export default {
     },
     clickLab(data) {
       console.log('yes')
+    },
+    submitComment() {
+      submitForum({ content: this.content, courseId: 42014603 }).then(res => {
+        const { message } = res
+        this.$message(message)
+        this.getComments()
+      })
     }
 
   }
