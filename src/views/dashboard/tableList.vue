@@ -96,12 +96,7 @@ export default {
       return ''
     },
     handleClickEdit(row) {
-      this.$router.push({ path: '/example/labTeacher', query: {
-        name: row.name,
-        stuNumber: row.stuNumber,
-        labID: row.labID,
-        isActive: row.isActive
-      }})
+      this.$router.push({ path: '/lab/markReport'})
     }
 
   }

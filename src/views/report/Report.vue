@@ -288,7 +288,7 @@ export default {
     },
     onCancel() {
       // console.log(this.NPVper)
-      this.$router.push({ path: '/dashboard' })
+      this.$router.push({ path: '/lab/stuLabManage' })
     },
     cpTouZi() {
       let num = 0
