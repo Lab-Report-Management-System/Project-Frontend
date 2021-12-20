@@ -23,15 +23,15 @@
             </div>
             <div class="user-panel">
               <div class="user-panel-wrap">
-                <router-link to="example/report"><img src="../../assets/images/lab.png" alt="" @click="subReport"></router-link>
+                <router-link to="example/report"><img src="../../assets/images/lab.png" alt="" ></router-link>
                 <div class="user-panel-desc">填写实验报告</div>
               </div>
               <div class="user-panel-wrap">
-                <router-link to="lab/stuLabManage"><img src="../../assets/images/class.png" alt="" @click="seeLab"></router-link>
+                <router-link to="lab/stuLabManage"><img src="../../assets/images/class.png" alt="" ></router-link>
                 <div class="user-panel-desc">查看实验列表</div>
               </div>
               <div class="user-panel-wrap">
-                <router-link to="/calendar/calendar"><img src="../../assets/images/grade.png" alt="" @click="seeRili"></router-link>
+                <router-link to="/calendar/calendar"><img src="../../assets/images/grade.png" alt="" ></router-link>
                 <div class="user-panel-desc">查看日历</div>
               </div>
               <div class="user-panel-wrap">
@@ -294,7 +294,7 @@ export default {
       res += currentDate.getDate()
       return res
     },
-    
+
     manageLab() {
       this.$router.push('/lab/stuLabManage')
     }

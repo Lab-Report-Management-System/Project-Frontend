@@ -72,6 +72,9 @@
 
 <script>
 import { submitLab } from '@/api/student'
+import { getReportDetails } from '@/api/report'
+import { getReportState } from '@/api/student'
+
 export default {
   data() {
     return {
@@ -130,12 +133,28 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.labId) {
-      this.labId = this.$route.query.labId
-    }
-    // console.log('created')
-    // console.log(this.labId)
-    this.isActive = this.$route.query.state === 1
+    getReportState({ 'labId': 1 }).then(res => {
+      const { state } = res
+      console.log("yessss")
+      console.log(state)
+      if(state==2){
+        getReportDetails().then(res => {
+          console.log(res)
+          const { tableData, dataResult, NPVper, NPV, comments, ratings } = res
+          this.tableData = tableData
+          // this.dataResult[0]['2'] = dataResult[0]['1']
+          // this.dataResult[1]['2'] = dataResult[1]['1']
+          this.dataResult  = dataResult
+          console.log(NPV)
+          this.NPVper = NPVper
+          this.NPV = NPV
+          this.NPVvalue=this.NPV[1]
+          // this.comments = comments
+          // this.ratings = ratings
+        })
+      }
+    })
+    // this.isActive = this.$route.query.state === 1
   },
   methods: {
     add() {
@@ -157,7 +176,9 @@ export default {
       this.$router.push({ path: '/lab/stuLabManage' })
     },
     onSave() {
-      // console.log('???wtf')
+      console.log('???wtf')
+      this.NPV[1]=this.NPVvalue
+      console.log(this.NPV)
       this.state = 2
       submitLab({ 'labId': this.labId, 'year_length': this.year_length, 'tableData': this.tableData, 'NPVper': this.NPVper, 'NPV': this.NPV, 'dataResult': this.dataResult, 'state': this.state }).then(res => {
         // console.log(res)

@@ -15,8 +15,8 @@ export const webSocketUrl = 'ws://182.61.43.155:7979/websocket?userId='
 const service = axios.create({
   // baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
   // baseURL: 'http://localhost:6001/', // url = base url + request url
-  baseURL: 'http://lab-tongji.cn:6001/',
-
+  // baseURL: 'http://lab-tongji.cn:6001/',
+  baseURL: 'http://172.20.10.3:6001/',
   // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 500000, // request timeout
