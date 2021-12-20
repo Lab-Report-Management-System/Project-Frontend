@@ -85,8 +85,7 @@
               align="center"
             >
               <template slot-scope="scope">
-                <el-button type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button type="text" size="small" @click="manageClass">查看</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -266,6 +265,9 @@ export default {
       res += (currentDate.getMonth() + 1) + '-'
       res += currentDate.getDate()
       return res
+    },
+    manageClass(){
+      this.$router.push('/class')
     }
   }
 }

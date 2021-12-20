@@ -154,6 +154,7 @@ export default {
         // console.log(res)
         this.$message('提交成功!')
       })
+      this.$router.push({ path: '/lab/stuLabManage' })
     },
     onSave() {
       // console.log('???wtf')
@@ -163,10 +164,11 @@ export default {
         // TODO 不一定成功
         this.$message('暂存成功!')
       })
+      this.$router.push({ path: '/lab/stuLabManage' })
     },
     onCancel() {
       // console.log(this.NPVper)
-      this.$router.push({ path: '/dashboard' })
+      this.$router.push({ path: '/lab/stuLabManage' })
     },
     handlerChange(x) {
       if (x != '') {
