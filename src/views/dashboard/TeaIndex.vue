@@ -34,8 +34,7 @@
 import TableList from './tableList.vue'
 import TableList1 from './tableList.vue'
 import { getForumDetails, submitForum } from '@/api/course'
-import store from '@/store'
-
+import { getInfo } from '@/api/user'
 export default {
   components: {
     TableList,
@@ -139,6 +138,10 @@ export default {
   },
   created() {
     this.getComments()
+    getInfo().then(res => {
+      const { userNickname } = res.data
+      this.name = userNickname
+    })
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
