@@ -46,7 +46,7 @@
 
       <template slot-scope="scope">
         <el-button type="success" icon="el-icon-check" circle style="zoom: 0.8;" :disabled="!tableData[rowID].isActive" />
-        <el-button type="primary" icon="el-icon-edit" circle style="zoom: 0.8;left:34%;position:absolute;":disabled="tableData[rowID].isActive" />
+        <el-button type="primary" icon="el-icon-edit" circle style="zoom: 0.8;left:34%;position:absolute;" :disabled="tableData[rowID].isActive" />
       </template>
     </el-table-column>
     <el-table-column
@@ -54,7 +54,7 @@
       width="120"
     >
       <template slot-scope="scope">
-        <el-button type="text" size="small" :disabled="!tableData[rowID].isActive" @click="handleClickEdit(scope.row)">预览</el-button>
+        <el-button type="text" size="small" :disabled="!tableData[rowID].isActive" @click="handleClickView(scope.row)">查看评分</el-button>
         <el-button type="text" size="small" :disabled="tableData[rowID].isActive" @click="handleClickEdit(scope.row)">编辑</el-button>
       </template>
     </el-table-column>
@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { getLabReportId } from '@/api/student'
+
 export default {
   props: [
     'tableData'
@@ -72,15 +74,21 @@ export default {
     return {
       name: 'Ameis',
       none: '暂无消息',
-      rowID: ''
+      rowID: '',
+      labReportId: null
 
     }
   },
   created() {
     // this.tableData2=this.tableData;
-    console.log('sa')
-    console.log(this.tableData)
+    // console.log('sa')
+    // console.log(this.tableData)
     // initial();
+    getLabReportId({ labId: 1 }).then(res => {
+      const { labReportId } = res
+      this.labReportId = labReportId
+    })
+    console.log(this.tableData)
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -98,8 +106,13 @@ export default {
     },
     handleClickEdit(row) {
       this.$router.push({ path: '/lab/submitReport', query: {
-        state: 1,
+        state: this.tableData[3].state,
         labID: 1
+      }})
+    },
+    handleClickView(row) {
+      this.$router.push({ path: '/lab/viewRemarks', query: {
+        labReportId: this.labReportId
       }})
     }
 

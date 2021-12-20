@@ -58,3 +58,11 @@ export function getReportState(params) {
     params
   })
 }
+
+export function getLabReportId(params) {
+  return request({
+    url: '/api/student/getLabReportId',
+    method: 'get',
+    params
+  })
+}

@@ -42,11 +42,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/viewRemarks',
-    component: () => import('@/views/report/ViewRemarks'),
-    hidden: true
-  },
-  {
     path: '/socket',
     component: () => import('@/views/webSocket/socket'),
     hidden: true
@@ -136,6 +131,12 @@ export const asyncRoutes = [
       component: () => import('@/views/dashboard/StuIndex.vue'),
       hidden: true,
       meta: { title: '学生实验管理', roles: ['Student'] }
+    },
+    {
+      path: 'viewRemarks',
+      component: () => import('@/views/report/ViewRemarks'),
+      hidden: true,
+      meta: { title: '查看评论', roles: ['Student'] }
     },
     {
       path: 'labRep',

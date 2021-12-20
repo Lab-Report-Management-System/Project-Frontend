@@ -79,7 +79,7 @@ export default {
         state: 1,
         labID: 2
       }, {
-        labName: '软工实验系统',
+        labName: '软工实22222',
         name: '',
         stuNumber: '',
         isActive: false,
@@ -154,7 +154,8 @@ export default {
     })
     getReportState({ 'labId': 1 }).then(res => {
       const { state } = res
-      this.tableData1[this.tableData1.length - 1][this.tableData1.length - 1].state = state
+      this.tableData1[0][this.tableData1[0].length - 1].state = state
+      this.tableData1[0][this.tableData1[0].length - 1].isActive = state == 1
     })
   },
   methods: {
@@ -171,7 +172,7 @@ export default {
     initial() {
       for (let j = 0; j < this.tableData1.length; j++) {
         for (let i = 0; i < this.tableData1[0].length; i++) {
-          console.log(this.tableData1[0].length)
+          // console.log(this.tableData1[0].length)
           this.tableData1[j][i].name = this.userName
           this.tableData1[j][i].stuNumber = this.userId
         }
