@@ -35,7 +35,7 @@
                 <div class="user-panel-desc">查看日历</div>
               </div>
               <div class="user-panel-wrap">
-                <router-link to="socket"><img src="../../assets/images/battle.png" alt="" ></router-link>
+                <router-link to="battle/socket"><img src="../../assets/images/battle.png" alt="" ></router-link>
                 <div class="user-panel-desc">答题对战</div>
               </div>
             </div>

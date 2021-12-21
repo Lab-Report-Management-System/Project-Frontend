@@ -42,11 +42,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/socket',
-    component: () => import('@/views/webSocket/socket'),
-    hidden: true
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -113,6 +108,19 @@ export const asyncRoutes = [
         name: 'calendar',
         component: () => import('@/views/calendar/index.vue'),
         meta: { title: '日程管理', icon: 'el-icon-date' }
+      }
+    ]
+  },
+  {
+    path: '/Battle',
+    component: Layout,
+    name: 'Battle',
+    children: [
+      {
+        path: 'socket',
+        name: 'socket',
+        component: () => import('@/views/webSocket/socket'),
+        meta: { title: '答题对战', icon: 'el-icon-date' }
       }
     ]
   },
