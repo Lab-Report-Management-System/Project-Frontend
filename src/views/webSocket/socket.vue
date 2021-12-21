@@ -2,8 +2,6 @@
   <div>
     <!--问候界面 -->
     <h1 id="greetings">你好,</h1>
-    <input v-model="message" type="text" class="form-control">
-    <el-button @click.native.prevent="sendMessage">发送</el-button>
     <el-button v-show="buttonVisible" id="match" v-loading="loading" @click.native.prevent="match">点击匹配</el-button>
     <div id="responseContent" class="textarea scroll" />
     <div id="output" />
@@ -21,14 +19,18 @@
       </el-radio-group>
       <el-button class="question" @click.native.prevent="submit">提交</el-button>
     </div>
-    <!-- 计时器 -->
     <!-- 倒计时 -->
-    <el-progress v-show="questionVisible" :text-inside="true" :show-text="false" :stroke-width="20" :percentage="getTime()" :color="colors"></el-progress>
+    <el-progress v-show="questionVisible" :text-inside="true" :show-text="false" :stroke-width="20" :percentage="getTime()" :color="colors" />
     <!-- 总计时 -->
-    <div v-show="timeVisible">总用时:{{this.answeringTotalTime.toFixed(2)}}</div>
+    <div v-show="timeVisible">总用时:{{ this.answeringTotalTime.toFixed(2) }}</div>
     <!--显示自己的答题情况 -->
     <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" />
-    <!-- 显示对方的答题情况 -->
+    <!-- 显示所有人的答题情况 -->
+    <el-table v-show="timeVisible" :data="tableData" border style="width: 100%">
+      <el-table-column prop="index" label="序号" width="180" />
+      <el-table-column prop="userName" label="用户昵称" width="180" />
+      <el-table-column prop="finishNumber" label="完成度" />
+    </el-table>
     <!--  查看结果 -->
     <div v-show="resultVisible">
       <div>
@@ -38,8 +40,20 @@
         <div>正确率: </div>
         <el-progress type="circle" :percentage="getRate()" />
       </div>
-      <el-button @click.native.prevent="exitAnswer">结束答题</el-button>
+      <el-button v-show="finishVisible" @click.native.prevent="exitAnswer">结束答题</el-button>
     </div>
+    <!--答题结束之后查看结果-->
+    <el-dialog
+      title="答题结束"
+      :visible.sync="dialogVisible"
+      width="30%"
+    >
+      <span>您的最终得分为***</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -54,14 +68,30 @@ export default {
   name: 'Socket',
   data() {
     return {
+      // socket相关
       message: '',
       socket: '',
       me: null,
+      // 组件显示与隐藏
       loading: false,
       buttonVisible: true,
       questionVisible: false,
       resultVisible: false,
       timeVisible: false,
+      finishVisible: false,
+      dialogVisible: false,
+      // 用户相关
+      userList: [],
+      tableData: [{
+        index: 1,
+        userName: '',
+        finishNumber: 0
+      }, {
+        index: 2,
+        userName: '',
+        finishNumber: 0
+      }],
+      // 题目相关
       questions: [],
       radio: -1,
       correctNumber: 0,
@@ -82,13 +112,18 @@ export default {
         { color: '#6f7ad3', percentage: 100 }
       ],
       clock: '',
+      // 消息相关
       PRIVATE_CHAT_MESSAGE_CODE: 1, // 私聊消息
       GROUP_CHAT_MESSAGE_CODE: 2, // 群聊消息
       PING_MESSAGE_CODE: 3, // PING消息
       SYSTEM_MESSAGE_CODE: 5, // 系统消息
       MATCHING_MESSAGE_CODE: 6, // 匹配消息
       MATCH_SUCCESS_MESSAGE_CODE: 7, // 匹配成功
-      MATCH_REVOKE_CODE: 8,
+      MATCH_REVOKE_CODE: 8, // 匹配撤销
+      MATCH_END_CODE: 9, // 房间内的所有玩家都结束了匹配
+      ANSWER_FINISH_CODE: 10, // 某一个玩家结束了匹配
+      CORRECT_ANSWER_CODE: 100, // 答题成功
+      WRONG_ANSWER_CODE: 101, // 答题失败
       LOGIN_CODE: 1000, // 登录消息
       LOGOUT_CODE: 1001 // 登出消息
     }
@@ -117,19 +152,31 @@ export default {
         document.getElementById('greetings').append(decodeURI(decodeURI(this.me.username)))
         this.socket.onmessage = (event) => {
           const data = JSON.parse(event.data)
-          console.log(JSON.stringify(data))
           switch (data.code) {
-            case this.GROUP_CHAT_MESSAGE_CODE:
-              document.getElementById('output').append(data.msg)
+            case this.GROUP_CHAT_MESSAGE_CODE: // 组内群聊消息
+              for (let i = 0; i < this.userList.length; i++) {
+                if ((decodeURIComponent(this.userList[i]) === data.sendUserId)) {
+                  if (data.type === this.CORRECT_ANSWER_CODE) {
+                    this.tableData[i].finishNumber += 1
+                  }
+                }
+              }
               break
-            case this.SYSTEM_MESSAGE_CODE:
+            case this.SYSTEM_MESSAGE_CODE: // 系统消息
+              this.userList = data.ext.userList
+              for (let i = 0; i < this.tableData.length; i++) {
+                this.tableData[i].userName = decodeURIComponent(this.userList[i])
+              }
+              for (let i = 0; i < this.tableData.length; i++) {
+                this.tableData[i].finishNumber = 0
+              }
               break
-            case this.PING_MESSAGE_CODE:
+            case this.PING_MESSAGE_CODE: // PING 消息
               this.sendPong()
               break
-            case this.PRIVATE_CHAT_MESSAGE_CODE:
+            case this.PRIVATE_CHAT_MESSAGE_CODE: // 私聊消息，暂时没有
               break
-            case this.MATCH_SUCCESS_MESSAGE_CODE:
+            case this.MATCH_SUCCESS_MESSAGE_CODE: // 匹配成功的消息
               MessageBox.close()
               this.loading = false
               this.buttonVisible = false
@@ -140,13 +187,17 @@ export default {
               })
               this.getQuestion()
               break
-            case this.MATCH_REVOKE_CODE:
+            case this.MATCH_REVOKE_CODE: // 匹配撤销
               MessageBox.close()
               this.loading = false
               this.$message({
                 type: 'error',
                 message: '没有找到对手捏，请稍后重新匹配~'
               })
+              break
+            case this.MATCH_END_CODE: // 整个房间内的所有人完成了匹配
+              this.finishVisible = true
+              break
           }
         }
         this.socket.onopen = () => {
@@ -194,16 +245,13 @@ export default {
       this.send(JSON.stringify(object))
     },
     // 发送群聊消息
-    sendMessage() {
-      if (this.message === '' || this.message == null) {
-        alert('信息不能为空~')
-        return
-      }
+    sendMessage(messageType) {
       const object = {}
       object.code = this.GROUP_CHAT_MESSAGE_CODE
+      object.type = messageType
       object.username = this.me.username
-      object.msg = this.message
       object.sendUserId = this.me.userId
+      console.log(object)
       this.send(JSON.stringify(object))
     },
     // 实现匹配
@@ -283,9 +331,11 @@ export default {
           message: '恭喜你，回答成功',
           type: 'success'
         })
+        this.sendMessage(this.CORRECT_ANSWER_CODE)
       } else {
         this.wrongNumber++
         this.$message.error('很遗憾，回答失败')
+        this.sendMessage(this.WRONG_ANSWER_CODE)
       }
       this.nextQuestion()
     },
@@ -317,9 +367,17 @@ export default {
       this.questionVisible = false
       this.resultVisible = true
       window.clearInterval(this.clock)
-      // TODO:websocket 退出房间
-      // TODO:显示对手成绩
-      // TODO:答题过程中显示对手成绩
+      const object = {}
+      object.code = this.ANSWER_FINISH_CODE
+      object.username = this.me.username
+      object.userId = this.me.userId
+      this.send(JSON.stringify(object))
+      console.log(object)
+      this.$message({
+        message: '已完成答题，待房间内的所有用户结束答题之后即可退出',
+        type: 'success'
+      })
+      // TODO:计算最后的分数
       // TODO: 后端数据库存分数
     },
     exitAnswer() {
@@ -331,6 +389,10 @@ export default {
         type: 'success'
       })
       this.buttonVisible = true
+      for (let i = 0; i < this.tableData.length; i++) {
+        this.tableData[i].finishNumber = 0
+      }
+      this.dialogVisible = true
     },
     countDown() {
       this.content = this.totalTime
