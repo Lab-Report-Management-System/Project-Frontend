@@ -23,7 +23,7 @@
         <div class="text item">
           <div style="float:left">选课人数:</div>  <div>{{ courseInfo.studentNum }}</div>
         </div>
-        <el-button type="text" class="button stu-button">查看学生信息</el-button>
+        <el-button type="text" class="button stu-button" @click="checkStuInfo">查看学生信息</el-button>
       </el-card>
     </div>
     <!-- lab info -->
@@ -41,10 +41,9 @@
         <div class="text item">
           <div style="float:left">进行中:</div>  <div>{{ labInfo.labOngoingNum }}</div>
         </div>
-        <el-button type="text" class="button lab-button">管理实验</el-button>
+        <el-button type="text" class="button lab-button" @click="manageLab">管理实验</el-button>
       </el-card>
     </div>
-    <!-- report info -->
     <div class="report-info">
       <el-card class="box-card" shadow="hover">
         <div class="text item">
@@ -59,7 +58,7 @@
         <div class="text item">
           <div style="float:left">待批改:</div>  <div>{{ reportInfo.reportRemainingNum }}</div>
         </div>
-        <el-button type="text" class="button report-button">批阅实验报告</el-button>
+        <el-button type="text" class="button report-button" @click="pigaiLab">批阅实验报告</el-button>
       </el-card>
     </div>
   </div>
@@ -89,7 +88,6 @@ export default {
         reportDoneNum: 0,
         reportRemainingNum: 0
       }
-
     }
   },
   created() {
@@ -105,6 +103,15 @@ export default {
         this.labInfo = labInfo
         this.reportInfo = reportInfo
       })
+    },
+    checkStuInfo(){
+      this.$router.push({ path: '/stuClassInfo' })
+    },
+    pigaiLab(){
+        this.$router.push({ path: '/lab/markReport' })
+    },
+    manageLab(){
+      this.$router.push({ path: '/teaLabManage' })
     }
   }
 }

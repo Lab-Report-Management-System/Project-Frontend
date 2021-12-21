@@ -254,8 +254,8 @@ export default {
   created() {
     console.log('yes')
     getInfo().then(res => {
-      console.log(res)
-      console.log('yes')
+      // console.log(res)
+      // console.log('yes')
       this.circleUrl = res.data.userPhoto
       // this.personalData.head_pic=res.userPhoto;
       this.personalData.email = res.data.userEmail

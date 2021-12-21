@@ -69,12 +69,7 @@ export const constantRoutes = [
     hidden: true
 
   },
-  {
-    path: '/TeaLabManage',
-    name: 'TeaLabManage',
-    component: () => import('@/views/dashboard/TeaIndex.vue'),
-    hidden: true
-  },
+
 
   {
     path: '/404',
@@ -126,10 +121,17 @@ export const asyncRoutes = [
     component: Layout,
     meta: { title: '实验管理', icon: 'el-icon-s-help' },
     // hidden: true,
-    children: [{
+    children: [
+      {
+        path: '/',
+        component: () => import('@/views/class/teacherClass.vue'),
+        hidden: true,
+        meta: { title: '学生实验管理', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      },
+      {
       path: 'stuLabManage',
       component: () => import('@/views/dashboard/StuIndex.vue'),
-      hidden: true,
+      // hidden: true,
       meta: { title: '学生实验管理', roles: ['Student'] }
     },
     {
@@ -191,14 +193,21 @@ export const asyncRoutes = [
   {
     path: '/class',
     component: Layout,
-    meta: { title: '班级管理', icon: 'form' },
+    meta: { title: '班级管理', icon: 'form',roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
     children: [
       {
-        path: '/teacherClass',
+        path: '/',
         name: 'TeacherClass',
         // redirect: '/teacherClass',
         component: () => import('@/views/class/teacherClass.vue'),
         meta: { title: '教师班级管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      },
+      {
+        path: '/teaLabManage',
+        name: 'teaLabManage',
+        component: () => import('@/views/dashboard/TeaIndex.vue'),
+        meta: { title: '教师实验管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
+        hidden: true
       },
       // {
       //   path: '/studentClass',

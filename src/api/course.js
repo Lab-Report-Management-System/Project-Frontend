@@ -25,3 +25,20 @@ export function getCourseByLabId(data) {
     params: data
   })
 }
+
+export function getForumDetails(params) {
+  return request({
+    url: '/api/course/getForumDetails',
+    method: 'get',
+    params
+  })
+}
+
+export function submitForum(data) {
+  const params = new URLSearchParams(data)
+  return request({
+    url: '/api/course/submitComment',
+    method: 'post',
+    data: params
+  })
+}

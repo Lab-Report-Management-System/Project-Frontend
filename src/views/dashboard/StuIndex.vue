@@ -5,7 +5,7 @@
       <el-tabs type="border-card">
         <el-tab-pane v-for="(data,index) in labList" :key="index" @click="clickLab(data)">
           <span slot="label"><i class="el-icon-date" /> {{ data }}</span>
-          <TableList :table-data="tableData1[index]" />
+          <TableList :tableData="tableData1[index]" />
         </el-tab-pane>
       </el-tabs>
       <div class="comment">
@@ -23,7 +23,7 @@
       </div>
       <div style="margin-top: 10px">
         <el-input v-model="content" placeholder="请输入评论内容">
-          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0">发布</el-button>
+          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0" @click="submitComment">发布</el-button>
         </el-input>
       </div>
     </div>
@@ -35,6 +35,7 @@ import TableList from './stuTableList.vue'
 import { getInfo } from '@/api/user'
 import user from '@/store/modules/user'
 import { getReportState } from '@/api/student'
+import { getForumDetails, submitForum } from '@/api/course'
 // import TableList1 from './tableList.vue'
 export default {
   components: {
@@ -56,6 +57,7 @@ export default {
       rowID: '',
       userId: 1953603,
       userName: 'ss',
+      courseId: 42014603,
       state: 0,
       tableData1: [[{
         labName: '软工实验系统',
@@ -79,7 +81,7 @@ export default {
         state: 1,
         labID: 2
       }, {
-        labName: '软工实22222',
+        labName: '软工实验系统',
         name: '',
         stuNumber: '',
         isActive: false,
@@ -146,7 +148,8 @@ export default {
     }
   },
   created() {
-    this.commentList.push(this.commentList[0])
+    this.getComments()
+    // this.commentList.push(this.commentList[0])
     getInfo().then(res => {
       this.userId = res.data.userID
       this.userName = res.data.userName
@@ -154,8 +157,34 @@ export default {
     })
     getReportState({ 'labId': 1 }).then(res => {
       const { state } = res
+      console.log("yessss")
+      console.log(state)
+      let isActive = false;
+      if(state==1){
+        isActive = true
+      }
+      else{
+        isActive = true
+      }
+      // console.log(this.tableData1[0][this.tableData1[0].length - 1])
+      this.tableData1[0].push({
+        labName: '软工实验系统',
+        name: this.userName,
+        stuNumber: this.userId,
+        isActive: isActive,
+        state: state,
+        labID: 1
+      })
+      console.log("yessss")
+      console.log(state)
       this.tableData1[0][this.tableData1[0].length - 1].state = state
-      this.tableData1[0][this.tableData1[0].length - 1].isActive = state == 1
+      if(state==1){
+        this.tableData1[0][this.tableData1[0].length - 1].isActive = true
+      }
+      else{
+        this.tableData1[0][this.tableData1[0].length - 1].isActive = false
+      }
+      console.log(this.tableData1[0][this.tableData1[0].length - 1])
     })
   },
   methods: {
@@ -168,6 +197,19 @@ export default {
         return 'success-row'
       }
       return ''
+    },
+    submitComment() {
+      submitForum({ content: this.content, courseId: 42014603 }).then(res => {
+        const { message } = res
+        this.$message(message)
+        this.getComments()
+      })
+    },
+    getComments() {
+      getForumDetails({ 'courseId': 42014603 }).then(res => {
+        const { commentList } = res.data
+        this.commentList = commentList
+      })
     },
     initial() {
       for (let j = 0; j < this.tableData1.length; j++) {
@@ -191,6 +233,7 @@ export default {
     }
 
   }
+
   // created(){
   //     var url="http://121.5.175.203:8080/api/Video/getFavoriteVideo";
   //     var data=new Object;

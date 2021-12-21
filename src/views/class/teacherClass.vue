@@ -2,9 +2,6 @@
   <div>
     <!--Greetings to the teacher -->
     <h1 class="title">{{ userName }}{{ role }}，您好</h1>
-    <!--DashBoard -->
-    <!--    <layout />-->
-    <!--class info -->
     <div class="classes">
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
         <el-tab-pane
@@ -13,15 +10,8 @@
           :label="'课号:'+item"
           :name="item"
         >
-          <!--          {{ id }}-->
           <ClassInfo class="info" :course-id="item" />
         </el-tab-pane>
-        <!--        <el-tab-pane label="班级二(42034202)" name="second">-->
-        <!--          <ClassInfo class="info" />-->
-        <!--        </el-tab-pane>-->
-        <!--        <el-tab-pane label="班级三(42034203)" name="third">-->
-        <!--          <ClassInfo class="info" />-->
-        <!--        </el-tab-pane>-->
       </el-tabs>
     </div>
   </div>

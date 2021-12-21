@@ -1,6 +1,6 @@
 <template>
   <div style="width: 68%;margin: 0 auto">
-    <p style="font-family:simhei;font-size: 25px;left: 10%;">{{ name }}同学,你好！</p>
+    <p style="font-family:simhei;font-size: 25px;left: 10%;">{{ name }}老师,你好！</p>
     <div style="padding-bottom: 30px;">
       <el-tabs type="border-card">
         <el-tab-pane v-for="(data,index) in labList" :key="index" @click="clickLab(data)">
@@ -22,9 +22,9 @@
         </div>
       </div>
       <div style="margin-top: 10px">
-        <el-input v-model="content" placeholder="请输入评论内容">
-          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0">发布</el-button>
-        </el-input>
+        <!--        <el-input v-model="content" placeholder="请输入评论内容">-->
+        <!--          <el-button slot="append" style="background: #409EFF;color: #fff;border-radius: 0" @click="submitComment">发布</el-button>-->
+        <!--        </el-input>-->
       </div>
     </div>
   </div>
@@ -33,6 +33,8 @@
 <script>
 import TableList from './tableList.vue'
 import TableList1 from './tableList.vue'
+import { getForumDetails, submitForum } from '@/api/course'
+import { getInfo } from '@/api/user'
 export default {
   components: {
     TableList,
@@ -48,7 +50,7 @@ export default {
         '实验二',
         '实验三'
       ],
-      name: '呵呵',
+      name: '',
       none: '暂无消息',
       rowID: '',
       tableData1: [[{
@@ -57,84 +59,28 @@ export default {
         stuNumber: '0000001',
         isActive: true,
         state: 1,
-        labID: 0
+        labReportId: 0
       }, {
         labName: '软工实验系统',
         name: 'W',
         stuNumber: '0000001',
         isActive: false,
         state: 2,
-        labID: 1
+        labReportId: 1
       }, {
         labName: '软工实验系统',
         name: 'w',
         stuNumber: '0000001',
         isActive: true,
         state: 1,
-        labID: 2
+        labReportId: 2
       }, {
         labName: '软工实验系统',
         name: 'W',
         stuNumber: '0000001',
         isActive: false,
         state: 0,
-        labID: 3
-      }], [{
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 0
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 2,
-        labID: 1
-      }, {
-        labName: '软工实验系统',
-        name: 'w',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 2
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 0,
-        labID: 3
-      }], [{
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 0
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 2,
-        labID: 1
-      }, {
-        labName: '软工实验系统',
-        name: 'w',
-        stuNumber: '0000001',
-        isActive: true,
-        state: 1,
-        labID: 2
-      }, {
-        labName: '软工实验系统',
-        name: 'W',
-        stuNumber: '0000001',
-        isActive: false,
-        state: 0,
-        labID: 3
+        labReportId: 3
       }]],
       commentList: [
         {
@@ -191,7 +137,11 @@ export default {
     }
   },
   created() {
-    this.commentList.push(this.commentList[0])
+    this.getComments()
+    getInfo().then(res => {
+      const { userNickname } = res.data
+      this.name = userNickname
+    })
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -204,6 +154,12 @@ export default {
       }
       return ''
     },
+    getComments() {
+      getForumDetails({ 'courseId': 42014603 }).then(res => {
+        const { commentList } = res.data
+        this.commentList = commentList
+      })
+    },
     handleClickEdit(row) {
       // this.$router.push({path:"/example/labTeacher",query:{
       //                   name:row.name,
@@ -214,6 +170,13 @@ export default {
     },
     clickLab(data) {
       console.log('yes')
+    },
+    submitComment() {
+      submitForum({ content: this.content, courseId: 42014603 }).then(res => {
+        const { message } = res
+        this.$message(message)
+        this.getComments()
+      })
     }
 
   }
