@@ -119,6 +119,7 @@ export const asyncRoutes = [
       {
         path: 'socket',
         name: 'socket',
+        hidden: true,
         component: () => import('@/views/webSocket/socket'),
         meta: { title: '答题对战', icon: 'el-icon-date' }
       }

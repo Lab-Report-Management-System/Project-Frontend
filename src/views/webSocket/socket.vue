@@ -1,59 +1,66 @@
 <template>
   <div>
     <!--问候界面 -->
-    <h1 id="greetings">你好,</h1>
-    <el-button v-show="buttonVisible" id="match" v-loading="loading" @click.native.prevent="match">点击匹配</el-button>
-    <div id="responseContent" class="textarea scroll" />
-    <div id="output" />
-    <!-- 题目 -->
-    <div v-show="questionVisible">
-      <div>题目{{ this.pageNumber+1 }} / {{ this.questions.length }}</div>
-      <div>{{ this.title }}</div>
-      <el-radio-group v-model="radio">
-        <ul class="question">
-          <li><el-radio :label="0">A. {{ this.answerA }}</el-radio></li>
-          <li><el-radio :label="1">B. {{ this.answerB }}</el-radio></li>
-          <li><el-radio :label="2">C. {{ this.answerC }}</el-radio></li>
-          <li><el-radio :label="3">D.{{ this.answerD }}</el-radio></li>
-        </ul>
-      </el-radio-group>
-      <el-button class="question" @click.native.prevent="submit">提交</el-button>
-    </div>
-    <!-- 倒计时 -->
-    <el-progress v-show="questionVisible" :text-inside="true" :show-text="false" :stroke-width="20" :percentage="getTime()" :color="colors" />
-    <!-- 总计时 -->
-    <div v-show="timeVisible">总用时:{{ this.answeringTotalTime.toFixed(2) }}</div>
-    <!--显示自己的答题情况 -->
-    <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" />
-    <!-- 显示所有人的答题情况 -->
-    <el-table v-show="timeVisible" :data="tableData" border style="width: 100%">
-      <el-table-column prop="index" label="序号" width="180" />
-      <el-table-column prop="userName" label="用户昵称" width="180" />
-      <el-table-column prop="finishNumber" label="完成度" />
-    </el-table>
-    <!--  查看结果 -->
-    <div v-show="resultVisible">
-      <div>
-        <div>题目总数: {{ this.questions.length }}</div>
-        <div>回答正确: {{ this.correctNumber }}</div>
-        <div>回答错误: {{ this.wrongNumber }}</div>
-        <div>正确率: </div>
-        <el-progress type="circle" :percentage="getRate()" />
+    <h1 id="greetings" style="text-align: center">欢迎进入答题对战,</h1>
+    <el-button v-show="buttonVisible" id="match" v-loading="loading" style="margin-top: 5px;margin-left: 45%" @click.native.prevent="match">点击匹配</el-button>
+    <div>
+      <!-- 总计时 -->
+      <div v-show="timeVisible" style="margin-left: 15px">总用时:{{ this.answeringTotalTime.toFixed(2) }}</div>
+      <!-- 倒计时 -->
+      <el-progress v-show="questionVisible" :text-inside="true" :show-text="false" :stroke-width="10" :percentage="getTime()" :color="colors" />
+      <!-- 题目 -->
+      <el-card v-show="questionVisible" style="height: 225px;">
+        <div style="text-align: center">题目{{ this.pageNumber+1 }} / {{ this.questions.length }}</div>
+        <div style="text-align: center;margin-top: 5px">{{ this.title }}</div>
+        <div style="text-align: center;">
+          <el-radio-group v-model="radio" align="left" style="margin-top: 10px">
+            <ul class="question">
+              <li><el-radio :label="0">A. {{ this.answerA }}</el-radio></li>
+              <li><el-radio style="margin-top: 10px" :label="1">B. {{ this.answerB }}</el-radio></li>
+              <li><el-radio style="margin-top: 10px" :label="2">C. {{ this.answerC }}</el-radio></li>
+              <li><el-radio style="margin-top: 10px" :label="3">D.{{ this.answerD }}</el-radio></li>
+            </ul>
+          </el-radio-group>
+        </div>
+        <div style="align-items: center;display: flex;margin-top: 7px">
+          <el-button style="margin: 0 auto;position: relative" class="question" @click.native.prevent="submit">提交</el-button>
+        </div>
+
+      </el-card>
+      <!--显示自己的答题情况 -->
+      <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" style="margin-left: 150px;top: 40px"/>
+      <!-- 显示所有人的答题情况 -->
+      <el-table v-show="timeVisible" stripe style="position: absolute;top:60%;margin-left:500px;width: 500px" :data="tableData" border>
+        <el-table-column prop="index" label="序号" width="180" />
+        <el-table-column prop="userName" label="用户昵称" width="180" />
+        <el-table-column prop="finishNumber" label="完成度" />
+      </el-table>
+      <!--  查看结果 -->
+      <el-card v-show="resultVisible" style="height: 225px;">
+        <div style="text-align: center">
+          <div>题目总数: {{ this.questions.length }}</div>
+          <div>回答正确: {{ this.correctNumber }}</div>
+          <div>回答错误: {{ this.wrongNumber }}</div>
+          <div>正确率: </div>
+          <el-progress type="circle" :percentage="getRate()" />
+        </div>
+      </el-card>
+      <div style="align-items: center;display: flex;margin-top: 7px">
+        <el-button v-show="finishVisible && resultVisible" @click.native.prevent="exitAnswer">结束答题</el-button>
       </div>
-      <el-button v-show="finishVisible" @click.native.prevent="exitAnswer">结束答题</el-button>
+      <!--答题结束之后查看结果-->
+      <el-dialog
+        title="答题结束"
+        :visible.sync="dialogVisible"
+        width="30%"
+      >
+        <span>您的最终得分为***</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
-    <!--答题结束之后查看结果-->
-    <el-dialog
-      title="答题结束"
-      :visible.sync="dialogVisible"
-      width="30%"
-    >
-      <span>您的最终得分为***</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
