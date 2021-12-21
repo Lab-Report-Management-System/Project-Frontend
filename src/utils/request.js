@@ -8,7 +8,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.defaults.withCredentials = true
 
 // socketUrl
-export const webSocketUrl = 'ws://182.61.43.155:7979/websocket?userId='
+export const webSocketUrl = 'ws://lab-tongji.cn:7979/websocket?userId='
 // export const webSocketUrl = 'ws://localhost:7979/websocket?userId='
 
 // manageClass an axios instance
