@@ -66,3 +66,19 @@ export function getLabReportId(params) {
     params
   })
 }
+
+export function addStudent(params) {
+  return request({
+    url: '/api/student/addStudent',
+    method: 'post',
+    params
+  })
+}
+
+export function getStudentList(params) {
+  return request({
+    url: '/api/student/getStudentList',
+    method: 'get',
+    params
+  })
+}

@@ -73,6 +73,8 @@
  </template>
 
  <script>
+   import {addStudent} from '../../api/student'
+   import {getStudentList} from '../../api/student'
    export default {
      data() {
        return {
@@ -80,23 +82,23 @@
          inputName:'',
          tableData: [{
            stuNumber: '1950001',
-           name: '王小虎',
+           name: '小叶',
            courseName: '软件工程经济学'
          }, {
            stuNumber: '1950002',
-           name: '王小虎',
+           name: '小王',
            courseName: '软件工程经济学'
          }, {
            stuNumber: '1950003',
-           name: '王小虎',
+           name: '小周',
            courseName: '软件工程经济学'
          }, {
            stuNumber: '1950004',
-           name: '王小虎',
+           name: '小尚',
            courseName: '软件工程经济学'
          },{
            stuNumber: '1950005',
-           name: '王小虎',
+           name: '小吴',
            courseName: '软件工程经济学'
          }
          ],
@@ -107,6 +109,17 @@
            },
          editIndex: null// 保存正在编辑的对象的索引，注意这里的初始值不能为0及0以上的数
        }
+     },
+     created() {
+       let courseId = 42014603
+       getStudentList({courseId}).then(res=>{
+         console.log(res)
+         let length=res.data.tableData.length
+         for(let i=0;i<length;i++){
+           this.tableData.push(res.data.tableData[i])
+         }
+
+         })
      },
      methods: {
        // 添加/修改 点击事件的方法
@@ -127,6 +140,9 @@
            this.tableData.push(newObj)
            console.log("yes")
          }
+
+         addStudent({studentId: this.inputStuNumber,courseId:42014603}).then(res=>{})
+
        },
        // 实现删除功能
        del (index) {
