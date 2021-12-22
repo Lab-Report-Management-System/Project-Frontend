@@ -25,3 +25,11 @@ export function getSubmitRate(params) {
     params: params
   })
 }
+
+export function getReportIds(params) {
+  return request({
+    url: '/api/report/getReportIds',
+    method: 'get',
+    params: params
+  })
+}

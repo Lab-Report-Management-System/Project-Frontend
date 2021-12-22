@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import {getReportIds} from '@/api/report'
+
 export default {
   props: [
     'tableData'
@@ -78,6 +80,7 @@ export default {
   },
   created() {
     // this.tableData2=this.tableData;
+    console.log("sasasa!!!")
     console.log(this.tableData)
     // initial();
   },
