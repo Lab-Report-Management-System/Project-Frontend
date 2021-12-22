@@ -6,3 +6,11 @@ export function getBattleQuestion() {
     method: 'get'
   })
 }
+
+export function submitQuestion(params) {
+  return request({
+    url: '/api/battle/submitQuestion',
+    method: 'post',
+    params
+  })
+}

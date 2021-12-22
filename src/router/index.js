@@ -65,7 +65,6 @@ export const constantRoutes = [
 
   },
 
-
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -112,6 +111,19 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/battle',
+    component: Layout,
+    name: 'Question',
+    children: [
+      {
+        path: 'question',
+        name: 'question',
+        component: () => import('@/views/webSocket/Question'),
+        meta: { title: '发布题目', icon: 'el-icon-coordinate', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      }
+    ]
+  },
+  {
     path: '/Battle',
     component: Layout,
     name: 'Battle',
@@ -138,35 +150,35 @@ export const asyncRoutes = [
         meta: { title: '学生实验管理', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
       },
       {
-      path: 'stuLabManage',
-      component: () => import('@/views/dashboard/StuIndex.vue'),
-      // hidden: true,
-      meta: { title: '学生实验管理', roles: ['Student'] }
-    },
-    {
-      path: 'viewRemarks',
-      component: () => import('@/views/report/ViewRemarks'),
-      hidden: true,
-      meta: { title: '查看评论', roles: ['Student'] }
-    },
-    {
-      path: 'labRep',
-      name: 'LabRep',
-      component: () => import('@/views/labReport.vue'),
-      meta: { title: '发布实验', icon: 'form', roles: ['Teacher'] }
-    },
-    {
-      path: 'markReport',
-      name: 'MarkReport',
-      component: () => import('@/views/report/MarkReport'),
-      meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
-    },
-    {
-      path: 'submitReport',
-      name: 'submitReport',
-      component: () => import('@/views/report/submitReport.vue'),
-      hidden: true
-    }
+        path: 'stuLabManage',
+        component: () => import('@/views/dashboard/StuIndex.vue'),
+        // hidden: true,
+        meta: { title: '学生实验管理', roles: ['Student'] }
+      },
+      {
+        path: 'viewRemarks',
+        component: () => import('@/views/report/ViewRemarks'),
+        hidden: true,
+        meta: { title: '查看评论', roles: ['Student'] }
+      },
+      {
+        path: 'labRep',
+        name: 'LabRep',
+        component: () => import('@/views/labReport.vue'),
+        meta: { title: '发布实验', icon: 'form', roles: ['Teacher'] }
+      },
+      {
+        path: 'markReport',
+        name: 'MarkReport',
+        component: () => import('@/views/report/MarkReport'),
+        meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      },
+      {
+        path: 'submitReport',
+        name: 'submitReport',
+        component: () => import('@/views/report/submitReport.vue'),
+        hidden: true
+      }
 
     ]
   },
@@ -202,7 +214,7 @@ export const asyncRoutes = [
   {
     path: '/class',
     component: Layout,
-    meta: { title: '班级管理', icon: 'form',roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
+    meta: { title: '班级管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
     children: [
       {
         path: '/',

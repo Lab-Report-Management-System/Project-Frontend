@@ -97,6 +97,14 @@ export default {
         index: 2,
         userName: '',
         finishNumber: 0
+      }, {
+        index: 3,
+        userName: '',
+        finishNumber: 0
+      }, {
+        index: 4,
+        userName: '',
+        finishNumber: 0
       }],
       // 题目相关
       questions: [],
