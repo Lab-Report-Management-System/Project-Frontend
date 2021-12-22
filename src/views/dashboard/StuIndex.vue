@@ -5,7 +5,7 @@
       <el-tabs type="border-card">
         <el-tab-pane v-for="(data,index) in labList" :key="index" @click="clickLab(data)">
           <span slot="label"><i class="el-icon-date" /> {{ data }}</span>
-          <TableList :tableData="tableData1[index]" />
+          <TableList :table-data="tableData1[index]" />
         </el-tab-pane>
       </el-tabs>
       <div class="comment">
@@ -157,13 +157,12 @@ export default {
     })
     getReportState({ 'labId': 1 }).then(res => {
       const { state } = res
-      console.log("yessss")
-      console.log(state)
-      let isActive = false;
-      if(state==1){
+      // console.log('yessss')
+      // console.log(state)
+      let isActive = false
+      if (state == 1) {
         isActive = true
-      }
-      else{
+      } else {
         isActive = true
       }
       // console.log(this.tableData1[0][this.tableData1[0].length - 1])
@@ -175,16 +174,15 @@ export default {
         state: state,
         labID: 1
       })
-      console.log("yessss")
-      console.log(state)
+      // console.log('yessss')
+      //  console.log(state)
       this.tableData1[0][this.tableData1[0].length - 1].state = state
-      if(state==1){
+      if (state == 1) {
         this.tableData1[0][this.tableData1[0].length - 1].isActive = true
-      }
-      else{
+      } else {
         this.tableData1[0][this.tableData1[0].length - 1].isActive = false
       }
-      console.log(this.tableData1[0][this.tableData1[0].length - 1])
+      // console.log(this.tableData1[0][this.tableData1[0].length - 1])
     })
   },
   methods: {
@@ -229,7 +227,7 @@ export default {
       //                 }});
     },
     clickLab(data) {
-      console.log('yes')
+     // console.log('yes')
     }
 
   }
