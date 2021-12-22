@@ -270,7 +270,7 @@ export default {
       this.year.pop()
     },
     onSubmit() {
-      postReportMarks({ 'labReportId': this.labReportId, 'score': this.ratings, 'comment': this.comments, 'state': 3 }).then(res => {
+      postReportMarks({ 'labReportId': this.labReportId, 'score': this.ratings, 'comment': this.comments, 'state': 1 }).then(res => {
         const { message } = res
         this.$message(message)
         this.isActive = true

@@ -99,7 +99,8 @@ export default {
       return ''
     },
     handleClickEdit(row) {
-      this.$router.push({ path: '/lab/markReport'})
+      // console.log(row)
+      this.$router.push({ path: '/lab/markReport',query:{labReportId:row.labReportId}})
     }
 
   }
