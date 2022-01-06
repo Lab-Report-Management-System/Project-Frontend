@@ -183,20 +183,25 @@ export const asyncRoutes = [
     ]
   },
 
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: '实验管理', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'labRep',
-  //       name: 'LabRep',
-  //       component: () => import('@/views/labReport.vue'),
-  //       meta: { title: '发布实验', icon: 'form', roles: ['Teacher'] }
-  //     },
-
+  {
+    path: '/grade',
+    component: Layout,
+    // redirect: '/example/table',
+    name: 'Grade',
+    meta: { title: '成绩管理', icon: 'el-icon-s-help',roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
+    children: [
+      {
+        path: 'signin',
+        name: 'signin',
+        component: () => import('@/views/grademanage/signin.vue'),
+        meta: { title: '签到管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      },
+      {
+        path: 'gradeAll',
+        name: 'gradeAll',
+        component: () => import('@/views/grademanage/grade.vue'),
+        meta: { title: '成绩管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      },
   // {
   //   path: 'report',
   //   name: 'Report',
@@ -209,8 +214,8 @@ export const asyncRoutes = [
   //       component: () => import('@/views/report/MarkReport'),
   //       meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
   //     }
-  //   ]
-  // },
+    ]
+  },
   {
     path: '/class',
     component: Layout,
