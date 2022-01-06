@@ -14,3 +14,11 @@ export function submitQuestion(params) {
     params
   })
 }
+
+export function submitScore(params) {
+  return request({
+    url: '/api/battle/submitScore',
+    method: 'post',
+    params
+  })
+}

@@ -54,10 +54,10 @@
         :visible.sync="dialogVisible"
         width="30%"
       >
-        <span>您的最终得分为***</span>
+        <span>您的最终得分为: {{this.score}}</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click.native.prevent="submitScore">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -69,7 +69,7 @@ import { getInfo } from '@/api/user'
 import { getToken } from '@/utils/auth'
 import { webSocketUrl } from '@/utils/request'
 import { MessageBox } from 'element-ui'
-import { getBattleQuestion } from '@/api/battle'
+import { getBattleQuestion, submitScore } from '@/api/battle'
 
 export default {
   name: 'Socket',
@@ -97,14 +97,6 @@ export default {
         index: 2,
         userName: '',
         finishNumber: 0
-      }, {
-        index: 3,
-        userName: '',
-        finishNumber: 0
-      }, {
-        index: 4,
-        userName: '',
-        finishNumber: 0
       }],
       // 题目相关
       questions: [],
@@ -127,6 +119,8 @@ export default {
         { color: '#6f7ad3', percentage: 100 }
       ],
       clock: '',
+      // 分数相关
+      score: 0,
       // 消息相关
       PRIVATE_CHAT_MESSAGE_CODE: 1, // 私聊消息
       GROUP_CHAT_MESSAGE_CODE: 2, // 群聊消息
@@ -151,6 +145,14 @@ export default {
     this.initMe()
   },
   methods: {
+    submitScore() {
+      this.dialogVisible = false
+      this.finishVisible = false
+      const score = { 'score': this.score }
+      submitScore(score).then(res => {
+        this.score = 0
+      })
+    },
     initMe() {
       // eslint-disable-next-line no-new-object
       this.me = new Object()
@@ -387,13 +389,10 @@ export default {
       object.username = this.me.username
       object.userId = this.me.userId
       this.send(JSON.stringify(object))
-      console.log(object)
       this.$message({
         message: '已完成答题，待房间内的所有用户结束答题之后即可退出',
         type: 'success'
       })
-      // TODO:计算最后的分数
-      // TODO: 后端数据库存分数
     },
     exitAnswer() {
       this.resultVisible = false
@@ -407,6 +406,11 @@ export default {
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].finishNumber = 0
       }
+      // 计算分数
+      // 计算名次
+      const score = (((this.correctNumber / this.questions.length * 100) * 1000000 + (100 - this.answeringTotalTime) * 1010) / 100000000) * 5
+      if (score < 0) this.score = 0
+      else this.score = score.toFixed(2)
       this.dialogVisible = true
     },
     countDown() {
