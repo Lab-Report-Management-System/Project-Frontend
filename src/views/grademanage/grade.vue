@@ -86,7 +86,7 @@
 
        </div>
         <el-button type="primary" style="margin-top: 2cm;margin-left: 20cm;margin-bottom: 2cm;">确认提交</el-button>
-        <el-button type="info">取消</el-button>
+        <el-button type="info" @click="cancle">取消</el-button>
      </div>
    </div>
  </template>
@@ -244,6 +244,9 @@
        },
        handlerChange(x) {
          this.tableData[x].grade=Math.ceil(parseInt(this.tableData[x].signGrade)*0.2+parseInt(this.tableData[x].reportGrade)*0.4+parseInt(this.tableData[x].battleGrade)*0.4)
+       },
+       cancle(){
+         this.$router.push({ path: '/' })
        }
      }
    }

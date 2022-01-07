@@ -121,7 +121,7 @@
             <div class="report-title">{{ this.latestCourseName }}</div>
             <div class="report-main">
               <div class="report-main-progress">
-                <el-progress type="circle" :percentage="this.submissionRate" />
+                <el-progress type="circle" :percentage="Math.ceil(this.submissionRate)" />
               </div>
               <div class="report-main-content">
                 <div class="report-main-content-box">
@@ -130,7 +130,7 @@
                 </div>
                 <div class="report-main-content-box">
                   <div class="report-main-content-box-tit">提交率</div>
-                  <div>{{ this.submissionRate }}%</div>
+                  <div>{{ Math.ceil(this.submissionRate) }}%</div>
                 </div>
               </div>
             </div>

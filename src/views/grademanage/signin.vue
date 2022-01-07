@@ -23,7 +23,7 @@
               </el-input>
             </el-row>
             <el-row style="display: inline-block;">
-                        <el-button type="primary" plain style="width: 150px;" @click="addOrEditFn()">补签</el-button>
+                        <el-button type="primary" plain style="width: 150px;" @click="addSign()">补签</el-button>
             </el-row>
          </div>
        </div>
@@ -176,44 +176,11 @@
          }
          return ''
        },
-       // 添加/修改 点击事件的方法
-       addOrEditFn () {
-         // 注意：对象是引用关系，所以必须让数组里的对象和newObj脱离引用关系，因为这里只有一层，于是我们可以利用浅拷贝实现
-         // let theObj = {...this.newObj}
-         let newObj = {
-           stuNumber: this.inputStuNumber,
-           name: this.inputName,
-           courseName: '软件工程经济学'
-         }
-
-         if (this.editIndex !== null) {
-           this.$set(this.tableData, this.editIndex, theObj)
-
-           this.editIndex = null // 更新后，保证下次点击是新增效果
-         } else { // 新增
-           this.tableData.push(newObj)
-           console.log("yes")
-         }
-
-         addStudent({studentId: this.inputStuNumber,courseId:42014603}).then(res=>{})
-
-       },
-       // 实现删除功能
-       del (index) {
-         this.tableData.splice(index, 1)
-       },
-       // 实现编辑功能
-       edit (index) {
-         // 取出要编辑的对象信息
-         const editObj = this.tableData[index]
-         // this.username = editObj.name
-         // this.userage = editObj.age
-         // this.gender = editObj.sex
-         //优化
-         this.newObj = {...editObj}
-
-         this.editIndex = index // 保存当前的索引值
-       }
+      addSign(){
+        let studentId = this.inputStuNumber
+        checkinStudent({studentId}).then(res=>{
+          console.log(res)
+      })},
      }
    }
  </script>
