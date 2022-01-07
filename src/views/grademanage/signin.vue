@@ -64,8 +64,8 @@
                  type="danger"
                  style="opacity: 0.9;"
                  @click="del(scope.$index)">删 除</el-button> -->
-                <el-button type="success" icon="el-icon-check" circle :disabled="isSelect[scope.$index]" @click="signyes(scope.$index)"></el-button>
-                <el-button type="primary" icon="el-icon-edit" circle :disabled="isSelect[scope.$index]" @click="signno(scope.$index)"></el-button>
+                <el-button @change="changeSelect" type="success" icon="el-icon-check" circle :key="isActive" :disabled="isSelect[scope.$index]" @click="signyes(scope.$index)"></el-button>
+                <el-button @change="changeSelect" type="primary" icon="el-icon-edit" circle :key="isActive" :disabled="isSelect[scope.$index]" @click="signno(scope.$index)"></el-button>
 
              </template>
            </el-table-column>
@@ -84,6 +84,7 @@
      data() {
        return {
          isSelect:[...Array(10)].map(()=>false),
+         isActive:false,
          inputStuNumber:'',
          inputName:'',
          tableData: [{
@@ -152,6 +153,8 @@
          //      this.$forceUpdate();
          //      console.log(this.isSelect)
          //  })
+         this.isActive=!this.isActive
+         this.$set(this.isSelect,index,true)
          let studentId = parseInt(this.tableData[index].stuNumber)
         checkinStudent({studentId}).then(res=>{
           console.log(res)
@@ -160,10 +163,13 @@
           // this.$forceUpdate();
        },
        signno(index){
+         this.isSelect[index]=true
+         this.isActive=!this.isActive
+         // this.$set(this.isSelect,index,true)
          // console.log(this.isSelect[index])
           // this.$set(this.isSelect,index,true)
           // console.log(this.isSelect)
-          // this.$forceUpdate();
+          this.$forceUpdate();
        },
        tableRowClassName({ row, rowIndex }) {
          this.rowID = rowIndex
@@ -181,6 +187,11 @@
         checkinStudent({studentId}).then(res=>{
           console.log(res)
       })},
+      changeSelect(){
+        this.$nextTick(() => {  // 更新表格布局
+                this.isSelect.doLayout();
+            });
+      }
      }
    }
  </script>
