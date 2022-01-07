@@ -85,7 +85,7 @@
          </el-table>
 
        </div>
-        <el-button type="primary" style="margin-top: 2cm;margin-left: 20cm;margin-bottom: 2cm;">确认提交</el-button>
+        <el-button type="primary" style="margin-top: 2cm;margin-left: 20cm;margin-bottom: 2cm;"@click="submit">确认提交</el-button>
         <el-button type="info" @click="cancle">取消</el-button>
      </div>
    </div>
@@ -94,6 +94,7 @@
  <script>
    import {addStudent} from '../../api/student'
    import {getRawGrades} from '../../api/teacher'
+   import {postStudentGrades} from '../../api/teacher'
    export default {
      props:{
 
@@ -247,7 +248,14 @@
        },
        cancle(){
          this.$router.push({ path: '/' })
-       }
+       },
+       submit(){
+              let data=new Object()
+              data.tableData=this.tableData
+              postStudentGrades(this.tableData).then(res=>{
+                  console.log("yres")
+               })
+              }
      }
    }
  </script>

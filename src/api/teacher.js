@@ -33,4 +33,17 @@ export function checkinStudent(params) {
     params
   })
 }
+
+export function postStudentGrades(data) {
+  // const params = new URLSearchParams(data)
+  return request({
+    url: '/api/teacher/postStudentGrades',
+    method: 'post',
+    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+    params: JSON.stringify(data)
+    // params
+  })
+}
+// /api/teacher/postStudentGrades POST
+// tableData(String)
 // /api/teacher/getRawGrades GET// courseId(int)
