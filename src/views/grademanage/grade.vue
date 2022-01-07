@@ -252,9 +252,13 @@ export default {
       this.$router.push({ path: '/' })
     },
     submit() {
-      // let data=new Object()
+      var tableData=[];
+      tableData.push(this.tableData[7])
+      tableData.push(this.tableData[8])
+      tableData.push(this.tableData[9])
       // data.tableData=this.tableData
-      postStudentGrades(this.tableData).then(res => {
+      console.log(tableData)
+      postStudentGrades(tableData).then(res => {
         console.log('yres')
       })
     }
