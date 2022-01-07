@@ -15,3 +15,22 @@ export function postReportMarks(data) {
     data: params
   })
 }
+
+export function getRawGrades(params) {
+  // const params = new URLSearchParams(data)
+  return request({
+    url: '/api/teacher/getRawGrades',
+    method: 'get',
+    params
+  })
+}
+
+export function checkinStudent(params) {
+  // const params = new URLSearchParams(data)
+  return request({
+    url: '/api/teacher/checkinStudent',
+    method: 'get',
+    params
+  })
+}
+// /api/teacher/getRawGrades GET// courseId(int)

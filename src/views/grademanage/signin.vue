@@ -76,15 +76,14 @@
  </template>
 
  <script>
-   import {addStudent} from '../../api/student'
    import {getStudentList} from '../../api/student'
+   import {checkinStudent} from '../../api/teacher'
    export default {
      props:{
-
      },
      data() {
        return {
-         isSelect:[...Array(20)].map(()=>false),
+         isSelect:[...Array(10)].map(()=>false),
          inputStuNumber:'',
          inputName:'',
          tableData: [{
@@ -137,17 +136,34 @@
 
          })
      },
+     watch: {
+       'progress': function(newVal) {
+         this.fullname = newVal
+       }
+     },
      methods: {
        signyes(index){
-         console.log("yes")
-         console.log(this.isSelect[index])
-         console.log(index)
-         // this.isSelect[index]=1
-          this.$set(this.isSelect,index,!this.isSelect[index])
-          console.log(this.isSelect[index])
+         // console.log("yes")
+         // this.isSelect[index]=false;
+         // console.log(this.isSelect[index])
+         //  this.$nextTick(() => {
+         //      this.$set(this.isSelect,index,true)
+         //      // this.isSelect[index]=true;
+         //      this.$forceUpdate();
+         //      console.log(this.isSelect)
+         //  })
+         let studentId = parseInt(this.tableData[index].stuNumber)
+        checkinStudent({studentId}).then(res=>{
+          console.log(res)
+        })
+          // console.log(this.isSelect[index])
+          // this.$forceUpdate();
        },
        signno(index){
-          this.$set(this.isSelect,index,true)
+         // console.log(this.isSelect[index])
+          // this.$set(this.isSelect,index,true)
+          // console.log(this.isSelect)
+          // this.$forceUpdate();
        },
        tableRowClassName({ row, rowIndex }) {
          this.rowID = rowIndex

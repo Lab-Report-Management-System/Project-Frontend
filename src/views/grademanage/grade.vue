@@ -5,7 +5,7 @@
          <el-table
            :data="tableData"
           :row-class-name="tableRowClassName"
-           style="width: 95%">
+           style="width: 100%">
            <el-table-column
              label="学号"
              width="180">
@@ -27,21 +27,17 @@
              width="360">
              <template slot-scope="scope">
                <i class="el-icon-notebook-2"></i>
-               <!-- <span style="margin-left: 10px">{{ scope.row.courseName }}</span> -->
+
                <el-tag size="medium">{{ scope.row.courseName }}</el-tag>
              </template>
            </el-table-column>
            <el-table-column label="签到次数    |    签到成绩">
              <template slot-scope="scope">
-               <!-- <el-button
-                 size="mini"
-                 type="danger"
-                 style="opacity: 0.9;"
-                 @click="del(scope.$index)">删 除</el-button> -->
-                <el-tag>{{scope.row.signNum}}</el-tag>
+                <el-tag style="width: 50px;">{{scope.row.signNum}}</el-tag>
                 <el-input
                   v-model="scope.row.signGrade"
-                  style="width: 90px;margin-left: 5px">
+                  style="width: 90px;margin-left: 5px"
+                  @change="handlerChange(scope.$index)">
                 </el-input>
 
              </template>
@@ -53,10 +49,11 @@
                  type="danger"
                  style="opacity: 0.9;"
                  @click="del(scope.$index)">删 除</el-button> -->
-                <el-tag>{{scope.row.reportNum}}</el-tag>
+                <el-tag style="width: 50px;">{{scope.row.reportNum}}</el-tag>
                 <el-input
                   v-model="scope.row.reportGrade"
-                  style="width: 90px;margin-left: 5px">
+                  style="width: 90px;margin-left: 5px"
+                  @change="handlerChange(scope.$index)">
                 </el-input>
 
 
@@ -69,14 +66,22 @@
                  type="danger"
                  style="opacity: 0.9;"
                  @click="del(scope.$index)">删 除</el-button> -->
-                <el-tag>{{scope.row.battleNum}}</el-tag>
+                <el-tag style="width: 50px;">{{scope.row.battleNum}}</el-tag>
                 <el-input
                   v-model="scope.row.battleGrade"
-                  style="width: 90px;margin-left: 5px">
+                  style="width: 90px;margin-left: 5px"
+                  @change="handlerChange(scope.$index)">
                 </el-input>
 
              </template>
            </el-table-column>
+
+           <el-table-column label="总分">
+             <template slot-scope="scope">
+                <p>{{scope.row.grade}}</p>
+             </template>
+           </el-table-column>
+
          </el-table>
 
        </div>
@@ -88,7 +93,7 @@
 
  <script>
    import {addStudent} from '../../api/student'
-   import {getStudentList} from '../../api/student'
+   import {getRawGrades} from '../../api/teacher'
    export default {
      props:{
 
@@ -99,6 +104,7 @@
          inputStuNumber:'',
          inputName:'',
          input:'',
+         isActiveSub:false,
          tableData: [{
            stuNumber: '1950001',
            name: '小叶',
@@ -109,7 +115,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
-
+           grade:100
          }, {
            stuNumber: '1950002',
            name: '小王',
@@ -120,6 +126,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
+           grade:100
          }, {
            stuNumber: '1950003',
            name: '小周',
@@ -130,6 +137,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
+           grade:100
          }, {
            stuNumber: '1950004',
            name: '小尚',
@@ -140,6 +148,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
+           grade:100
          },{
            stuNumber: '1950005',
            name: '小吴',
@@ -150,6 +159,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
+           grade:100
          }, {
            stuNumber: '1950004',
            name: '小尚',
@@ -160,6 +170,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
+           grade:100
          },{
            stuNumber: '1950005',
            name: '小吴',
@@ -170,6 +181,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
+           grade:100
          }
          ],
          newObj: {
@@ -182,6 +194,7 @@
            battleNum:100,
            reportGrade:100,
            battleGrade:100,
+           grade:100
            },
          editIndex: null,// 保存正在编辑的对象的索引，注意这里的初始值不能为0及0以上的数
         rowID:""
@@ -189,14 +202,22 @@
      },
      created() {
        let courseId = 42014603
-       getStudentList({courseId}).then(res=>{
+       console.log("res")
+       getRawGrades({courseId}).then(res=>{
+         // getRawGrades({courseId})
+         // getRawGrades(42014603)
          console.log(res)
-         let length=res.data.tableData.length
+         let length=res.tableData.length
          for(let i=0;i<length;i++){
-           this.tableData.push(res.data.tableData[i])
+           this.tableData.push(res.tableData[i])
          }
 
          })
+     },
+     watch: {
+       'tableData': function(newVal) {
+         this.tableData = newVal
+       }
      },
      methods: {
        signyes(index){
@@ -220,6 +241,9 @@
            return 'success-row'
          }
          return ''
+       },
+       handlerChange(x) {
+         this.tableData[x].grade=Math.ceil(parseInt(this.tableData[x].signGrade)*0.2+parseInt(this.tableData[x].reportGrade)*0.4+parseInt(this.tableData[x].battleGrade)*0.4)
        }
      }
    }
