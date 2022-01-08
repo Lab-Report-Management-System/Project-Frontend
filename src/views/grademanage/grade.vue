@@ -1,7 +1,7 @@
 <template>
   <div>
-
     <div style="margin-top: 2cm;margin-left: 2cm;">
+
       <el-table
         :data="tableData"
         :row-class-name="tableRowClassName"
@@ -35,7 +35,7 @@
             <el-tag size="medium">{{ scope.row.courseName }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="签到次数    |    签到成绩">
+        <el-table-column label="签到占比    |    签到次数    |    签到成绩">
           <template slot-scope="scope">
             <el-tag style="width: 50px;">{{ scope.row.signNum }}</el-tag>
             <el-input
@@ -109,6 +109,9 @@ export default {
       inputName: '',
       input: '',
       isActiveSub: false,
+      rateSign:'',
+      rateReport:'',
+      rateBattle:'',
       tableData: [{
         stuNumber: '1950001',
         name: '小叶',
@@ -121,73 +124,7 @@ export default {
         battleGrade: 100,
         grade: 100
       }
-      // , {
-      //   stuNumber: '1950002',
-      //   name: '小王',
-      //   courseName: '软件工程经济学',
-      //   signNum: 100,
-      //   signGrade: 100,
-      //   reportNum: 100,
-      //   battleNum: 100,
-      //   reportGrade: 100,
-      //   battleGrade: 100,
-      //   grade: 100
-      // }, {
-      //   stuNumber: '1950003',
-      //   name: '小周',
-      //   courseName: '软件工程经济学',
-      //   signNum: 100,
-      //   signGrade: 100,
-      //   reportNum: 100,
-      //   battleNum: 100,
-      //   reportGrade: 100,
-      //   battleGrade: 100,
-      //   grade: 100
-      // }, {
-      //   stuNumber: '1950004',
-      //   name: '小尚',
-      //   courseName: '软件工程经济学',
-      //   signNum: 100,
-      //   signGrade: 100,
-      //   reportNum: 100,
-      //   battleNum: 100,
-      //   reportGrade: 100,
-      //   battleGrade: 100,
-      //   grade: 100
-      // }, {
-      //   stuNumber: '1950005',
-      //   name: '小吴',
-      //   courseName: '软件工程经济学',
-      //   signNum: 100,
-      //   signGrade: 100,
-      //   reportNum: 100,
-      //   battleNum: 100,
-      //   reportGrade: 100,
-      //   battleGrade: 100,
-      //   grade: 100
-      // }, {
-      //   stuNumber: '1950004',
-      //   name: '小尚',
-      //   courseName: '软件工程经济学',
-      //   signNum: 100,
-      //   signGrade: 100,
-      //   reportNum: 100,
-      //   battleNum: 100,
-      //   reportGrade: 100,
-      //   battleGrade: 100,
-      //   grade: 100
-      // }, {
-      //   stuNumber: '1950005',
-      //   name: '小吴',
-      //   courseName: '软件工程经济学',
-      //   signNum: 100,
-      //   signGrade: 100,
-      //   reportNum: 100,
-      //   battleNum: 100,
-      //   reportGrade: 100,
-      //   battleGrade: 100,
-      //   grade: 100
-      // }
+
       ],
       newObj: {
         stuNumber: '',

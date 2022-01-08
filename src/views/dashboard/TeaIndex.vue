@@ -53,14 +53,14 @@ export default {
       none: '暂无消息',
       rowID: '',
       tableData1: [[
-        {
-          labName: '软工实验系统',
-          name: '王冠博',
-          stuNumber: '1950461',
-          isActive: true,
-          state: 1,
-          labReportId: 0
-        }
+        // {
+        //   labName: '软工实验系统',
+        //   name: '王冠博',
+        //   stuNumber: '1950461',
+        //   isActive: true,
+        //   state: 1,
+        //   labReportId: 0
+        // }
       ]],
       commentList: [
         {
