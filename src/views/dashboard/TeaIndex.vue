@@ -35,7 +35,7 @@ import TableList from './tableList.vue'
 import TableList1 from './tableList.vue'
 import { getForumDetails, submitForum } from '@/api/course'
 import { getInfo } from '@/api/user'
-import {getReportIds} from '@/api/report'
+import { getReportIds } from '@/api/report'
 export default {
   components: {
     TableList,
@@ -47,7 +47,7 @@ export default {
       num: ['', '', ''],
       num2: '2',
       labList: [
-        '实验一',
+        '实验一'
       ],
       name: '',
       none: '暂无消息',
@@ -117,15 +117,18 @@ export default {
     }
   },
   created() {
-    getReportIds().then(res =>{
-      console.log(res);
+    getReportIds().then(res => {
+      console.log(res)
       // this.tableDate1=res.data.tableData1
-      let data=res.data.tableData1
-      console.log("res");
-      console.log(data[0]);
-      this.tableData1[0].push(data[0][0])
-      this.tableData1[0].push(data[0][1])
-      console.log(this.tableDate1);
+      const data = res.data.tableData1
+      console.log('res')
+      console.log(data[0])
+      for (let i = 0; i < data[0].length; i++) {
+        this.tableData1[0].push(data[0][i])
+      }
+      // this.tableData1[0].push(data[0][0])
+      // this.tableData1[0].push(data[0][1])
+      console.log(this.tableDate1)
     })
     this.getComments()
     getInfo().then(res => {

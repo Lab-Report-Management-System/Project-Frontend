@@ -131,7 +131,7 @@ export const asyncRoutes = [
       {
         path: 'socket',
         name: 'socket',
-        hidden: true,
+        // hidden: true,
         component: () => import('@/views/webSocket/socket'),
         meta: { title: '答题对战', icon: 'el-icon-date' }
       }
@@ -188,7 +188,7 @@ export const asyncRoutes = [
     component: Layout,
     // redirect: '/example/table',
     name: 'Grade',
-    meta: { title: '成绩管理', icon: 'el-icon-s-help',roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
+    meta: { title: '成绩管理', icon: 'el-icon-s-help', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
     children: [
       {
         path: 'signin',
@@ -201,19 +201,19 @@ export const asyncRoutes = [
         name: 'gradeAll',
         component: () => import('@/views/grademanage/grade.vue'),
         meta: { title: '成绩管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
-      },
-  // {
-  //   path: 'report',
-  //   name: 'Report',
-  //   component: () => import('@/views/report/Report'),
-  //   meta: { title: '报告填写', icon: 'form', roles: ['Student'] }
-  // },
-  //     {
-  //       path: 'markReport',
-  //       name: 'MarkReport',
-  //       component: () => import('@/views/report/MarkReport'),
-  //       meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
-  //     }
+      }
+      // {
+      //   path: 'report',
+      //   name: 'Report',
+      //   component: () => import('@/views/report/Report'),
+      //   meta: { title: '报告填写', icon: 'form', roles: ['Student'] }
+      // },
+      //     {
+      //       path: 'markReport',
+      //       name: 'MarkReport',
+      //       component: () => import('@/views/report/MarkReport'),
+      //       meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+      //     }
     ]
   },
   {

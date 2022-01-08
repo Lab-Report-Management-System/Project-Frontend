@@ -290,7 +290,7 @@ export default {
           this.circleUrl = res.data.userPhoto
           this.personalData.email = res.data.userEmail
           this.personalData.nickname = res.data.userNickname
-          this.personalData.StuNum = 1953608
+          this.personalData.StuNum = res.data.userEmail.split('@')[0]
           if (res.data.userGender == 0) {
             this.personalData.sex = 'male'
           } else {
@@ -325,7 +325,10 @@ export default {
           console.log('yes')
         })
         if (this.isClickPwd == true) {
-          setPassword(this.newPwd).then(res => {
+          console.log(this.newPwd)
+
+          this.newPwd = require('js-sha256').sha256(this.newPwd)
+          setPassword({ 'password': this.newPwd.toString() }).then(res => {
             console.log(res)
             console.log('yes')
           })

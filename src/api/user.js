@@ -31,10 +31,12 @@ export function updateNickname(params) {
   })
 }
 
-export function setPassword() {
+export function setPassword(data) {
+  const params = new URLSearchParams(data)
   return request({
     url: '/api/user/setPassword',
-    method: 'post'
+    method: 'post',
+    data: params
   })
 }
 
