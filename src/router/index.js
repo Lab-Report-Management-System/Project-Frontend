@@ -133,7 +133,7 @@ export const asyncRoutes = [
         name: 'socket',
         // hidden: true,
         component: () => import('@/views/webSocket/socket'),
-        meta: { title: '答题对战', icon: 'el-icon-date' }
+        meta: { title: '答题对战', icon: 'el-icon-trophy' }
       }
     ]
   },
@@ -171,6 +171,7 @@ export const asyncRoutes = [
         path: 'markReport',
         name: 'MarkReport',
         component: () => import('@/views/report/MarkReport'),
+        hidded: true,
         meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
       },
       {
