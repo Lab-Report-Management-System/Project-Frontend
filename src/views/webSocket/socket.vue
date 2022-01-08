@@ -3,6 +3,17 @@
     <!--问候界面 -->
     <h1 id="greetings" style="text-align: center">欢迎进入答题对战,</h1>
     <el-button v-show="buttonVisible" id="match" v-loading="loading" style="margin-top: 5px;margin-left: 45%" @click.native.prevent="match">点击匹配</el-button>
+    <div v-show="buttonVisible">
+      <h2 style="text-align: center;margin-top: 50px">聊天区</h2>
+      <div style="margin-top: 5px;margin-left: 30%">
+        <el-input v-model="chatContent" style="width: 500px" clearable />
+        <el-button @click.native.prevent="sendChatMessage">发送</el-button>
+        <el-button @click.native.prevent="clearText">清空</el-button>
+      </div>
+      <div style="text-align: center">
+        <div id="output" />
+      </div>
+    </div>
     <div>
       <!-- 总计时 -->
       <div v-show="timeVisible" style="margin-left: 15px">总用时:{{ this.answeringTotalTime.toFixed(2) }}</div>
@@ -28,7 +39,7 @@
 
       </el-card>
       <!--显示自己的答题情况 -->
-      <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" style="margin-left: 150px;top: 40px"/>
+      <el-progress v-show="questionVisible" type="circle" :percentage="getRate()" style="margin-left: 150px;top: 40px" />
       <!-- 显示所有人的答题情况 -->
       <el-table v-show="timeVisible" stripe style="position: absolute;top:60%;margin-left:500px;width: 500px" :data="tableData" border>
         <el-table-column prop="index" label="序号" width="180" />
@@ -54,7 +65,7 @@
         :visible.sync="dialogVisible"
         width="30%"
       >
-        <span>您的最终得分为: {{this.score}}</span>
+        <span>您的最终得分为: {{ this.score }}</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click.native.prevent="submitScore">确 定</el-button>
@@ -121,6 +132,8 @@ export default {
       clock: '',
       // 分数相关
       score: 0,
+      // 聊天相关
+      chatContent: '',
       // 消息相关
       PRIVATE_CHAT_MESSAGE_CODE: 1, // 私聊消息
       GROUP_CHAT_MESSAGE_CODE: 2, // 群聊消息
@@ -145,6 +158,22 @@ export default {
     this.initMe()
   },
   methods: {
+    clearText() {
+      document.getElementById('output').innerText = ''
+    },
+    sendChatMessage() {
+      if (this.chatContent === '' || this.chatContent == null) {
+        alert('信息不能为空~')
+        return
+      }
+      const object = {}
+      object.type = this.GROUP_CHAT_MESSAGE_CODE
+      object.code = this.GROUP_CHAT_MESSAGE_CODE
+      object.username = this.me.username
+      object.sendUserId = this.me.userId
+      object.msg = this.chatContent
+      this.send(JSON.stringify(object))
+    },
     submitScore() {
       this.dialogVisible = false
       this.finishVisible = false
@@ -171,6 +200,12 @@ export default {
           const data = JSON.parse(event.data)
           switch (data.code) {
             case this.GROUP_CHAT_MESSAGE_CODE: // 组内群聊消息
+              if (data.msg.length !== 0) {
+                document.getElementById('output').append(data.username + ' : ' + data.msg)
+                const br = document.createElement('br')
+                document.getElementById('output').appendChild(br)
+                break
+              }
               for (let i = 0; i < this.userList.length; i++) {
                 if ((decodeURIComponent(this.userList[i]) === data.sendUserId)) {
                   if (data.type === this.CORRECT_ANSWER_CODE) {
