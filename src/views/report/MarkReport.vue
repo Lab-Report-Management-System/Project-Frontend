@@ -77,12 +77,12 @@
             />
           </el-col>
           <el-col>
-          <el-input
-            style="width: 100px;"
-            placeholder="分数"
-            v-model="ratings"
-            clearable>
-          </el-input>
+            <el-input
+              v-model="ratings"
+              style="width: 100px;"
+              placeholder="分数"
+              clearable
+            />
           </el-col>
           <el-col style="margin-top: 0.5cm;margin-bottom: 0.5cm">
             <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交评分</el-button>
@@ -281,6 +281,12 @@ export default {
         this.$message(message)
         this.isActive = true
       })
+      // 返回上一页 若没有上一页则到首页
+      if (this.$route.query.goindex === 'true') {
+        this.$router.push('/')
+      } else {
+        this.$router.back(-1)
+      }
       // })
     },
     onSave() {
@@ -374,7 +380,6 @@ export default {
     // }
   }
 }
-
 
 </script>
 
