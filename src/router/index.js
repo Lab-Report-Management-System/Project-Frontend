@@ -217,12 +217,12 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/class',
+    path: '/teacherClass',
     component: Layout,
     meta: { title: '班级管理', icon: 'form', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
     children: [
       {
-        path: '/',
+        path: '/teacherClass',
         name: 'TeacherClass',
         // redirect: '/teacherClass',
         component: () => import('@/views/class/teacherClass.vue'),

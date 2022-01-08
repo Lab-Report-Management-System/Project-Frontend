@@ -267,7 +267,7 @@ export default {
       return res
     },
     manageClass(){
-      this.$router.push('/class')
+      this.$router.push('/teacherClass')
     }
   }
 }

@@ -25,7 +25,7 @@
           value-format="yyyy-MM-dd"
         />
         <el-time-picker
-          v-model="value1"
+          v-model="value2"
           is-range
           range-separator="至"
           start-placeholder="开始时间"
@@ -59,6 +59,7 @@ export default {
         isActive: ''
 
       },
+      value2:'',
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()

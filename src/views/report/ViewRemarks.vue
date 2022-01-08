@@ -67,20 +67,23 @@
           <!--              <el-button type="primary" plain style="z-index: 5;width:100px" @click="cpNPV">计算NPV</el-button>-->
           <!--            </el-row>-->
           <!--          </el-col>-->
+          <el-col>
+            <el-input
+              v-model="comments"
+              type="textarea"
+              :rows="2"
+              style="width: 50%"
+              placeholder="请输入评价内容"
+            />
+          </el-col>
+          <el-col>
           <el-input
-            v-model="comments"
-            type="textarea"
-            :rows="2"
-            style="width: 50%"
-            disabled
-            placeholder="这里是老师的评价..."
-          />
-          <el-rate
+            style="width: 100px;"
+            placeholder="分数"
             v-model="ratings"
-            show-text
-            :texts="textss"
-            disabled
-          />
+            clearable>
+          </el-input>
+          </el-col>
           <el-col style="margin-top: 0.5cm;margin-bottom: 0.5cm">
             <!--            <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交评分</el-button>-->
             <!--            <el-button type="warning" plain @click="onSave">下一份</el-button>-->

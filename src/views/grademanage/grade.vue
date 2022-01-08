@@ -120,73 +120,74 @@ export default {
         reportGrade: 100,
         battleGrade: 100,
         grade: 100
-      }, {
-        stuNumber: '1950002',
-        name: '小王',
-        courseName: '软件工程经济学',
-        signNum: 100,
-        signGrade: 100,
-        reportNum: 100,
-        battleNum: 100,
-        reportGrade: 100,
-        battleGrade: 100,
-        grade: 100
-      }, {
-        stuNumber: '1950003',
-        name: '小周',
-        courseName: '软件工程经济学',
-        signNum: 100,
-        signGrade: 100,
-        reportNum: 100,
-        battleNum: 100,
-        reportGrade: 100,
-        battleGrade: 100,
-        grade: 100
-      }, {
-        stuNumber: '1950004',
-        name: '小尚',
-        courseName: '软件工程经济学',
-        signNum: 100,
-        signGrade: 100,
-        reportNum: 100,
-        battleNum: 100,
-        reportGrade: 100,
-        battleGrade: 100,
-        grade: 100
-      }, {
-        stuNumber: '1950005',
-        name: '小吴',
-        courseName: '软件工程经济学',
-        signNum: 100,
-        signGrade: 100,
-        reportNum: 100,
-        battleNum: 100,
-        reportGrade: 100,
-        battleGrade: 100,
-        grade: 100
-      }, {
-        stuNumber: '1950004',
-        name: '小尚',
-        courseName: '软件工程经济学',
-        signNum: 100,
-        signGrade: 100,
-        reportNum: 100,
-        battleNum: 100,
-        reportGrade: 100,
-        battleGrade: 100,
-        grade: 100
-      }, {
-        stuNumber: '1950005',
-        name: '小吴',
-        courseName: '软件工程经济学',
-        signNum: 100,
-        signGrade: 100,
-        reportNum: 100,
-        battleNum: 100,
-        reportGrade: 100,
-        battleGrade: 100,
-        grade: 100
       }
+      // , {
+      //   stuNumber: '1950002',
+      //   name: '小王',
+      //   courseName: '软件工程经济学',
+      //   signNum: 100,
+      //   signGrade: 100,
+      //   reportNum: 100,
+      //   battleNum: 100,
+      //   reportGrade: 100,
+      //   battleGrade: 100,
+      //   grade: 100
+      // }, {
+      //   stuNumber: '1950003',
+      //   name: '小周',
+      //   courseName: '软件工程经济学',
+      //   signNum: 100,
+      //   signGrade: 100,
+      //   reportNum: 100,
+      //   battleNum: 100,
+      //   reportGrade: 100,
+      //   battleGrade: 100,
+      //   grade: 100
+      // }, {
+      //   stuNumber: '1950004',
+      //   name: '小尚',
+      //   courseName: '软件工程经济学',
+      //   signNum: 100,
+      //   signGrade: 100,
+      //   reportNum: 100,
+      //   battleNum: 100,
+      //   reportGrade: 100,
+      //   battleGrade: 100,
+      //   grade: 100
+      // }, {
+      //   stuNumber: '1950005',
+      //   name: '小吴',
+      //   courseName: '软件工程经济学',
+      //   signNum: 100,
+      //   signGrade: 100,
+      //   reportNum: 100,
+      //   battleNum: 100,
+      //   reportGrade: 100,
+      //   battleGrade: 100,
+      //   grade: 100
+      // }, {
+      //   stuNumber: '1950004',
+      //   name: '小尚',
+      //   courseName: '软件工程经济学',
+      //   signNum: 100,
+      //   signGrade: 100,
+      //   reportNum: 100,
+      //   battleNum: 100,
+      //   reportGrade: 100,
+      //   battleGrade: 100,
+      //   grade: 100
+      // }, {
+      //   stuNumber: '1950005',
+      //   name: '小吴',
+      //   courseName: '软件工程经济学',
+      //   signNum: 100,
+      //   signGrade: 100,
+      //   reportNum: 100,
+      //   battleNum: 100,
+      //   reportGrade: 100,
+      //   battleGrade: 100,
+      //   grade: 100
+      // }
       ],
       newObj: {
         stuNumber: '',
@@ -253,9 +254,9 @@ export default {
     },
     submit() {
       var tableData=[];
-      tableData.push(this.tableData[7])
-      tableData.push(this.tableData[8])
-      tableData.push(this.tableData[9])
+      tableData.push(this.tableData[1])
+      tableData.push(this.tableData[2])
+      tableData.push(this.tableData[3])
       // data.tableData=this.tableData
       console.log(tableData)
       postStudentGrades(tableData).then(res => {

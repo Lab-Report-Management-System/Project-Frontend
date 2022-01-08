@@ -91,31 +91,32 @@
            stuNumber: '1950001',
            name: '小叶',
            courseName: '软件工程经济学'
-         }, {
-           stuNumber: '1950002',
-           name: '小王',
-           courseName: '软件工程经济学'
-         }, {
-           stuNumber: '1950003',
-           name: '小周',
-           courseName: '软件工程经济学'
-         }, {
-           stuNumber: '1950004',
-           name: '小尚',
-           courseName: '软件工程经济学'
-         },{
-           stuNumber: '1950005',
-           name: '小吴',
-           courseName: '软件工程经济学'
-         }, {
-           stuNumber: '1950004',
-           name: '小尚',
-           courseName: '软件工程经济学'
-         },{
-           stuNumber: '1950005',
-           name: '小吴',
-           courseName: '软件工程经济学'
          }
+         // , {
+         //   stuNumber: '1950002',
+         //   name: '小王',
+         //   courseName: '软件工程经济学'
+         // }, {
+         //   stuNumber: '1950003',
+         //   name: '小周',
+         //   courseName: '软件工程经济学'
+         // }, {
+         //   stuNumber: '1950004',
+         //   name: '小尚',
+         //   courseName: '软件工程经济学'
+         // },{
+         //   stuNumber: '1950005',
+         //   name: '小吴',
+         //   courseName: '软件工程经济学'
+         // }, {
+         //   stuNumber: '1950004',
+         //   name: '小尚',
+         //   courseName: '软件工程经济学'
+         // },{
+         //   stuNumber: '1950005',
+         //   name: '小吴',
+         //   courseName: '软件工程经济学'
+         // }
          ],
          newObj: {
            stuNumber: '',
