@@ -261,7 +261,11 @@ export default {
       this.personalData.email = res.data.userEmail
       this.personalData.userNickname = res.data.userNickname
       this.personalData.StuNum = res.data.userEmail.split('@')[0]
-      this.personalData.sex = 'male'
+      if (res.data.userGender == 0) {
+        this.personalData.sex = 'male'
+      } else {
+        this.personalData.sex = 'female'
+      }
       this.personalData.identify = res.data.roles[0]
     })
   },
@@ -287,7 +291,11 @@ export default {
           this.personalData.email = res.data.userEmail
           this.personalData.nickname = res.data.userNickname
           this.personalData.StuNum = 1953608
-          this.personalData.sex = 'male'
+          if (res.data.userGender == 0) {
+            this.personalData.sex = 'male'
+          } else {
+            this.personalData.sex = 'female'
+          }
           this.personalData.identify = res.data.roles[0]
         })
       })
