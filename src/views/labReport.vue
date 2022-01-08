@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="labForm" label-width="120px" style="position: absolute;width: 50%;left: 20%;top: 10%;">
-      <el-form-item label="实验名称">
+      <el-form-item label="课程名称">
         <el-input v-model="labForm.labName" disabled/>
       </el-form-item>
       <el-form-item label="实验描述">
@@ -49,7 +49,7 @@ export default {
       isActive: false,
       labForm: {
         labID: 1,
-        labName: 'IRR计算实验',
+        labName: '软工课设',
         labAim: '',
         labEquip: '',
         labPrin: '',

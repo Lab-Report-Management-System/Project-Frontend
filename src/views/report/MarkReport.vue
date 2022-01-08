@@ -86,7 +86,7 @@
           </el-col>
           <el-col style="margin-top: 0.5cm;margin-bottom: 0.5cm">
             <el-button type="primary" plain :disabled="isActive" @click="onSubmit">提交评分</el-button>
-            <el-button type="warning" plain @click="onSave">下一份</el-button>
+<!--            <el-button type="warning" plain @click="onSave">下一份</el-button> -->
             <el-button type="info" plain @click="onCancel">取消</el-button>
 
           </el-col>
@@ -121,7 +121,7 @@ export default {
       stuAnswer: ['2'],
       NPVvalue: '',
       comments: '',
-      ratings: 5,
+      ratings: '',
       labReportId: parseInt(this.$route.query.labReportId),
       nextLabReportId: null,
       NPVper: '',

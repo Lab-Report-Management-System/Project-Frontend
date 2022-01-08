@@ -63,27 +63,6 @@ export default {
         labName: '软工实验系统',
         name: '',
         stuNumber: '',
-        isActive: true,
-        state: 1,
-        labID: 0
-      }, {
-        labName: '软工实验系统',
-        name: '',
-        stuNumber: '',
-        isActive: false,
-        state: 2,
-        labID: 3
-      }, {
-        labName: '软工实验系统',
-        name: '',
-        stuNumber: '',
-        isActive: true,
-        state: 1,
-        labID: 2
-      }, {
-        labName: '软工实验系统',
-        name: '',
-        stuNumber: '',
         isActive: false,
         state: 0,
         labID: 1

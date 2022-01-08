@@ -118,7 +118,7 @@ export default {
     },
     handleClickEdit(row) {
       this.$router.push({ path: '/lab/submitReport', query: {
-        state: this.tableData[3].state,
+        state: this.tableData[1].state,
         labID: 1
       }})
     },

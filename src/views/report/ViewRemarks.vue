@@ -121,7 +121,7 @@ export default {
       NPVvalue: '',
       comments: '',
       labReportId: this.$route.query.labReportId,
-      ratings: 5,
+      ratings: '',
       NPVper: '',
       textss: ['不及格', '及格', '中', '良', '优'],
       options: [{
@@ -237,6 +237,9 @@ export default {
         this.NPV = NPV
         this.comments = comments
         this.ratings = ratings
+        if(this.ratings==5){
+          this.ratings=''
+        }
       })
     },
     getChart() {

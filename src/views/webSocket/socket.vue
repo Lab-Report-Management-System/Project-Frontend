@@ -44,7 +44,7 @@
       <el-table v-show="timeVisible" stripe style="position: absolute;top:60%;margin-left:500px;width: 500px" :data="tableData" border>
         <el-table-column prop="index" label="序号" width="180" />
         <el-table-column prop="userName" label="用户昵称" width="180" />
-        <el-table-column prop="finishNumber" label="完成度" />
+        <el-table-column prop="finishNumber" label="正确题目数" />
       </el-table>
       <!--  查看结果 -->
       <el-card v-show="resultVisible" style="height: 225px;">

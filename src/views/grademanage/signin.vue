@@ -87,11 +87,7 @@
          isActive:false,
          inputStuNumber:'',
          inputName:'',
-         tableData: [{
-           stuNumber: '1950001',
-           name: '小叶',
-           courseName: '软件工程经济学'
-         }
+         tableData: [
          // , {
          //   stuNumber: '1950002',
          //   name: '小王',

@@ -100,7 +100,7 @@
           <div slot="header" class="panel-head">
             <div class="panel-head-title">系统公告</div>
             <div class="panel-head-right">
-              <el-button type="info" plain size="mini" icon="el-icon-plus" disabled>发布公告</el-button>
+              <!-- <el-button type="info" plain size="mini" icon="el-icon-plus" disabled>发布公告</el-button> -->
               <el-button type="info" plain size="mini">查看更多<i class="el-icon-arrow-right el-icon--right" /></el-button>
             </div>
           </div>
