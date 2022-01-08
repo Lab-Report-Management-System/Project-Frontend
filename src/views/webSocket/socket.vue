@@ -200,7 +200,7 @@ export default {
           const data = JSON.parse(event.data)
           switch (data.code) {
             case this.GROUP_CHAT_MESSAGE_CODE: // 组内群聊消息
-              if (data.msg.length !== 0) {
+              if (data.msg !== 'battle') {
                 document.getElementById('output').append(data.username + ' : ' + data.msg)
                 const br = document.createElement('br')
                 document.getElementById('output').appendChild(br)
@@ -303,6 +303,7 @@ export default {
       object.type = messageType
       object.username = this.me.username
       object.sendUserId = this.me.userId
+      object.msg = 'battle'
       console.log(object)
       this.send(JSON.stringify(object))
     },
