@@ -156,7 +156,7 @@ export default {
       // console.log('yessss')
       //  console.log(state)
       this.tableData1[0][this.tableData1[0].length - 1].state = state
-      if (state == 1) {
+      if (state == 1 || state == 3) {
         this.tableData1[0][this.tableData1[0].length - 1].isActive = true
       } else {
         this.tableData1[0][this.tableData1[0].length - 1].isActive = false
@@ -170,7 +170,7 @@ export default {
       if (this.tableData1[rowIndex].state == 2) {
         return 'warning-row'
       }
-      if (this.tableData1[rowIndex].state == 1) {
+      if (this.tableData1[rowIndex].state == 1 || this.tableData1[rowIndex].state == 3) {
         return 'success-row'
       }
       return ''
