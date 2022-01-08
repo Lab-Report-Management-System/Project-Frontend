@@ -1,7 +1,27 @@
 <template>
   <div>
     <div style="margin-top: 2cm;margin-left: 2cm;">
+      <el-tag style="width: 90px;margin-left: 5px;text-align: center;">签到占比</el-tag>
+      <el-input
+      :disabled="isActive"
+        v-model="rateSign"
+        style="width: 90px;margin-left: 5px"
 
+      />
+      <el-tag style="width: 90px;margin-left: 5px;text-align: center;">对战占比</el-tag>
+      <el-input
+      :disabled="isActive"
+        v-model="rateBattle"
+        style="width: 90px;margin-left: 5px"
+
+      />
+      <el-tag style="width: 90px;margin-left: 5px;text-align: center;">报告占比</el-tag>
+      <el-input
+      :disabled="isActive"
+        v-model="rateReport"
+        style="width: 90px;margin-left: 5px"
+
+      />
       <el-table
         :data="tableData"
         :row-class-name="tableRowClassName"
@@ -27,7 +47,7 @@
         </el-table-column>
         <el-table-column
           label="课程名称"
-          width="360"
+          width="200"
         >
           <template slot-scope="scope">
             <i class="el-icon-notebook-2" />
@@ -35,10 +55,13 @@
             <el-tag size="medium">{{ scope.row.courseName }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="签到占比    |    签到次数    |    签到成绩">
+        <el-table-column label="签到次数    |    签到成绩"
+        width="300">
           <template slot-scope="scope">
-            <el-tag style="width: 50px;">{{ scope.row.signNum }}</el-tag>
+
+            <el-tag style="width: 50px;margin-left: 5px;">{{ scope.row.signNum }}</el-tag>
             <el-input
+            :disabled="isActive"
               v-model="scope.row.signGrade"
               style="width: 90px;margin-left: 5px"
               @change="handlerChange(scope.$index)"
@@ -46,15 +69,13 @@
 
           </template>
         </el-table-column>
-        <el-table-column label="报告总分    |    报告成绩">
+        <el-table-column label="报告总分    |    报告成绩"
+        width="300">
           <template slot-scope="scope">
-            <!-- <el-button
-                 size="mini"
-                 type="danger"
-                 style="opacity: 0.9;"
-                 @click="del(scope.$index)">删 除</el-button> -->
-            <el-tag style="width: 50px;">{{ scope.row.reportNum }}</el-tag>
+
+            <el-tag style="width: 50px;margin-left: 5px;">{{ scope.row.reportNum }}</el-tag>
             <el-input
+            :disabled="isActive"
               v-model="scope.row.reportGrade"
               style="width: 90px;margin-left: 5px"
               @change="handlerChange(scope.$index)"
@@ -62,15 +83,12 @@
 
           </template>
         </el-table-column>
-        <el-table-column label="对战总分    |    对战成绩">
+        <el-table-column label="对战总分    |    对战成绩"
+        width="300">
           <template slot-scope="scope">
-            <!-- <el-button
-                 size="mini"
-                 type="danger"
-                 style="opacity: 0.9;"
-                 @click="del(scope.$index)">删 除</el-button> -->
-            <el-tag style="width: 50px;">{{ scope.row.battleNum }}</el-tag>
+            <el-tag style="width: 50px;margin-left: 5px;">{{ scope.row.battleNum }}</el-tag>
             <el-input
+            :disabled="isActive"
               v-model="scope.row.battleGrade"
               style="width: 90px;margin-left: 5px"
               @change="handlerChange(scope.$index)"
@@ -88,8 +106,8 @@
       </el-table>
 
     </div>
-    <el-button type="primary" style="margin-top: 2cm;margin-left: 20cm;margin-bottom: 2cm;" @click.native="submit">确认提交</el-button>
-    <el-button type="info" @click="cancle">取消</el-button>
+    <el-button type="primary" style="margin-top: 2cm;margin-left: 20cm;margin-bottom: 2cm;" :key="isActive" :disabled="isActive" @click.native="submit">确认提交</el-button>
+    <el-button type="info" :disabled="isActive" @click="cancle">取消</el-button>
   </div>
   </div>
 </template>
@@ -110,20 +128,10 @@ export default {
       input: '',
       isActiveSub: false,
       rateSign:'',
+      isActive:false,
       rateReport:'',
       rateBattle:'',
-      tableData: [{
-        stuNumber: '1950001',
-        name: '小叶',
-        courseName: '软件工程经济学',
-        signNum: 100,
-        signGrade: 100,
-        reportNum: 100,
-        battleNum: 100,
-        reportGrade: 100,
-        battleGrade: 100,
-        grade: 100
-      }
+      tableData: [
 
       ],
       newObj: {
@@ -136,7 +144,7 @@ export default {
         battleNum: 100,
         reportGrade: 100,
         battleGrade: 100,
-        grade: 100
+        grade: ''
       },
       editIndex: null, // 保存正在编辑的对象的索引，注意这里的初始值不能为0及0以上的数
       rowID: ''
@@ -151,12 +159,13 @@ export default {
     const courseId = 42014603
     console.log('res')
     getRawGrades({ courseId }).then(res => {
-      // getRawGrades({courseId})
-      // getRawGrades(42014603)
       console.log(res)
       const length = res.tableData.length
       for (let i = 0; i < length; i++) {
         this.tableData.push(res.tableData[i])
+      }
+      if(this.tableData[0].grade!=null){
+        this.isActive=true;
       }
     })
   },
@@ -184,21 +193,21 @@ export default {
       return ''
     },
     handlerChange(x) {
-      this.tableData[x].grade = Math.ceil(parseInt(this.tableData[x].signGrade) * 0.2 + parseInt(this.tableData[x].reportGrade) * 0.4 + parseInt(this.tableData[x].battleGrade) * 0.4)
+      this.tableData[x].grade = Math.ceil(parseInt(this.tableData[x].signGrade) *parseInt(this.rateSign)/100 + parseInt(this.tableData[x].reportGrade) * parseInt(this.rateReport)/100 + parseInt(this.tableData[x].battleGrade) * parseInt(this.rateBattle)/100)
     },
     cancle() {
       this.$router.push({ path: '/' })
     },
     submit() {
       var tableData=[];
-      tableData.push(this.tableData[1])
-      tableData.push(this.tableData[2])
-      tableData.push(this.tableData[3])
-      // data.tableData=this.tableData
+      for (let i = 0; i < this.tableData.length; i++) {
+            tableData.push(this.tableData[i])
+      }
       console.log(tableData)
       postStudentGrades(tableData).then(res => {
         console.log('yres')
       })
+      this.$router.push({ path: '/' })
     }
   }
 }
