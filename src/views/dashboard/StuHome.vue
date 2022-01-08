@@ -244,7 +244,7 @@ export default {
       let latestLabId = 1
       for (let i = 0; i < res.labEntityList.length; i++) {
         this.allReportOptions.push({ value: res.labEntityList[i].labId, label: res.labEntityList[i].labName })
-        if (this.getCurrentDay() <= res.labEntityList[i].labDeadline) {
+        if (this.getCurrentDay() !== res.labEntityList[i].labDeadline) {
           if (res.labEntityList[i].labDeadline <= latestLabTime) {
             latestLabTime = res.labEntityList[i].labDeadline
             latestLabName = res.labEntityList[i].labName
@@ -253,6 +253,8 @@ export default {
           this.unfinishedReportOptions.push({ value: res.labEntityList[i].labId, label: res.labEntityList[i].labName })
         }
       }
+      console.log(this.allReportOptions)
+      console.log(this.unfinishedReportOptions)
       // 没有匹配到最近的实验
       if (latestLabTime === '3033-12-31') {
         latestLabTime = ''
