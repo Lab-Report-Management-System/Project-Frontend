@@ -44,7 +44,7 @@
         <el-button type="text" class="button lab-button" @click="manageLab">管理实验</el-button>
       </el-card>
     </div>
-    <div class="report-info">
+    <!-- <div class="report-info">
       <el-card class="box-card" shadow="hover">
         <div class="text item">
           <div style="text-align:center">实验报告管理</div>
@@ -60,7 +60,7 @@
         </div>
         <el-button type="text" class="button report-button" @click="pigaiLab">批阅实验报告</el-button>
       </el-card>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -99,6 +99,9 @@ export default {
     getCourseDetailById() {
       getCourseDetailById({ courseId: this.courseId }).then(res => {
         const { courseInfo, labInfo, reportInfo } = res.data
+        console.log(courseInfo)
+        console.log(labInfo)
+        console.log(reportInfo)
         this.courseInfo = courseInfo
         this.labInfo = labInfo
         this.reportInfo = reportInfo

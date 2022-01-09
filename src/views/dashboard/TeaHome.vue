@@ -145,7 +145,7 @@
 import { getInfo } from '@/api/user'
 import { getLabInfo } from '@/api/lab'
 import { getToken } from '@/utils/auth'
-import { getTeacherAndCourse, getCourseByLabId } from '@/api/course'
+import { getTeacherAndCourse, getCourseByLabId,createState } from '@/api/course'
 import { getSystemAnnouncement, getCourseAnnouncement } from '@/api/announcement'
 import { getSubmitRate } from '@/api/report'
 
@@ -183,7 +183,7 @@ export default {
     }
   },
   created() {
-    this.isCreate=this.$route.query.isCreate1
+    // this.isCreate=this.$route.query.isCreate1
     this.token.code = getToken()
     // 获取个人信息
     getInfo().then(res => {
@@ -212,7 +212,9 @@ export default {
     // 获得首页课程
     getTeacherAndCourse(this.token).then(res => {
       this.courses = res.coursesInfoList
-      if(this.isCreate==true){
+      console.log("res")
+      console.log(res)
+      if(res.coursesInfoList[1].isCreated==true){
         for (let i = 0; i < this.courses.length; i++) {
           this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
           this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })

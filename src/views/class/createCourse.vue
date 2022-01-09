@@ -26,7 +26,7 @@
 </template>
 
 <script>
-
+import { getTeacherAndCourse, getCourseByLabId,createState } from '@/api/course'
 export default {
   data() {
     return {
@@ -64,9 +64,14 @@ export default {
         type: 'success',
         message: '创建成功'
       })
-      this.$router.push({path:'/dashboard',query:{
-      isCreate1:true
-      }});
+      // this.$router.push({path:'/dashboard',query:{
+      // isCreate1:true
+      // }});
+      let isCreate=true
+      createState({'course_id':42014604,'isCreated':true}).then(res=>{
+
+      })
+      this.$router.push({path:'/dashboard'})
     }
   }
 }

@@ -42,3 +42,12 @@ export function submitForum(data) {
     data: params
   })
 }
+
+export function createState(data) {
+  const params = new URLSearchParams(data)
+  return request({
+    url: '/api/course/createState',
+    method: 'post',
+    data: params
+  })
+}
