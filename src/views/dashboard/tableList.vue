@@ -54,7 +54,7 @@
       width="120"
     >
       <template slot-scope="scope">
-        <el-button type="text" size="small" :disabled="!tableData[rowID].isActive" @click="handleClickEdit(scope.row)">批改</el-button>
+        <el-button type="text" size="small" :disabled="tableData[rowID].isActive" @click="handleClickEdit(scope.row)">批改</el-button>
 
       </template>
     </el-table-column>

@@ -128,6 +128,7 @@ export default {
       }
       // this.tableData1[0].push(data[0][0])
       // this.tableData1[0].push(data[0][1])
+      console.log("tableDate1")
       console.log(this.tableDate1)
     })
     this.getComments()
@@ -142,7 +143,7 @@ export default {
       if (this.tableData1[rowIndex].state == 2) {
         return 'warning-row'
       }
-      if (this.tableData1[rowIndex].state == 1) {
+      if (this.tableData1[rowIndex].state == 1 || this.tableData1[rowIndex].state == 3) {
         return 'success-row'
       }
       return ''
