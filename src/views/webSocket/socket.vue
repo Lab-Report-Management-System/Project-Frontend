@@ -187,6 +187,7 @@ export default {
       this.me = new Object()
       getInfo(getToken()).then(res => {
         this.me.username = res.data.userNickname
+        // if()
         this.me.userId = res.data.userName
         this.websocket()
       })
@@ -218,6 +219,7 @@ export default {
               this.userList = data.ext.userList
               for (let i = 0; i < this.tableData.length; i++) {
                 this.tableData[i].userName = decodeURIComponent(this.userList[i])
+                // if(this.tableData[i].userName)
               }
               for (let i = 0; i < this.tableData.length; i++) {
                 this.tableData[i].finishNumber = 0

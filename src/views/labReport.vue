@@ -50,7 +50,7 @@ export default {
       labForm: {
         labID: 1,
         labName: '软工课设',
-        labAim: '',
+        labAim: '本实验需要每一位同学查阅相关资料，获取近5-10年的现金数据，并计算对应的收入差额、净现值NPV、内部收益率等。 请将相关数据填入以下表格中。',
         labEquip: '',
         labPrin: '',
         labConclu: '',

@@ -35,8 +35,8 @@ export default {
       isActive: false,
       labForm: {
         labID: 1,
-        labName: '软工课设',
-        labAim: '',
+        labName: '42014604',
+        labAim: '软工课设',
         labEquip: '',
         labPrin: '',
         labConclu: '',
@@ -52,7 +52,7 @@ export default {
         } },
       options: [{
         value: '选项1',
-        label: '黄杰老师'
+        label: '黄杰'
       }],
       value: '',
       value1: ''
@@ -68,7 +68,7 @@ export default {
       // isCreate1:true
       // }});
       let isCreate=true
-      createState({'course_id':42014604,'isCreated':true}).then(res=>{
+      createState({'course_id':42014604,'isCreated':false}).then(res=>{
 
       })
       this.$router.push({path:'/dashboard'})

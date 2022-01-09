@@ -42,7 +42,11 @@ export default {
     },
     getCourseIds() {
       getCourseIds().then(res => {
+        console.log("res.data.courseIds")
+        console.log(res.data.courseIds)
+        console.log("res.data.courseIds")
         this.courseIds = res.data.courseIds
+        this.courseIds.pop()
         this.activeName = this.courseIds[0]
         // console.log(this.activeName)
       })
