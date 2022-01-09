@@ -35,8 +35,8 @@ export default {
       isActive: false,
       labForm: {
         labID: 1,
-        labName: '软工课设',
-        labAim: '',
+        labName: '42014604',
+        labAim: '软件工程课设',
         labEquip: '',
         labPrin: '',
         labConclu: '',
@@ -52,7 +52,7 @@ export default {
         } },
       options: [{
         value: '选项1',
-        label: '黄杰老师'
+        label: '黄杰'
       }],
       value: '',
       value1: ''
