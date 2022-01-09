@@ -156,7 +156,7 @@ export default {
       dataResult: [
         // { index: '指标', name: '净现值NPV（10%）', 1: '' },
         { index: '', name: 'IRR内部收益率', 1: '22', 2: '33' },
-        { index: '', name: '投资收益率（年）', 1: '', 2: '22' }
+        { index: '', name: '投资收益率（年）', 1: '3.5', 2: '22' }
       ],
       NPV: { name: '净现值NPV', 1: '' },
       progress: 18,
@@ -346,14 +346,18 @@ export default {
         // this.dataResult[1][1] = 4.90
       }
       this.dataResult[1][1] = Math.round((num+Math.abs(this.tableData.data[11][num]/this.tableData.data[10][num+1]))*100)/100
+      console.log("this.dataResult[1][1]")
+      console.log(this.dataResult[1][1])
+      // this.dataResult[1][1]=this.dataResult[1][1].toString()
     },
     onReturn() {
+      console.log(this.dataResult)
       // 返回上一页 若没有上一页则到首页
-      if (this.$route.query.goindex === 'true') {
-        this.$router.push('/')
-      } else {
-        this.$router.back(-1)
-      }
+      // if (this.$route.query.goindex === 'true') {
+      //   this.$router.push('/')
+      // } else {
+      //   this.$router.back(-1)
+      // }
       // this.$router.push({ path: '/dashboard' })
     }
     // handlerChange(x) {
