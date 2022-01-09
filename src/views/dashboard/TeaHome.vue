@@ -176,12 +176,14 @@ export default {
       latestCourseName: '',
       latestLabId: 1,
       announcement: [],
+      isCreate:false,
       token: {
         code: ''
       }
     }
   },
   created() {
+    this.isCreate=this.$route.query.isCreate1
     this.token.code = getToken()
     // 获取个人信息
     getInfo().then(res => {
@@ -210,9 +212,17 @@ export default {
     // 获得首页课程
     getTeacherAndCourse(this.token).then(res => {
       this.courses = res.coursesInfoList
-      for (let i = 0; i < this.courses.length; i++) {
-        this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
-        this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })
+      if(this.isCreate==true){
+        for (let i = 0; i < this.courses.length; i++) {
+          this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
+          this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })
+        }
+      }
+      else{
+        for (let i = 0; i < this.courses.length-1; i++) {
+          this.courseData.push({ courseNum: this.courses[i].course_id, courseName: this.courses[i].course_name, teacher: this.courses[i].teacher_name })
+          this.courseOptions.push({ value: this.courses[i].course_id, label: this.courses[i].course_name })
+        }
       }
     })
     // 获得所有实验

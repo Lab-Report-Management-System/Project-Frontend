@@ -168,11 +168,18 @@ export const asyncRoutes = [
         meta: { title: '发布实验', icon: 'form', roles: ['Teacher'] }
       },
       {
+        path: 'createCourse',
+        name: 'createCourse',
+        component: () => import('@/views/class/createCourse.vue'),
+        meta: { title: '创建课程', icon: 'form', roles: ['Teacher','ResponsibleTeacher'] }
+      },
+      {
         path: 'markReport',
         name: 'MarkReport',
         component: () => import('@/views/report/MarkReport'),
         hidded: true,
-        meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] }
+        meta: { title: '报告评阅', icon: 'el-icon-check', roles: ['Teacher', 'ResponsibleTeacher', 'TeachingAssistant'] },
+        hidded: true,
       },
       {
         path: 'submitReport',
