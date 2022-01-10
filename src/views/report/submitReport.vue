@@ -82,7 +82,8 @@ export default {
       title: '差值法评价互斥方案实验',
       desc: '本实验需要每一位同学查阅相关资料，获取近5-10年的现金数据，并计算对应的收入差额、净现值NPV、内部收益率等。\n' +
         '请将相关数据填入以下表格中。',
-      year: ['1', '2', '3', '4', '5', '6'],
+      // year: ['1', '2', '3', '4', '5', '6','7'],
+      year:[],
       dy: ['1'],
       NPVvalue: '',
       NPVper: '',
@@ -142,6 +143,13 @@ export default {
           console.log(res)
           const { tableData, dataResult, NPVper, NPV, comments, ratings } = res
           this.tableData = tableData
+          console.log("test")
+          let tmp=Object.keys(tableData.data[10])
+          console.log(tmp.length)
+          console.log(tableData.data[10])
+          for(let ii=1;ii<tmp.length-2;ii++){
+            this.year.push(ii)
+          }
           // this.dataResult[0]['2'] = dataResult[0]['1']
           // this.dataResult[1]['2'] = dataResult[1]['1']
           this.dataResult  = dataResult
@@ -149,6 +157,10 @@ export default {
           this.NPVper = NPVper
           this.NPV = NPV
           this.NPVvalue=this.NPV[1]
+          console.log("yes")
+          console.log(this.year_length)
+          this.year_length=this.tableData[0].length-1
+          console.log(this.year_length)
           // this.comments = comments
           // this.ratings = ratings
         })
@@ -164,7 +176,12 @@ export default {
       this.year_length++
     },
     remove() {
-      this.year.pop()
+      let i=this.year.pop()
+      console.log(i)
+      delete this.tableData.data[10][i]
+      // this.tableData.data[10].pop()
+      console.log("this.tableData.data[10]")
+      console.log(this.tableData.data[10])
     },
     onSubmit() {
       // console.log('yes')

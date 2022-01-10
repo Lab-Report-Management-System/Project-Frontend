@@ -115,7 +115,8 @@ export default {
       title: '差值法评价互斥方案实验',
       desc: '本实验需要每一位同学查阅相关资料，获取近5-10年的现金数据，并计算对应的收入差额、净现值NPV、内部收益率等。\n' +
         '请将相关数据填入以下表格中。',
-      year: ['1', '2', '3', '4', '5','6'],
+      // year: ['1', '2', '3', '4', '5','6','7'],
+      year:[],
       dy: ['1'],
       stuAnswer: ['2'],
       NPVvalue: '',
@@ -219,6 +220,7 @@ export default {
         this.getChart()
         this.cpIRR()
         this.cpNPV()
+        this.cpTouZi()
       })
     }
   },
@@ -231,6 +233,13 @@ export default {
       getReportDetails({ 'labReportId': this.labReportId }).then(res => {
         const { tableData, dataResult, NPVper, NPV, comments, ratings } = res
         this.tableData = tableData
+        console.log("test")
+        let tmp=Object.keys(tableData.data[10])
+        console.log(tmp.length)
+        console.log(tableData.data[10])
+        for(let ii=1;ii<tmp.length-2;ii++){
+          this.year.push(ii)
+        }
         this.dataResult[0]['2'] = dataResult[0]['1']
         this.dataResult[1]['2'] = dataResult[1]['1']
         this.NPVper = NPVper
@@ -350,6 +359,74 @@ export default {
       console.log(this.dataResult[1][1])
       // this.dataResult[1][1]=this.dataResult[1][1].toString()
     },
+
+    // computeNPV() {
+    //   const i = 0
+    //   let fValue = 0.0
+    //   const fDerivative = 0.0
+    //   console.log(this.tableData.data[10])
+    //   for (let k = 1; k < this.year.length+1 ; k++) {
+    //     console.log("yes")
+    //     console.log(k)
+    //     console.log((this.tableData.data[10][k] / (Math.pow(1.0 + this.NPVper, k-1))))
+    //     fValue = fValue + (this.tableData.data[10][k] / (Math.pow(1.0 + this.NPVper, k-1)))
+    //   }
+    //   return Math.round(fValue)
+    // },
+    // computeIRR() {
+    //   const maxIterationCount = 20
+    //   const absoluteAccuracy = 1.0E-007
+    //   let x0 = 0.05
+    //   let i = 0
+    //   while (i < maxIterationCount) {
+    //     let fValue = 0.0
+    //     let fDerivative = 0.0
+    //     for (let k = 1; k < this.year.length+1 ; k++) {
+    //       // console.log("yes")
+    //       console.log("k")
+    //       console.log((-(k - 1) * this.tableData.data[10][k] / Math.pow(1.0 + x0, k)))
+    //       fValue = fValue + (this.tableData.data[10][k] / (Math.pow(1.0 + x0, k-1)))
+    //       fDerivative = fDerivative -(k - 1) * this.tableData.data[10][k] / Math.pow(1.0 + x0, k)
+    //     }
+    //     // for (let k = -1; k < this.year.length - 1; k++) {
+    //     //   fValue += this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k + 1)
+    //     //   fDerivative += -(k + 1) * this.tableData.data[10][k + 1] / Math.pow(1.0 + x0, k + 2)
+    //     // }
+    //     const x1 = x0 - fValue / fDerivative
+    //     console.log(x1)
+    //     if (Math.abs(x1 - x0) <= absoluteAccuracy) {
+    //       return x1
+    //     }
+    //     x0 = x1
+    //     i++
+    //   }
+    //   return x0
+    // },
+    // cpIRR() {
+    //   const a = this.computeIRR()
+    //   this.dataResult[0][1] = Math.round(a * 10000) / 100
+    //   this.dataResult[0][1] = this.dataResult[0][1].toString() + '%'
+    //   // console.log(a)
+    // },
+    // cpNPV() {
+    //   const a = this.computeNPV()
+    //   this.NPVvalue = a
+    //   // console.log(a)
+    // },
+    // cpTouZi() {
+    //   let num = 0
+    //   for (let k = 1; k < this.year.length+1; k++) {
+    //     if (this.tableData.data[11][k + 1] > 0) {
+    //       num = k
+    //       break
+    //     }
+
+    //     // this.dataResult[1][1] = 4.90
+    //   }
+    //   this.dataResult[1][1] = -1+Math.round((num + Math.abs(this.tableData.data[11][num] / this.tableData.data[10][num + 1])) * 100) / 100
+    // },
+
+
     onReturn() {
       console.log(this.dataResult)
       // 返回上一页 若没有上一页则到首页
