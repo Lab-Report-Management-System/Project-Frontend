@@ -68,7 +68,7 @@ export default {
       // isCreate1:true
       // }});
       let isCreate=true
-      createState({'course_id':42014604,'isCreated':false}).then(res=>{
+      createState({'course_id':42014604,'isCreated':true}).then(res=>{
 
       })
       this.$router.push({path:'/dashboard'})
