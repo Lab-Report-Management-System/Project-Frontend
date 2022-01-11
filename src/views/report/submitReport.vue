@@ -122,7 +122,7 @@ export default {
         { index: '', name: '投资收益率（年）', 1: '' }
       ],
       NPV: { name: '净现值NPV', 1: '' },
-      progress: 18,
+      progress: 72,
       allNum: '',
       year_length: 6,
       state: null

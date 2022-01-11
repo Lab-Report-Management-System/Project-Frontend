@@ -258,10 +258,10 @@ export default {
       let r = 0.02
       for (let j = 0; j < this.chartData.rows.length; j++) {
         fValue = 0
-        for (let k = -1; k < this.year.length-1; k++) {
+        for (let k = 1; k < this.year.length + 1; k++) {
           // console.log(this.tableData.data[6][k+1])
           // console.log(this.chartData.rows[k].百分比R)
-          fValue = fValue + (this.tableData.data[10][k + 1] / (Math.pow(1.0 + r, k+1)))
+          fValue = fValue + (this.tableData.data[10][k] / (Math.pow(1.0 + r, k - 1)))
           // console.log(fValue)
           // fDerivative += -k * this.tableData.data[6][k+1] / Math.pow(1.0 + x0, k + 1);
         }
@@ -371,7 +371,7 @@ export default {
         console.log((this.tableData.data[10][k] / (Math.pow(1.0 + this.NPVper, k-1))))
         fValue = fValue + (this.tableData.data[10][k] / (Math.pow(1.0 + this.NPVper, k-1)))
       }
-      return Math.round(fValue)
+      return Math.round(fValue*100)/100
     },
     computeIRR() {
       const maxIterationCount = 20
@@ -423,7 +423,7 @@ export default {
 
         // this.dataResult[1][1] = 4.90
       }
-      this.dataResult[1][1] = -1+Math.round((num + Math.abs(this.tableData.data[11][num] / this.tableData.data[10][num + 1])) * 100) / 100
+      this.dataResult[1][1] =Math.round((num + Math.abs(this.tableData.data[11][num] / this.tableData.data[10][num + 1])) * 100-100) / 100
     },
 
 
