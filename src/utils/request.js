@@ -8,12 +8,12 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.defaults.withCredentials = true
 
 // socketUrl
-export const webSocketUrl = 'ws://lab-tongji.cn:7979/websocket?userId='
+export const webSocketUrl = 'ws://47.100.88.121:7979/websocket?userId='
 // export const webSocketUrl = 'ws://localhost:7979/websocket?userId='
 
 // manageClass an axios instance
 const service = axios.create({
-  baseURL: 'http://182.61.43.155:6001/', // url = base url + request url
+  baseURL: 'http://47.100.88.121:6001/', // url = base url + request url
   // baseURL: 'http://localhost:6001/', // url = base url + request url
   // baseURL: 'http://lab-tongji.cn:6001/',
   // baseURL: 'http://172.20.10.3:6001/',
