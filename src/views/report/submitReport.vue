@@ -36,10 +36,10 @@
                 :value="item.value"
               />
             </el-select>
-              <el-input v-model="NPVvalue" style="width: 15%;margin-left: 0.5cm" @change="handlerChange" /></p>
+              <el-input v-model="NPVvalue" style="width: 15%;margin-left: 0.5cm" @change="handleChangeNPV" /></p>
           </el-col>
 
-          <el-table :data="dataResult" border stripe style="width: 45%" size="mini">
+          <el-table :data="dataResult" border stripe style="width: 45%" size="mini" >
             <el-table-column width="200" align="center">
               <template slot-scope="scope">
                 {{ scope.row.name }}
@@ -47,7 +47,7 @@
             </el-table-column>
             <el-table-column v-for="(item, index) in dy" :key="index" width="200" align="center">
               <template slot-scope="scope">
-                <el-input v-model="scope.row[item]" @change="handlerChange(scope.row[item])" />
+                <el-input v-model="scope.row[item]" @change="handleDataResultChange" />
               </template>
             </el-table-column>
           </el-table>
@@ -83,7 +83,7 @@ export default {
       desc: '本实验需要每一位同学查阅相关资料，获取近5-10年的现金数据，并计算对应的收入差额、净现值NPV、内部收益率等。\n' +
         '请将相关数据填入以下表格中。',
       // year: ['1', '2', '3', '4', '5', '6','7'],
-      year:[],
+      year: [],
       dy: ['1'],
       NPVvalue: '',
       NPVper: '',
@@ -125,7 +125,8 @@ export default {
       progress: 72,
       allNum: '',
       year_length: 6,
-      state: null
+      state: null,
+      canSubmit: true
     }
   },
   watch: {
@@ -136,30 +137,30 @@ export default {
   created() {
     getReportState({ 'labId': 1 }).then(res => {
       const { state } = res
-      console.log("yessss")
+      console.log('yessss')
       console.log(state)
-      if(state==2){
+      if (state == 2) {
         getReportDetails().then(res => {
           console.log(res)
           const { tableData, dataResult, NPVper, NPV, comments, ratings } = res
           this.tableData = tableData
-          console.log("test")
-          let tmp=Object.keys(tableData.data[10])
+          console.log('test')
+          const tmp = Object.keys(tableData.data[10])
           console.log(tmp.length)
           console.log(tableData.data[10])
-          for(let ii=1;ii<tmp.length-2;ii++){
+          for (let ii = 1; ii < tmp.length - 2; ii++) {
             this.year.push(ii)
           }
           // this.dataResult[0]['2'] = dataResult[0]['1']
           // this.dataResult[1]['2'] = dataResult[1]['1']
-          this.dataResult  = dataResult
+          this.dataResult = dataResult
           console.log(NPV)
           this.NPVper = NPVper
           this.NPV = NPV
-          this.NPVvalue=this.NPV[1]
-          console.log("yes")
+          this.NPVvalue = this.NPV[1]
+          console.log('yes')
           console.log(this.year_length)
-          this.year_length=this.tableData[0].length-1
+          this.year_length = this.tableData[0].length - 1
           console.log(this.year_length)
           // this.comments = comments
           // this.ratings = ratings
@@ -169,6 +170,37 @@ export default {
     // this.isActive = this.$route.query.state === 1
   },
   methods: {
+    handleDataResultChange() {
+      const percent = parseFloat(this.dataResult[0]['1'])
+      if ((percent <= 0) || (percent > 100) || (isNaN(percent))) {
+        this.$message.error('IRR内部收益率必须是一个正百分数')
+        this.canSubmit = false
+        this.dataResult[0]['1'] = ''
+      } else {
+        this.canSubmit = true
+        this.dataResult[0]['1'] = percent.toFixed(2)
+      }
+      const year = parseInt(this.dataResult[1]['1'])
+      if ((year <= 0) || (isNaN(year))) {
+        this.$message.error('投资收益率必须是一个正整数')
+        this.canSubmit = false
+        this.dataResult[1]['1'] = ''
+      } else {
+        this.canSubmit = true
+        this.dataResult[1]['1'] = year
+      }
+    },
+    handleChangeNPV() {
+      const value = parseFloat(this.NPVvalue)
+      if ((value <= 0) || (isNaN(value))) {
+        this.$message.error('净现值NPV必须是一个正数')
+        this.canSubmit = false
+        this.NPVvalue = ''
+      } else {
+        this.canSubmit = true
+        this.NPVvalue = value
+      }
+    },
     add() {
       // this.progress++;
       // console.log(this.tableData)
@@ -176,14 +208,18 @@ export default {
       this.year_length++
     },
     remove() {
-      let i=this.year.pop()
+      const i = this.year.pop()
       console.log(i)
       delete this.tableData.data[10][i]
       // this.tableData.data[10].pop()
-      console.log("this.tableData.data[10]")
+      console.log('this.tableData.data[10]')
       console.log(this.tableData.data[10])
     },
     onSubmit() {
+      if (!this.canSubmit) {
+        this.$message.error('请输入所有的参数')
+        return
+      }
       // console.log('yes')
       this.state = 1
       submitLab({ 'labId': this.labId, 'year_length': this.year_length, 'tableData': this.tableData, 'NPVper': this.NPVper, 'NPV': this.NPV, 'dataResult': this.dataResult, 'state': this.state }).then(res => {
@@ -193,8 +229,12 @@ export default {
       this.$router.push({ path: '/lab/stuLabManage' })
     },
     onSave() {
+      if (!this.canSubmit) {
+        this.$message.error('请输入所有的参数')
+        return
+      }
       console.log('???wtf')
-      this.NPV[1]=this.NPVvalue
+      this.NPV[1] = this.NPVvalue
       console.log(this.NPV)
       this.state = 2
       submitLab({ 'labId': this.labId, 'year_length': this.year_length, 'tableData': this.tableData, 'NPVper': this.NPVper, 'NPV': this.NPV, 'dataResult': this.dataResult, 'state': this.state }).then(res => {
