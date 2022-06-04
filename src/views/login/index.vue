@@ -13,6 +13,7 @@
             <i class="el-icon-message" />
           </span>
           <el-input
+            id="email"
             ref="username"
             v-model="loginForm.email"
             placeholder="Tongji Email"
@@ -28,6 +29,7 @@
             <svg-icon icon-class="password" />
           </span>
           <el-input
+            id="password"
             :key="passwordType"
             ref="password"
             v-model="loginForm.password"
@@ -47,7 +49,7 @@
           <a style="color: white">忘记密码？</a>
         </div>
 
-        <el-button :loading="loading" type="primary" style="float:left;width:48%;margin-top:10px;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+        <el-button :loading="loading" id="login" type="primary" style="float:left;width:48%;margin-top:10px;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
         <el-button :loading="loading" type="primary" style="width:48%;margin-top:10px;margin-bottom:30px;" @click.native.prevent="studentRegister">StudentRegister</el-button>
 
         <div class="tips">

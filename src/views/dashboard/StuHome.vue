@@ -129,6 +129,7 @@
               <el-select v-model="unfinishedLabValue" placeholder="请选择" size="mini">
                 <el-option
                   v-for="item in unfinishedReportOptions"
+                  id="student"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
